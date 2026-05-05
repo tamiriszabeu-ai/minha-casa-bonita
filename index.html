@@ -45,7 +45,7 @@
 
 <div id="loader">
     <div class="spinner-border text-primary mb-3"></div>
-    <h5 id="loadTxt">Sincronizando...</h5>
+    <h5 id="loadTxt">Processando...</h5>
 </div>
 
 <nav class="nav-top d-flex justify-content-between align-items-center">
@@ -116,9 +116,9 @@
     const APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbzPn9HO1gSVGUlAYXgyOzBqupgbB7rwNloWlG-RiOOY4Ax9oLlpvTY9V0lVUEu9F28C0A/exec";
 
     let fotosDb = {};
-    let globalData = []; // Para armazenar dados da planilha
+    let globalData = []; 
 
-    // Gerar 16 campos de foto com CAPTURE para abrir a câmera direto
+    // Gerar 16 campos de foto (Câmera ou Galeria)
     const grid = document.getElementById('gridFotos');
     const labels = ["Fachada", "Acesso", "Numeração", "Rua", "Banheiro 1", "Banheiro 2", "Vaso", "Pia", "Cozinha", "Lote", "Interior", "Telhado", "Problema 1", "Problema 2", "Problema 3", "Problema 4"];
     
@@ -128,8 +128,8 @@
                 <div class="photo-box" onclick="document.getElementById('f${i}').click()">
                     <div class="uploading-spinner" id="spin${i}"><div class="spinner-border spinner-border-sm text-primary"></div></div>
                     <i class="fas fa-camera" id="icon${i}"></i>
-                    <!-- CAPTURE=ENVIRONMENT abre a câmera traseira no celular -->
-                    <input type="file" id="f${i}" hidden accept="image/*" capture="environment" onchange="handleFile(this, '${l}', ${i})">
+                    <!-- Removido o capture para permitir escolha entre galeria e câmera -->
+                    <input type="file" id="f${i}" hidden accept="image/*" onchange="handleFile(this, '${l}', ${i})">
                     <div id="p${i}"></div>
                 </div>
                 <div class="photo-label">${l}</div>
@@ -147,9 +147,11 @@
         document.getElementById('view' + v).style.display = 'block';
     }
 
+    // FUNÇÃO CORRIGIDA: Agora envia os dados corretamente para o Cloudinary
     async function handleFile(input, label, index) {
         const file = input.files[0];
         if(!file) return;
+        
         document.getElementById('spin'+index).style.display = 'flex';
 
         const formData = new FormData();
@@ -157,19 +159,33 @@
         formData.append('upload_preset', PRESET);
 
         try {
-            const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, { method: 'POST' });
+            // CORREÇÃO: Adicionado o body no fetch
+            const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, { 
+                method: 'POST',
+                body: formData 
+            });
             const data = await res.json();
+            
             if(data.secure_url) {
                 fotosDb[label] = data.secure_url;
                 document.getElementById('p'+index).innerHTML = `<img src="${data.secure_url}">`;
                 document.getElementById('icon'+index).style.display = 'none';
+            } else {
+                alert("Erro ao processar imagem no servidor.");
             }
-        } catch (err) { alert("Erro ao subir imagem."); }
-        finally { document.getElementById('spin'+index).style.display = 'none'; }
+        } catch (err) { 
+            alert("Erro de conexão ao subir imagem."); 
+        } finally { 
+            document.getElementById('spin'+index).style.display = 'none'; 
+        }
     }
 
     async function enviarTudo() {
+        if(!document.getElementById('f_id').value) { alert("Informe o ID da Unidade!"); return; }
+        
+        document.getElementById('loadTxt').innerText = "Salvando dados...";
         document.getElementById('loader').style.display = 'flex';
+        
         const payload = {
             unidade: document.getElementById('f_id').value,
             morador: document.getElementById('f_nome').value,
@@ -179,9 +195,16 @@
             fotos: JSON.stringify(fotosDb),
             data: new Date().toISOString()
         };
-        await fetch(APPS_SCRIPT, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
-        alert("DADOS SALVOS!");
-        location.reload();
+
+        try {
+            await fetch(APPS_SCRIPT, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
+            alert("VISTORIA RF SALVA COM SUCESSO!");
+            location.reload();
+        } catch (e) {
+            alert("Erro ao conectar com a planilha.");
+        } finally {
+            document.getElementById('loader').style.display = 'none';
+        }
     }
 
     async function refreshAdmin() {
@@ -196,19 +219,19 @@
                 const realIndex = data.length - 1 - i;
                 return `<tr><td>${row[2]}</td><td>${row[3]}</td><td><button class="btn btn-sm btn-dark" onclick="gerarLaudo(${realIndex})">PDF</button></td></tr>`;
             }).join('');
-        } catch(e) { alert("Erro na planilha."); }
+        } catch(e) { alert("Erro ao ler planilha."); }
         document.getElementById('loader').style.display = 'none';
     }
 
-    // FUNÇÃO QUE GERA O PDF REAL
     function gerarLaudo(idx) {
         const d = globalData[idx];
-        const fotos = JSON.parse(d[13] || "{}");
+        let fotos = {};
+        try { fotos = JSON.parse(d[13] || "{}"); } catch(e) { fotos = {}; }
         
         let fotosHtml = "";
         Object.entries(fotos).forEach(([l, url]) => {
-            fotosHtml += `<div style="display:inline-block; width:23%; margin:5px; text-align:center;">
-                <img src="${url}" style="width:100%; height:110px; object-fit:cover; border:1px solid #000">
+            fotosHtml += `<div style="display:inline-block; width:23%; margin:5px; text-align:center; vertical-align:top;">
+                <img src="${url}" style="width:100%; height:100px; object-fit:cover; border:1px solid #000">
                 <p style="font-size:8px; margin:0">${l}</p>
             </div>`;
         });
@@ -218,10 +241,12 @@
                 <h2 style="color:#0056b3; text-align:center; margin-bottom:0">MINHA CASA + BONITA</h2>
                 <p style="text-align:center; margin-top:0">LAUDO TÉCNICO DE VISTORIA</p>
                 <hr>
-                <p><b>ID Unidade:</b> ${d[2]} | <b>Técnico:</b> ${d[1]}</p>
-                <p><b>Morador:</b> ${d[3]}</p>
-                <p><b>Endereço:</b> ${d[8]}</p>
-                <p><b>Prioridade:</b> ${d[11]}</p>
+                <table style="width:100%; font-size:12px;">
+                    <tr><td><b>ID Unidade:</b> ${d[2]}</td><td><b>Técnico:</b> ${d[1]}</td></tr>
+                    <tr><td><b>Morador:</b> ${d[3]}</td><td><b>Data:</b> ${new Date(d[0]).toLocaleDateString()}</td></tr>
+                    <tr><td colspan="2"><b>Endereço:</b> ${d[8]}</td></tr>
+                    <tr><td colspan="2"><b>Prioridade:</b> ${d[11]}</td></tr>
+                </table>
                 <hr>
                 <div style="margin-top:20px">${fotosHtml}</div>
             </div>`;
