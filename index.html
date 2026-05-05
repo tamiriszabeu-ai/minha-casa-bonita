@@ -4,9 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minha Casa + Bonita | Campo</title>
+    
+    <!-- Bibliotecas -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
     <style>
         :root { --primary: #0056b3; --admin: #0f172a; }
         body { background: #f1f5f9; font-family: 'Inter', sans-serif; }
@@ -17,7 +20,7 @@
         .step-content { display: none; padding: 15px 0; }
         .step-content.active { display: block; }
 
-        /* Estilo dos Quadrados de Foto */
+        /* Quadrados de Foto */
         .photo-box { 
             border: 2px dashed #0056b3; 
             height: 100px; 
@@ -31,32 +34,18 @@
             overflow: hidden; 
         }
         .photo-box i { font-size: 1.5rem; color: #0056b3; }
-        .photo-box img { 
-            width: 100%; 
-            height: 100%; 
-            object-fit: cover; 
-            position: absolute; 
-            top: 0; left: 0;
-            z-index: 10; 
-        }
+        .photo-box img { width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; z-index: 10; }
         .photo-label { font-size: 9px; text-align: center; margin-top: 4px; font-weight: bold; color: #64748b; text-transform: uppercase; }
         
-        .uploading-spinner { 
-            position: absolute; 
-            z-index: 15; 
-            background: rgba(255,255,255,0.7); 
-            width: 100%; height: 100%; 
-            display: none; align-items: center; justify-content: center; 
-        }
-
         #loader { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 9999; color: white; flex-direction: column; align-items: center; justify-content: center; }
+        .uploading-spinner { position: absolute; z-index: 15; background: rgba(255,255,255,0.7); width: 100%; height: 100%; display: none; align-items: center; justify-content: center; }
     </style>
 </head>
 <body>
 
 <div id="loader">
     <div class="spinner-border text-primary mb-3"></div>
-    <h5 id="loadTxt">Salvando Diagnóstico...</h5>
+    <h5 id="loadTxt">Sincronizando...</h5>
 </div>
 
 <nav class="nav-top d-flex justify-content-between align-items-center">
@@ -72,11 +61,11 @@
     <!-- MODO ADMIN -->
     <div id="viewAdmin" class="view-section">
         <div class="card card-custom p-3 mb-3 text-center">
-            <button class="btn btn-primary fw-bold w-100" onclick="refreshAdmin()">ATUALIZAR LISTA DE CAMPO</button>
+            <button class="btn btn-primary fw-bold w-100" onclick="refreshAdmin()">ATUALIZAR DADOS</button>
         </div>
         <div class="card card-custom overflow-hidden">
             <table class="table table-sm table-hover mb-0">
-                <thead class="bg-light"><tr><th>ID</th><th>Morador</th><th>Laudo</th></tr></thead>
+                <thead class="bg-light"><tr><th>ID</th><th>Morador</th><th>Ação</th></tr></thead>
                 <tbody id="tableBody"></tbody>
             </table>
         </div>
@@ -94,17 +83,21 @@
             <div class="p-3">
                 <form id="vistoForm">
                     <div class="step-content active" id="step1">
-                        <label class="small fw-bold">ID Unidade</label><input type="text" id="f_id" class="form-control mb-2">
+                        <label class="small fw-bold">ID Unidade</label><input type="text" id="f_id" class="form-control mb-2" placeholder="RF-00">
                         <label class="small fw-bold">Nome Responsável</label><input type="text" id="f_nome" class="form-control mb-3">
-                        <label class="small fw-bold">Técnico</label><input type="text" id="f_tec" class="form-control mb-3">
-                        <button type="button" class="btn btn-primary w-100" onclick="switchStep(2)">Próximo</button>
+                        <label class="small fw-bold">Técnico Responsável</label><input type="text" id="f_tec" class="form-control mb-3">
+                        <button type="button" class="btn btn-primary w-100 py-2" onclick="switchStep(2)">Próximo Passo</button>
                     </div>
 
                     <div class="step-content" id="step2">
                         <label class="small fw-bold">Endereço</label><input type="text" id="f_end" class="form-control mb-3">
                         <label class="small fw-bold">Prioridade</label>
-                        <select id="f_prio" class="form-select mb-3"><option>ESTRUTURAL</option><option>INSALUBRE</option><option>MELHORIA</option></select>
-                        <button type="button" class="btn btn-primary w-100" onclick="switchStep(3)">Ir para Fotos</button>
+                        <select id="f_prio" class="form-select mb-3">
+                            <option>ESTRUTURAL</option>
+                            <option>INSALUBRE</option>
+                            <option>MELHORIA HABITACIONAL</option>
+                        </select>
+                        <button type="button" class="btn btn-primary w-100 py-2" onclick="switchStep(3)">Ir para Fotos</button>
                     </div>
 
                     <div class="step-content" id="step3">
@@ -123,8 +116,9 @@
     const APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbzPn9HO1gSVGUlAYXgyOzBqupgbB7rwNloWlG-RiOOY4Ax9oLlpvTY9V0lVUEu9F28C0A/exec";
 
     let fotosDb = {};
+    let globalData = []; // Para armazenar dados da planilha
 
-    // Iniciar 16 campos de foto
+    // Gerar 16 campos de foto com CAPTURE para abrir a câmera direto
     const grid = document.getElementById('gridFotos');
     const labels = ["Fachada", "Acesso", "Numeração", "Rua", "Banheiro 1", "Banheiro 2", "Vaso", "Pia", "Cozinha", "Lote", "Interior", "Telhado", "Problema 1", "Problema 2", "Problema 3", "Problema 4"];
     
@@ -134,7 +128,8 @@
                 <div class="photo-box" onclick="document.getElementById('f${i}').click()">
                     <div class="uploading-spinner" id="spin${i}"><div class="spinner-border spinner-border-sm text-primary"></div></div>
                     <i class="fas fa-camera" id="icon${i}"></i>
-                    <input type="file" id="f${i}" hidden accept="image/*" onchange="handleFile(this, '${l}', ${i})">
+                    <!-- CAPTURE=ENVIRONMENT abre a câmera traseira no celular -->
+                    <input type="file" id="f${i}" hidden accept="image/*" capture="environment" onchange="handleFile(this, '${l}', ${i})">
                     <div id="p${i}"></div>
                 </div>
                 <div class="photo-label">${l}</div>
@@ -152,12 +147,9 @@
         document.getElementById('view' + v).style.display = 'block';
     }
 
-    // Função para tratar a foto e fazer upload
     async function handleFile(input, label, index) {
         const file = input.files[0];
         if(!file) return;
-
-        // Mostrar spinner de carregamento no quadradinho
         document.getElementById('spin'+index).style.display = 'flex';
 
         const formData = new FormData();
@@ -165,22 +157,15 @@
         formData.append('upload_preset', PRESET);
 
         try {
-            const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, { method: 'POST', body: formData });
+            const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, { method: 'POST' });
             const data = await res.json();
-            
             if(data.secure_url) {
                 fotosDb[label] = data.secure_url;
-                // Colocar a foto no quadradinho
                 document.getElementById('p'+index).innerHTML = `<img src="${data.secure_url}">`;
                 document.getElementById('icon'+index).style.display = 'none';
-            } else {
-                alert("Erro no Cloudinary: Verifique se o Preset está como Unsigned.");
             }
-        } catch (err) {
-            alert("Erro de conexão ao subir foto.");
-        } finally {
-            document.getElementById('spin'+index).style.display = 'none';
-        }
+        } catch (err) { alert("Erro ao subir imagem."); }
+        finally { document.getElementById('spin'+index).style.display = 'none'; }
     }
 
     async function enviarTudo() {
@@ -194,31 +179,61 @@
             fotos: JSON.stringify(fotosDb),
             data: new Date().toISOString()
         };
-
-        try {
-            await fetch(APPS_SCRIPT, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
-            alert("VISTORIA ENVIADA COM SUCESSO!");
-            location.reload();
-        } catch (e) {
-            alert("Erro ao salvar dados.");
-            document.getElementById('loader').style.display = 'none';
-        }
+        await fetch(APPS_SCRIPT, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
+        alert("DADOS SALVOS!");
+        location.reload();
     }
 
     async function refreshAdmin() {
+        document.getElementById('loadTxt').innerText = "Baixando dados...";
         document.getElementById('loader').style.display = 'flex';
         try {
             const res = await fetch(APPS_SCRIPT);
             const data = await res.json();
+            globalData = data;
             const tbody = document.getElementById('tableBody');
-            tbody.innerHTML = data.slice(1).reverse().map(row => `
-                <tr>
-                    <td>${row[2]}</td>
-                    <td>${row[3]}</td>
-                    <td><button class="btn btn-sm btn-dark" onclick="alert('Gerando PDF...')">PDF</button></td>
-                </tr>`).join('');
-        } catch(e) { alert("Erro ao carregar dados."); }
+            tbody.innerHTML = data.slice(1).reverse().map((row, i) => {
+                const realIndex = data.length - 1 - i;
+                return `<tr><td>${row[2]}</td><td>${row[3]}</td><td><button class="btn btn-sm btn-dark" onclick="gerarLaudo(${realIndex})">PDF</button></td></tr>`;
+            }).join('');
+        } catch(e) { alert("Erro na planilha."); }
         document.getElementById('loader').style.display = 'none';
+    }
+
+    // FUNÇÃO QUE GERA O PDF REAL
+    function gerarLaudo(idx) {
+        const d = globalData[idx];
+        const fotos = JSON.parse(d[13] || "{}");
+        
+        let fotosHtml = "";
+        Object.entries(fotos).forEach(([l, url]) => {
+            fotosHtml += `<div style="display:inline-block; width:23%; margin:5px; text-align:center;">
+                <img src="${url}" style="width:100%; height:110px; object-fit:cover; border:1px solid #000">
+                <p style="font-size:8px; margin:0">${l}</p>
+            </div>`;
+        });
+
+        const template = `
+            <div style="padding:30px; font-family:sans-serif;">
+                <h2 style="color:#0056b3; text-align:center; margin-bottom:0">MINHA CASA + BONITA</h2>
+                <p style="text-align:center; margin-top:0">LAUDO TÉCNICO DE VISTORIA</p>
+                <hr>
+                <p><b>ID Unidade:</b> ${d[2]} | <b>Técnico:</b> ${d[1]}</p>
+                <p><b>Morador:</b> ${d[3]}</p>
+                <p><b>Endereço:</b> ${d[8]}</p>
+                <p><b>Prioridade:</b> ${d[11]}</p>
+                <hr>
+                <div style="margin-top:20px">${fotosHtml}</div>
+            </div>`;
+
+        const opt = {
+            margin: 5,
+            filename: `Laudo_${d[2]}.pdf`,
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2, useCORS: true },
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+        html2pdf().from(template).set(opt).save();
     }
 </script>
 </body>
