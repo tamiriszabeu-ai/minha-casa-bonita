@@ -8,17 +8,18 @@
     <!-- Bibliotecas -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Versão estável do html2pdf -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <style>
         :root { --primary: #0056b3; --admin: #0f172a; }
-        body { background: #f1f5f9; font-family: 'Inter', sans-serif; }
+        body { background: #f1f5f9; font-family: 'Inter', sans-serif; font-size: 0.9rem; }
         .nav-top { background: var(--admin); color: white; padding: 12px; position: sticky; top: 0; z-index: 1000; border-bottom: 3px solid var(--primary); }
         .card-custom { border: none; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); background: white; }
-        .tab-btn { flex: 1; padding: 12px; border: 1px solid #e2e8f0; background: white; font-weight: bold; font-size: 0.75rem; }
-        .tab-btn.active { background: var(--primary); color: white; }
+        .tab-btn { flex: 1; padding: 12px; border: 1px solid #e2e8f0; background: white; font-weight: bold; font-size: 0.75rem; color: #64748b; }
+        .tab-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
         .step-content { display: none; padding: 15px 0; }
-        .step-content.active { display: block; }
+        .step-content.active { display: block; animation: fadeIn 0.3s; }
 
         /* Quadrados de Foto */
         .photo-box { 
@@ -34,11 +35,13 @@
             overflow: hidden; 
         }
         .photo-box i { font-size: 1.5rem; color: #0056b3; }
-        .photo-box img { width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; z-index: 10; }
+        .photo-box img { width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; z-index: 10; border-radius: 8px; }
         .photo-label { font-size: 9px; text-align: center; margin-top: 4px; font-weight: bold; color: #64748b; text-transform: uppercase; }
         
-        #loader { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 9999; color: white; flex-direction: column; align-items: center; justify-content: center; }
+        #loader { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 9999; color: white; flex-direction: column; align-items: center; justify-content: center; }
         .uploading-spinner { position: absolute; z-index: 15; background: rgba(255,255,255,0.7); width: 100%; height: 100%; display: none; align-items: center; justify-content: center; }
+        
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
@@ -48,8 +51,8 @@
     <h5 id="loadTxt">Processando...</h5>
 </div>
 
-<nav class="nav-top d-flex justify-content-between align-items-center">
-    <div class="fw-bold"><i class="fas fa-home me-2"></i>MINHA CASA + BONITA</div>
+<nav class="nav-top d-flex justify-content-between align-items-center shadow">
+    <div class="fw-bold text-truncate"><i class="fas fa-home me-2"></i>MINHA CASA + BONITA</div>
     <div class="btn-group">
         <button class="btn btn-dark btn-sm" onclick="toggleView('Admin')">Dashboard</button>
         <button class="btn btn-warning btn-sm fw-bold" onclick="toggleView('Tech')">+ Vistoria</button>
@@ -61,11 +64,11 @@
     <!-- MODO ADMIN -->
     <div id="viewAdmin" class="view-section">
         <div class="card card-custom p-3 mb-3 text-center">
-            <button class="btn btn-primary fw-bold w-100" onclick="refreshAdmin()">ATUALIZAR DADOS</button>
+            <button class="btn btn-primary fw-bold w-100 py-2" onclick="refreshAdmin()"><i class="fas fa-sync me-2"></i>ATUALIZAR DADOS DA PLANILHA</button>
         </div>
         <div class="card card-custom overflow-hidden">
             <table class="table table-sm table-hover mb-0">
-                <thead class="bg-light"><tr><th>ID</th><th>Morador</th><th>Ação</th></tr></thead>
+                <thead class="table-light"><tr><th>ID</th><th>Morador</th><th class="text-center">Laudo</th></tr></thead>
                 <tbody id="tableBody"></tbody>
             </table>
         </div>
@@ -74,7 +77,7 @@
     <!-- MODO TÉCNICO -->
     <div id="viewTech" class="view-section" style="display:none">
         <div class="card card-custom p-0 overflow-hidden">
-            <div class="d-flex border-bottom">
+            <div class="d-flex border-bottom bg-light">
                 <button class="tab-btn active" id="btn1" onclick="switchStep(1)">SOCIAL</button>
                 <button class="tab-btn" id="btn2" onclick="switchStep(2)">TÉCNICO</button>
                 <button class="tab-btn" id="btn3" onclick="switchStep(3)">FOTOS</button>
@@ -83,26 +86,26 @@
             <div class="p-3">
                 <form id="vistoForm">
                     <div class="step-content active" id="step1">
-                        <label class="small fw-bold">ID Unidade</label><input type="text" id="f_id" class="form-control mb-2" placeholder="RF-00">
-                        <label class="small fw-bold">Nome Responsável</label><input type="text" id="f_nome" class="form-control mb-3">
-                        <label class="small fw-bold">Técnico Responsável</label><input type="text" id="f_tec" class="form-control mb-3">
-                        <button type="button" class="btn btn-primary w-100 py-2" onclick="switchStep(2)">Próximo Passo</button>
+                        <label class="form-label fw-bold small">ID da Unidade</label><input type="text" id="f_id" class="form-control mb-2" placeholder="Ex: RF-01">
+                        <label class="form-label fw-bold small">Nome do Responsável</label><input type="text" id="f_nome" class="form-control mb-3">
+                        <label class="form-label fw-bold small">Nome do Técnico</label><input type="text" id="f_tec" class="form-control mb-3">
+                        <button type="button" class="btn btn-primary w-100 py-2 fw-bold" onclick="switchStep(2)">Próximo Passo</button>
                     </div>
 
                     <div class="step-content" id="step2">
-                        <label class="small fw-bold">Endereço</label><input type="text" id="f_end" class="form-control mb-3">
-                        <label class="small fw-bold">Prioridade</label>
+                        <label class="form-label fw-bold small">Endereço Completo</label><input type="text" id="f_end" class="form-control mb-3">
+                        <label class="form-label fw-bold small">Grau de Prioridade</label>
                         <select id="f_prio" class="form-select mb-3">
                             <option>ESTRUTURAL</option>
                             <option>INSALUBRE</option>
                             <option>MELHORIA HABITACIONAL</option>
                         </select>
-                        <button type="button" class="btn btn-primary w-100 py-2" onclick="switchStep(3)">Ir para Fotos</button>
+                        <button type="button" class="btn btn-primary w-100 py-2 fw-bold" onclick="switchStep(3)">Ir para Fotos</button>
                     </div>
 
                     <div class="step-content" id="step3">
                         <div class="row g-2" id="gridFotos"></div>
-                        <button type="button" class="btn btn-success w-100 mt-4 py-3 fw-bold" onclick="enviarTudo()">FINALIZAR VISTORIA</button>
+                        <button type="button" class="btn btn-success w-100 mt-4 py-3 fw-bold shadow" onclick="enviarTudo()">FINALIZAR E SALVAR ONLINE</button>
                     </div>
                 </form>
             </div>
@@ -118,7 +121,6 @@
     let fotosDb = {};
     let globalData = []; 
 
-    // Gerar 16 campos de foto (Câmera ou Galeria)
     const grid = document.getElementById('gridFotos');
     const labels = ["Fachada", "Acesso", "Numeração", "Rua", "Banheiro 1", "Banheiro 2", "Vaso", "Pia", "Cozinha", "Lote", "Interior", "Telhado", "Problema 1", "Problema 2", "Problema 3", "Problema 4"];
     
@@ -128,7 +130,7 @@
                 <div class="photo-box" onclick="document.getElementById('f${i}').click()">
                     <div class="uploading-spinner" id="spin${i}"><div class="spinner-border spinner-border-sm text-primary"></div></div>
                     <i class="fas fa-camera" id="icon${i}"></i>
-                    <!-- Removido o capture para permitir escolha entre galeria e câmera -->
+                    <!-- SEM CAPTURE PARA DAR OPÇÃO DE GALERIA NO CELULAR -->
                     <input type="file" id="f${i}" hidden accept="image/*" onchange="handleFile(this, '${l}', ${i})">
                     <div id="p${i}"></div>
                 </div>
@@ -147,7 +149,6 @@
         document.getElementById('view' + v).style.display = 'block';
     }
 
-    // FUNÇÃO CORRIGIDA: Agora envia os dados corretamente para o Cloudinary
     async function handleFile(input, label, index) {
         const file = input.files[0];
         if(!file) return;
@@ -159,7 +160,6 @@
         formData.append('upload_preset', PRESET);
 
         try {
-            // CORREÇÃO: Adicionado o body no fetch
             const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, { 
                 method: 'POST',
                 body: formData 
@@ -167,23 +167,18 @@
             const data = await res.json();
             
             if(data.secure_url) {
-                fotosDb[label] = data.secure_url;
-                document.getElementById('p'+index).innerHTML = `<img src="${data.secure_url}">`;
+                // Forçamos HTTPS para evitar erros de Mixed Content
+                const secureUrl = data.secure_url.replace("http://", "https://");
+                fotosDb[label] = secureUrl;
+                document.getElementById('p'+index).innerHTML = `<img src="${secureUrl}">`;
                 document.getElementById('icon'+index).style.display = 'none';
-            } else {
-                alert("Erro ao processar imagem no servidor.");
             }
-        } catch (err) { 
-            alert("Erro de conexão ao subir imagem."); 
-        } finally { 
-            document.getElementById('spin'+index).style.display = 'none'; 
-        }
+        } catch (err) { alert("Falha ao subir foto."); }
+        finally { document.getElementById('spin'+index).style.display = 'none'; }
     }
 
     async function enviarTudo() {
-        if(!document.getElementById('f_id').value) { alert("Informe o ID da Unidade!"); return; }
-        
-        document.getElementById('loadTxt').innerText = "Salvando dados...";
+        if(!document.getElementById('f_id').value) { alert("ID obrigatório!"); return; }
         document.getElementById('loader').style.display = 'flex';
         
         const payload = {
@@ -198,17 +193,15 @@
 
         try {
             await fetch(APPS_SCRIPT, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
-            alert("VISTORIA RF SALVA COM SUCESSO!");
+            alert("VISTORIA RF SALVA!");
             location.reload();
         } catch (e) {
-            alert("Erro ao conectar com a planilha.");
-        } finally {
+            alert("Erro ao salvar.");
             document.getElementById('loader').style.display = 'none';
         }
     }
 
     async function refreshAdmin() {
-        document.getElementById('loadTxt').innerText = "Baixando dados...";
         document.getElementById('loader').style.display = 'flex';
         try {
             const res = await fetch(APPS_SCRIPT);
@@ -217,9 +210,9 @@
             const tbody = document.getElementById('tableBody');
             tbody.innerHTML = data.slice(1).reverse().map((row, i) => {
                 const realIndex = data.length - 1 - i;
-                return `<tr><td>${row[2]}</td><td>${row[3]}</td><td><button class="btn btn-sm btn-dark" onclick="gerarLaudo(${realIndex})">PDF</button></td></tr>`;
+                return `<tr><td>${row[2]}</td><td>${row[3]}</td><td class="text-center"><button class="btn btn-sm btn-dark" onclick="gerarLaudo(${realIndex})"><i class="fas fa-file-pdf"></i></button></td></tr>`;
             }).join('');
-        } catch(e) { alert("Erro ao ler planilha."); }
+        } catch(e) { alert("Erro ao carregar dados."); }
         document.getElementById('loader').style.display = 'none';
     }
 
@@ -229,36 +222,53 @@
         try { fotos = JSON.parse(d[13] || "{}"); } catch(e) { fotos = {}; }
         
         let fotosHtml = "";
+        // Criar as imagens com permissão de CORS para o canvas do PDF
         Object.entries(fotos).forEach(([l, url]) => {
             fotosHtml += `<div style="display:inline-block; width:23%; margin:5px; text-align:center; vertical-align:top;">
-                <img src="${url}" style="width:100%; height:100px; object-fit:cover; border:1px solid #000">
-                <p style="font-size:8px; margin:0">${l}</p>
+                <img src="${url}" crossorigin="anonymous" style="width:100%; height:110px; object-fit:cover; border:1px solid #000">
+                <p style="font-size:8px; margin:0; font-weight:bold;">${l}</p>
             </div>`;
         });
 
         const template = `
-            <div style="padding:30px; font-family:sans-serif;">
-                <h2 style="color:#0056b3; text-align:center; margin-bottom:0">MINHA CASA + BONITA</h2>
-                <p style="text-align:center; margin-top:0">LAUDO TÉCNICO DE VISTORIA</p>
-                <hr>
-                <table style="width:100%; font-size:12px;">
-                    <tr><td><b>ID Unidade:</b> ${d[2]}</td><td><b>Técnico:</b> ${d[1]}</td></tr>
-                    <tr><td><b>Morador:</b> ${d[3]}</td><td><b>Data:</b> ${new Date(d[0]).toLocaleDateString()}</td></tr>
-                    <tr><td colspan="2"><b>Endereço:</b> ${d[8]}</td></tr>
-                    <tr><td colspan="2"><b>Prioridade:</b> ${d[11]}</td></tr>
+            <div style="padding:40px; font-family:sans-serif; color:#333;">
+                <h2 style="color:#0056b3; text-align:center; margin-bottom:5px; text-transform:uppercase;">Minha Casa + Bonita</h2>
+                <p style="text-align:center; margin-top:0; font-weight:bold; color:#666;">LAUDO TÉCNICO DE VISTORIA - COMUNIDADE RISCA FACA</p>
+                <hr style="border: 1px solid #0056b3;">
+                <table style="width:100%; font-size:11px; line-height:1.6;">
+                    <tr><td width="50%"><b>ID UNIDADE:</b> ${d[2]}</td><td><b>TÉCNICO:</b> ${d[1]}</td></tr>
+                    <tr><td><b>MORADOR:</b> ${d[3]}</td><td><b>DATA:</b> ${new Date(d[0]).toLocaleDateString()}</td></tr>
+                    <tr><td colspan="2"><b>ENDEREÇO:</b> ${d[8]}</td></tr>
+                    <tr><td colspan="2"><b>PRIORIDADE:</b> ${d[11]}</td></tr>
                 </table>
-                <hr>
-                <div style="margin-top:20px">${fotosHtml}</div>
+                <hr style="border: 0.5px solid #ccc;">
+                <h4 style="font-size:12px; color:#0056b3;">GALERIA DE FOTOS</h4>
+                <div style="margin-top:10px;">${fotosHtml}</div>
+                <div style="margin-top:30px; font-size:9px; text-align:center; color:#999;">Gerado automaticamente via Sistema ATHIS Digital</div>
             </div>`;
 
         const opt = {
             margin: 5,
             filename: `Laudo_${d[2]}.pdf`,
             image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2, useCORS: true },
+            html2canvas: { 
+                scale: 2, 
+                useCORS: true, 
+                allowTaint: false,
+                logging: false 
+            },
             jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
         };
-        html2pdf().from(template).set(opt).save();
+
+        // Adicionamos um pequeno delay para garantir que o navegador processou as imagens do Cloudinary
+        document.getElementById('loader').style.display = 'flex';
+        document.getElementById('loadTxt').innerText = "Gerando PDF...";
+        
+        setTimeout(() => {
+            html2pdf().from(template).set(opt).save().then(() => {
+                document.getElementById('loader').style.display = 'none';
+            });
+        }, 1500);
     }
 </script>
 </body>
