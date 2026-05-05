@@ -3,165 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minha Casa + Bonita | Gestão Habitacional</title>
-    
-    <!-- CSS e Bibliotecas -->
+    <title>Minha Casa + Bonita | Campo</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
     <style>
-        :root { --primary: #0056b3; --admin: #0f172a; --success: #22c55e; }
-        body { background: #f8fafc; font-family: 'Inter', sans-serif; font-size: 0.9rem; }
-        
-        /* Navbar */
-        .nav-top { background: var(--admin); color: white; padding: 12px 20px; position: sticky; top: 0; z-index: 1000; border-bottom: 3px solid var(--primary); }
-        
-        /* Dashboard Cards */
-        .card-custom { border: none; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); background: white; }
-        
-        /* Form Wizard */
-        .tab-btn { flex: 1; padding: 12px; border: 1px solid #e2e8f0; background: white; font-weight: bold; font-size: 0.75rem; transition: 0.3s; }
-        .tab-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
-        .step-content { display: none; padding: 20px 0; }
-        .step-content.active { display: block; animation: fadeIn 0.3s ease; }
+        :root { --primary: #0056b3; --admin: #0f172a; }
+        body { background: #f1f5f9; font-family: 'Inter', sans-serif; }
+        .nav-top { background: var(--admin); color: white; padding: 12px; position: sticky; top: 0; z-index: 1000; border-bottom: 3px solid var(--primary); }
+        .card-custom { border: none; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); background: white; }
+        .tab-btn { flex: 1; padding: 12px; border: 1px solid #e2e8f0; background: white; font-weight: bold; font-size: 0.75rem; }
+        .tab-btn.active { background: var(--primary); color: white; }
+        .step-content { display: none; padding: 15px 0; }
+        .step-content.active { display: block; }
 
-        /* Photo Grid */
-        .photo-box { border: 2px dashed #cbd5e1; height: 110px; border-radius: 10px; display: flex; align-items: center; justify-content: center; background: #fff; cursor: pointer; position: relative; overflow: hidden; transition: 0.3s; }
-        .photo-box:hover { border-color: var(--primary); background: #f1f5f9; }
-        .photo-box img { width: 100%; height: 100%; object-fit: cover; position: absolute; z-index: 5; }
-        .photo-label { font-size: 9px; color: #64748b; text-align: center; margin-top: 4px; font-weight: bold; text-transform: uppercase; }
-
-        /* Loader */
-        #loader { display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.9); z-index: 9999; color: white; flex-direction: column; align-items: center; justify-content: center; }
+        /* Estilo dos Quadrados de Foto */
+        .photo-box { 
+            border: 2px dashed #0056b3; 
+            height: 100px; 
+            border-radius: 10px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            background: #fff; 
+            cursor: pointer; 
+            position: relative; 
+            overflow: hidden; 
+        }
+        .photo-box i { font-size: 1.5rem; color: #0056b3; }
+        .photo-box img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+            position: absolute; 
+            top: 0; left: 0;
+            z-index: 10; 
+        }
+        .photo-label { font-size: 9px; text-align: center; margin-top: 4px; font-weight: bold; color: #64748b; text-transform: uppercase; }
         
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-        @media (max-width: 768px) { .btn-text { display: none; } }
+        .uploading-spinner { 
+            position: absolute; 
+            z-index: 15; 
+            background: rgba(255,255,255,0.7); 
+            width: 100%; height: 100%; 
+            display: none; align-items: center; justify-content: center; 
+        }
+
+        #loader { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 9999; color: white; flex-direction: column; align-items: center; justify-content: center; }
     </style>
 </head>
 <body>
 
-<!-- LOADER -->
 <div id="loader">
-    <div class="spinner-border text-primary mb-3" style="width: 3rem; height: 3rem;"></div>
-    <h5 id="loadTxt">Sincronizando com a Nuvem...</h5>
+    <div class="spinner-border text-primary mb-3"></div>
+    <h5 id="loadTxt">Salvando Diagnóstico...</h5>
 </div>
 
-<!-- NAVBAR -->
 <nav class="nav-top d-flex justify-content-between align-items-center">
-    <div class="fw-bold"><i class="fas fa-home-lg-alt me-2 text-primary"></i>MINHA CASA + BONITA</div>
-    <div class="btn-group shadow-sm">
-        <button class="btn btn-dark btn-sm border-secondary" onclick="toggleView('Admin')"><i class="fas fa-chart-line me-1"></i> <span class="btn-text">Painel Geral</span></button>
-        <button class="btn btn-warning btn-sm fw-bold text-dark" onclick="toggleView('Tech')"><i class="fas fa-plus me-1"></i> <span class="btn-text">Nova Vistoria</span></button>
+    <div class="fw-bold"><i class="fas fa-home me-2"></i>MINHA CASA + BONITA</div>
+    <div class="btn-group">
+        <button class="btn btn-dark btn-sm" onclick="toggleView('Admin')">Dashboard</button>
+        <button class="btn btn-warning btn-sm fw-bold" onclick="toggleView('Tech')">+ Vistoria</button>
     </div>
 </nav>
 
-<div class="container py-4">
+<div class="container py-3">
     
-    <!-- MODO ADMIN: DASHBOARD EM TEMPO REAL -->
+    <!-- MODO ADMIN -->
     <div id="viewAdmin" class="view-section">
-        <div class="row g-3 mb-4 text-center">
-            <div class="col-6 col-md-4">
-                <div class="card card-custom p-3 border-start border-4 border-primary">
-                    <small class="text-muted fw-bold">TOTAL LEVANTAMENTOS</small>
-                    <h2 id="countTotal" class="mb-0">0</h2>
-                </div>
-            </div>
-            <div class="col-6 col-md-4">
-                <div class="card card-custom p-3 border-start border-4 border-danger">
-                    <small class="text-muted fw-bold">CASOS URGENTES</small>
-                    <h2 id="countUrg" class="mb-0 text-danger">0</h2>
-                </div>
-            </div>
-            <div class="col-12 col-md-4">
-                <button class="btn btn-primary w-100 h-100 fw-bold" onclick="refreshAdmin()"><i class="fas fa-sync-alt me-2"></i> ATUALIZAR DASHBOARD</button>
-            </div>
+        <div class="card card-custom p-3 mb-3 text-center">
+            <button class="btn btn-primary fw-bold w-100" onclick="refreshAdmin()">ATUALIZAR LISTA DE CAMPO</button>
         </div>
-
         <div class="card card-custom overflow-hidden">
-            <div class="table-responsive">
-                <table class="table table-hover align-middle mb-0">
-                    <thead class="bg-light">
-                        <tr>
-                            <th>Cód</th>
-                            <th>Morador</th>
-                            <th>Prioridade</th>
-                            <th class="text-center">Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tableBody">
-                        <tr><td colspan="4" class="text-center p-4">Clique em atualizar para carregar os dados...</td></tr>
-                    </tbody>
-                </table>
-            </div>
+            <table class="table table-sm table-hover mb-0">
+                <thead class="bg-light"><tr><th>ID</th><th>Morador</th><th>Laudo</th></tr></thead>
+                <tbody id="tableBody"></tbody>
+            </table>
         </div>
     </div>
 
-    <!-- MODO TÉCNICO: FORMULÁRIO COMPLETO -->
+    <!-- MODO TÉCNICO -->
     <div id="viewTech" class="view-section" style="display:none">
         <div class="card card-custom p-0 overflow-hidden">
-            <div class="d-flex bg-light border-bottom">
-                <button class="tab-btn active" id="btn1" onclick="switchStep(1)">1. SOCIAL</button>
-                <button class="tab-btn" id="btn2" onclick="switchStep(2)">2. TÉCNICO</button>
-                <button class="tab-btn" id="btn3" onclick="switchStep(3)">3. FOTOS</button>
+            <div class="d-flex border-bottom">
+                <button class="tab-btn active" id="btn1" onclick="switchStep(1)">SOCIAL</button>
+                <button class="tab-btn" id="btn2" onclick="switchStep(2)">TÉCNICO</button>
+                <button class="tab-btn" id="btn3" onclick="switchStep(3)">FOTOS</button>
             </div>
 
-            <div class="p-4">
-                <form id="vistoriaForm">
-                    <!-- PASSO 1: SOCIAL -->
+            <div class="p-3">
+                <form id="vistoForm">
                     <div class="step-content active" id="step1">
-                        <div class="row g-3">
-                            <div class="col-md-4"><label class="fw-bold small">Código da Unidade</label><input type="text" id="f_id" class="form-control bg-light fw-bold" placeholder="Ex: RF-001"></div>
-                            <div class="col-md-8"><label class="fw-bold small">Nome do Morador Responsável</label><input type="text" id="f_nome" class="form-control"></div>
-                            <div class="col-md-6"><label class="fw-bold small">Renda (0-3 Salários Mínimos?)</label>
-                                <select id="f_renda" class="form-select"><option>Sim, até 3 SM</option><option>Não, superior a 3 SM</option></select>
-                            </div>
-                            <div class="col-md-6"><label class="fw-bold small">Reside há mais de 3 anos?</label>
-                                <select id="f_tempo" class="form-select"><option>Sim</option><option>Não</option></select>
-                            </div>
-                            <div class="col-md-6"><label class="fw-bold small">Proprietário do Imóvel?</label>
-                                <select id="f_posse" class="form-select"><option>Sim</option><option>Não</option></select>
-                            </div>
-                            <div class="col-md-6"><label class="fw-bold small">Área Delimitada pelo Projeto?</label>
-                                <select id="f_area" class="form-select"><option>Sim</option><option>Não</option></select>
-                            </div>
-                        </div>
-                        <button type="button" class="btn btn-primary w-100 mt-4 py-3 fw-bold" onclick="switchStep(2)">PRÓXIMO PASSO <i class="fas fa-arrow-right ms-2"></i></button>
+                        <label class="small fw-bold">ID Unidade</label><input type="text" id="f_id" class="form-control mb-2">
+                        <label class="small fw-bold">Nome Responsável</label><input type="text" id="f_nome" class="form-control mb-3">
+                        <label class="small fw-bold">Técnico</label><input type="text" id="f_tec" class="form-control mb-3">
+                        <button type="button" class="btn btn-primary w-100" onclick="switchStep(2)">Próximo</button>
                     </div>
 
-                    <!-- PASSO 2: TÉCNICO -->
                     <div class="step-content" id="step2">
-                        <div class="row g-3">
-                            <div class="col-12"><label class="fw-bold small">Endereço Completo</label><input type="text" id="f_end" class="form-control" placeholder="Rua, Número, Referência"></div>
-                            <div class="col-12"><label class="fw-bold small text-primary">NECESSIDADES DO BANHEIRO (Checklist)</label>
-                                <div class="d-flex flex-wrap gap-2 p-3 bg-light rounded border">
-                                    <label class="me-3"><input type="checkbox" class="f_nec" value="Vaso Sanitário"> Vaso</label>
-                                    <label class="me-3"><input type="checkbox" class="f_nec" value="Pia/Lavatório"> Pia</label>
-                                    <label class="me-3"><input type="checkbox" class="f_nec" value="Revestimento Piso"> Piso</label>
-                                    <label class="me-3"><input type="checkbox" class="f_nec" value="Azulejo Parede"> Azulejo</label>
-                                    <label class="me-3"><input type="checkbox" class="f_nec" value="Hidráulica"> Hidráulica</label>
-                                    <label class="me-3"><input type="checkbox" class="f_nec" value="Janela/Ventilação"> Janela</label>
-                                </div>
-                            </div>
-                            <div class="col-12"><label class="fw-bold small">Critério de Diagnóstico</label>
-                                <select id="f_prio" class="form-select border-warning fw-bold">
-                                    <option value="ESTRUTURAL">RISCO ESTRUTURAL</option>
-                                    <option value="INSALUBRE">INSALUBRE (FALTA SANEAMENTO)</option>
-                                    <option value="MELHORIA">MELHORIA HABITACIONAL / FACHADA</option>
-                                </select>
-                            </div>
-                            <div class="col-12"><label class="fw-bold small">Técnico Responsável</label><input type="text" id="f_tec" class="form-control" placeholder="Seu Nome"></div>
-                            <div class="col-12"><label class="fw-bold small">Observações Técnicas</label><textarea id="f_obs" class="form-control" rows="3"></textarea></div>
-                        </div>
-                        <button type="button" class="btn btn-primary w-100 mt-4 py-3 fw-bold" onclick="switchStep(3)">IR PARA FOTOS (16) <i class="fas fa-camera ms-2"></i></button>
+                        <label class="small fw-bold">Endereço</label><input type="text" id="f_end" class="form-control mb-3">
+                        <label class="small fw-bold">Prioridade</label>
+                        <select id="f_prio" class="form-select mb-3"><option>ESTRUTURAL</option><option>INSALUBRE</option><option>MELHORIA</option></select>
+                        <button type="button" class="btn btn-primary w-100" onclick="switchStep(3)">Ir para Fotos</button>
                     </div>
 
-                    <!-- PASSO 3: FOTOS -->
                     <div class="step-content" id="step3">
-                        <div class="row g-2" id="gridFotos">
-                            <!-- 16 SLOTS DE FOTO GERADOS VIA JS -->
-                        </div>
-                        <button type="button" class="btn btn-success w-100 mt-4 py-3 fw-bold shadow-lg" onclick="enviarTudo()">FINALIZAR E ENVIAR AO BANCO</button>
+                        <div class="row g-2" id="gridFotos"></div>
+                        <button type="button" class="btn btn-success w-100 mt-4 py-3 fw-bold" onclick="enviarTudo()">FINALIZAR VISTORIA</button>
                     </div>
                 </form>
             </div>
@@ -170,51 +118,47 @@
 </div>
 
 <script>
-    // --- CONFIGURAÇÃO CONECTADA ---
     const CLOUD_NAME = "dn3bmndvk"; 
     const PRESET = "bonita_preset"; 
     const APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbzPn9HO1gSVGUlAYXgyOzBqupgbB7rwNloWlG-RiOOY4Ax9oLlpvTY9V0lVUEu9F28C0A/exec";
 
     let fotosDb = {};
-    let globalData = [];
 
-    // Gerar os 16 Slots de Fotos
+    // Iniciar 16 campos de foto
     const grid = document.getElementById('gridFotos');
-    const labels = ["Fachada Principal", "Acesso/Calçada", "Numeração", "Rua/Geral", "Banheiro (Visão 1)", "Banheiro (Visão 2)", "Piso/Ralo", "Instalação Vaso", "Cozinha", "Área de Serviço", "Quarto 1", "Lote Lateral", "Patologia 1", "Patologia 2", "Infiltração Teto", "Instal. Elétrica"];
+    const labels = ["Fachada", "Acesso", "Numeração", "Rua", "Banheiro 1", "Banheiro 2", "Vaso", "Pia", "Cozinha", "Lote", "Interior", "Telhado", "Problema 1", "Problema 2", "Problema 3", "Problema 4"];
     
     labels.forEach((l, i) => {
         grid.innerHTML += `
             <div class="col-3">
                 <div class="photo-box" onclick="document.getElementById('f${i}').click()">
-                    <i class="fas fa-camera fa-lg text-muted"></i>
-                    <input type="file" id="f${i}" hidden accept="image/*" onchange="uploadPhoto(this, '${l}', 'p${i}')">
+                    <div class="uploading-spinner" id="spin${i}"><div class="spinner-border spinner-border-sm text-primary"></div></div>
+                    <i class="fas fa-camera" id="icon${i}"></i>
+                    <input type="file" id="f${i}" hidden accept="image/*" onchange="handleFile(this, '${l}', ${i})">
                     <div id="p${i}"></div>
                 </div>
                 <div class="photo-label">${l}</div>
             </div>`;
     });
 
-    // Funções de Navegação
     function switchStep(s) {
         document.querySelectorAll('.step-content').forEach(c => c.classList.remove('active'));
         document.getElementById('step' + s).classList.add('active');
         document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', i === s-1));
-        window.scrollTo(0,0);
     }
 
     function toggleView(v) {
         document.querySelectorAll('.view-section').forEach(s => s.style.display = 'none');
         document.getElementById('view' + v).style.display = 'block';
-        if(v === 'Admin') refreshAdmin();
     }
 
-    // Upload Direto para Cloudinary
-    async function uploadPhoto(input, label, previewId) {
+    // Função para tratar a foto e fazer upload
+    async function handleFile(input, label, index) {
         const file = input.files[0];
         if(!file) return;
 
-        document.getElementById('loadTxt').innerText = "Enviando para Nuvem: " + label;
-        document.getElementById('loader').style.display = 'flex';
+        // Mostrar spinner de carregamento no quadradinho
+        document.getElementById('spin'+index).style.display = 'flex';
 
         const formData = new FormData();
         formData.append('file', file);
@@ -223,138 +167,59 @@
         try {
             const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, { method: 'POST', body: formData });
             const data = await res.json();
-            fotosDb[label] = data.secure_url;
-            document.getElementById(previewId).innerHTML = `<img src="${data.secure_url}">`;
+            
+            if(data.secure_url) {
+                fotosDb[label] = data.secure_url;
+                // Colocar a foto no quadradinho
+                document.getElementById('p'+index).innerHTML = `<img src="${data.secure_url}">`;
+                document.getElementById('icon'+index).style.display = 'none';
+            } else {
+                alert("Erro no Cloudinary: Verifique se o Preset está como Unsigned.");
+            }
         } catch (err) {
-            alert("Erro no upload da foto. Verifique a conexão.");
+            alert("Erro de conexão ao subir foto.");
         } finally {
-            document.getElementById('loader').style.display = 'none';
+            document.getElementById('spin'+index).style.display = 'none';
         }
     }
 
-    // Salvar Tudo na Planilha
     async function enviarTudo() {
-        if(!document.getElementById('f_id').value) { alert("ID da Unidade é obrigatório!"); return; }
-        
-        document.getElementById('loadTxt').innerText = "Sincronizando Dados na Planilha...";
         document.getElementById('loader').style.display = 'flex';
-
         const payload = {
-            tecnico: document.getElementById('f_tec').value,
             unidade: document.getElementById('f_id').value,
             morador: document.getElementById('f_nome').value,
-            renda: document.getElementById('f_renda').value,
-            tempo: document.getElementById('f_tempo').value,
-            posse: document.getElementById('f_posse').value,
-            area: document.getElementById('f_area').value,
+            tecnico: document.getElementById('f_tec').value,
             endereco: document.getElementById('f_end').value,
-            banheiro: Array.from(document.querySelectorAll('.f_nec:checked')).map(c => c.value).join(", "),
             prioridade: document.getElementById('f_prio').value,
-            obs: document.getElementById('f_obs').value,
-            fotos: JSON.stringify(fotosDb)
+            fotos: JSON.stringify(fotosDb),
+            data: new Date().toISOString()
         };
 
         try {
             await fetch(APPS_SCRIPT, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
-            alert("VISTORIA RF SALVA COM SUCESSO!");
+            alert("VISTORIA ENVIADA COM SUCESSO!");
             location.reload();
         } catch (e) {
-            alert("Erro ao conectar com a planilha. Verifique o link.");
+            alert("Erro ao salvar dados.");
             document.getElementById('loader').style.display = 'none';
         }
     }
 
-    // Dashboard Administrativo em Tempo Real
     async function refreshAdmin() {
-        document.getElementById('loadTxt').innerText = "Baixando dados da Planilha...";
         document.getElementById('loader').style.display = 'flex';
-
         try {
             const res = await fetch(APPS_SCRIPT);
             const data = await res.json();
-            globalData = data;
-            
             const tbody = document.getElementById('tableBody');
-            tbody.innerHTML = "";
-            let urgentes = 0;
-
-            // Pula a primeira linha (cabeçalho)
-            data.slice(1).forEach((row, i) => {
-                if(row[11] === 'ESTRUTURAL') urgentes++;
-                tbody.innerHTML += `
-                    <tr>
-                        <td><b>${row[2]}</b></td>
-                        <td>${row[3]}</td>
-                        <td><span class="badge ${row[11] === 'ESTRUTURAL' ? 'bg-danger' : 'bg-primary'}">${row[11]}</span></td>
-                        <td class="text-center">
-                            <button class="btn btn-sm btn-dark" onclick="gerarLaudo(${i + 1})"><i class="fas fa-file-pdf me-1"></i> LAUDO</button>
-                        </td>
-                    </tr>
-                `;
-            });
-
-            document.getElementById('countTotal').innerText = data.length - 1;
-            document.getElementById('countUrg').innerText = urgentes;
-
-        } catch (err) {
-            alert("Não foi possível carregar o Dashboard. Verifique a planilha.");
-        } finally {
-            document.getElementById('loader').style.display = 'none';
-        }
-    }
-
-    // Gerar Laudo PDF Formato A4
-    function gerarLaudo(rowIndex) {
-        const d = globalData[rowIndex];
-        const fotos = JSON.parse(d[13] || "{}");
-        
-        let fotosHtml = "";
-        Object.entries(fotos).forEach(([lab, url]) => {
-            fotosHtml += `
-                <div style="width:23%; margin:1%; display:inline-block; vertical-align:top; text-align:center;">
-                    <img src="${url}" style="width:100%; height:110px; object-fit:cover; border:1px solid #000;">
-                    <p style="font-size:8px; margin-top:2px;">${lab}</p>
-                </div>`;
-        });
-
-        const template = `
-            <div style="padding:40px; font-family:sans-serif; color:#333; line-height:1.4;">
-                <h2 style="color:#0056b3; margin-bottom:0;">MINHA CASA + BONITA</h2>
-                <h4 style="color:#666; margin-top:0;">LAUDO DE LEVANTAMENTO TÉCNICO-SOCIAL</h4>
-                <hr style="border:1px solid #0056b3">
-                
-                <table style="width:100%; font-size:12px; margin-bottom:20px;">
-                    <tr><td width="50%"><b>UNIDADE:</b> ${d[2]}</td><td><b>TÉCNICO:</b> ${d[1]}</td></tr>
-                    <tr><td><b>MORADOR:</b> ${d[3]}</td><td><b>DATA:</b> ${new Date(d[0]).toLocaleDateString()}</td></tr>
-                    <tr><td colspan="2"><b>ENDEREÇO:</b> ${d[8]}</td></tr>
-                </table>
-
-                <div style="background:#f1f5f9; padding:10px; border-radius:5px; margin-bottom:20px;">
-                    <p style="font-size:12px; margin:0;"><b>PRIORIDADE:</b> ${d[11]}</p>
-                    <p style="font-size:12px; margin:5px 0 0;"><b>NECESSIDADES:</b> ${d[10]}</p>
-                </div>
-
-                <p style="font-size:12px;"><b>OBSERVAÇÕES:</b> ${d[12] || "Nenhuma observação registrada."}</p>
-                
-                <h5 style="border-bottom:1px solid #ccc; padding-bottom:5px;">REGISTRO FOTOGRÁFICO</h5>
-                <div style="margin-top:10px;">${fotosHtml}</div>
-                
-                <div style="margin-top:50px; text-align:center; font-size:10px; color:#999;">
-                    Documento gerado digitalmente via Sistema Minha Casa + Bonita - Risca Faca.
-                </div>
-            </div>`;
-
-        const opt = {
-            margin: 5,
-            filename: `Laudo_${d[2]}.pdf`,
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2, useCORS: true },
-            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-        };
-        
-        html2pdf().from(template).set(opt).save();
+            tbody.innerHTML = data.slice(1).reverse().map(row => `
+                <tr>
+                    <td>${row[2]}</td>
+                    <td>${row[3]}</td>
+                    <td><button class="btn btn-sm btn-dark" onclick="alert('Gerando PDF...')">PDF</button></td>
+                </tr>`).join('');
+        } catch(e) { alert("Erro ao carregar dados."); }
+        document.getElementById('loader').style.display = 'none';
     }
 </script>
-
 </body>
 </html>
