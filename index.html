@@ -1,243 +1,306 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minha Casa + Bonita | Campo</title>
-    
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
-    <style>
-        :root { --primary: #0056b3; --admin: #0f172a; }
-        body { background: #f1f5f9; font-family: 'Inter', sans-serif; font-size: 0.9rem; }
-        .nav-top { background: var(--admin); color: white; padding: 12px; position: sticky; top: 0; z-index: 1000; border-bottom: 3px solid var(--primary); }
-        .card-custom { border: none; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); background: white; }
-        .tab-btn { flex: 1; padding: 12px; border: 1px solid #e2e8f0; background: white; font-weight: bold; font-size: 0.75rem; color: #64748b; }
-        .tab-btn.active { background: var(--primary); color: white; }
-        .step-content { display: none; padding: 15px 0; }
-        .step-content.active { display: block; }
-        .photo-box { border: 2px dashed #0056b3; height: 100px; border-radius: 10px; display: flex; align-items: center; justify-content: center; background: #fff; cursor: pointer; position: relative; overflow: hidden; }
-        .photo-box i { font-size: 1.5rem; color: #0056b3; }
-        .photo-box img { width: 100%; height: 100%; object-fit: cover; position: absolute; z-index: 10; }
-        .photo-label { font-size: 9px; text-align: center; margin-top: 4px; font-weight: bold; color: #64748b; text-transform: uppercase; }
-        #loader { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 9999; color: white; flex-direction: column; align-items: center; justify-content: center; }
-        .uploading-spinner { position: absolute; z-index: 15; background: rgba(255,255,255,0.7); width: 100%; height: 100%; display: none; align-items: center; justify-content: center; }
-    </style>
+  <meta charset="UTF-8">
+  <title>Minha Casa + Bonita – Pré-cadastro</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f4f6f7;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 800px;
+      margin: 2rem auto;
+      background: #fff;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    }
+    h1 {
+      font-size: 1.6rem;
+      margin-bottom: 0.25rem;
+      color: #1a5276;
+    }
+    h2 {
+      font-size: 1.2rem;
+      margin-top: 0;
+      margin-bottom: 1.5rem;
+      color: #2c3e50;
+    }
+    fieldset {
+      border: 1px solid #dfe6e9;
+      border-radius: 8px;
+      padding: 1rem 1.2rem 1.2rem;
+      margin-bottom: 1.2rem;
+    }
+    legend {
+      padding: 0 0.5rem;
+      font-weight: 600;
+      color: #1a5276;
+    }
+    .campo {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 0.75rem;
+    }
+    label {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+      color: #2c3e50;
+    }
+    input[type="text"],
+    input[type="date"],
+    input[type="tel"],
+    textarea,
+    select {
+      padding: 0.5rem 0.6rem;
+      border-radius: 6px;
+      border: 1px solid #dfe6e9;
+      font-size: 0.9rem;
+    }
+    textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+    .linha {
+      display: flex;
+      gap: 1rem;
+    }
+    .linha > .campo {
+      flex: 1;
+    }
+    .opcoes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      font-size: 0.9rem;
+    }
+    .opcao {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    button {
+      background: #1a7a4a;
+      color: #fff;
+      border: none;
+      padding: 0.8rem 1.6rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 0.5rem;
+    }
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    #mensagem {
+      margin-top: 1rem;
+      font-size: 0.95rem;
+    }
+    @media (max-width: 768px) {
+      .linha {
+        flex-direction: column;
+      }
+    }
+  </style>
 </head>
 <body>
 
-<div id="loader">
-    <div class="spinner-border text-primary mb-3"></div>
-    <h5 id="loadTxt">Sincronizando...</h5>
-</div>
+  <div class="container">
+    <h1>🏠 Minha Casa + Bonita</h1>
+    <h2>Ficha de Inscrição – Atendimento Inicial (Pré-cadastro)</h2>
 
-<nav class="nav-top d-flex justify-content-between align-items-center shadow">
-    <div class="fw-bold"><i class="fas fa-home me-2"></i>MINHA CASA + BONITA</div>
-    <div class="btn-group">
-        <button class="btn btn-dark btn-sm" onclick="toggleView('Admin')">Dashboard</button>
-        <button class="btn btn-warning btn-sm fw-bold" onclick="toggleView('Tech')">+ Vistoria</button>
-    </div>
-</nav>
+    <form id="formPreCadastro">
+      <fieldset>
+        <legend>Identificação</legend>
 
-<div class="container py-3">
-    <!-- MODO ADMIN -->
-    <div id="viewAdmin" class="view-section">
-        <div class="card card-custom p-3 mb-3 text-center">
-            <button class="btn btn-primary fw-bold w-100" onclick="refreshAdmin()">ATUALIZAR DADOS</button>
+        <div class="linha">
+          <div class="campo">
+            <label>Código da Moradia</label>
+            <input type="text" name="codigoMoradia" placeholder="Se ainda não tiver, deixe em branco">
+          </div>
+          <div class="campo">
+            <label>Data da visita</label>
+            <input type="date" name="dataVisita">
+          </div>
         </div>
-        <div class="card card-custom overflow-hidden">
-            <table class="table table-sm table-hover mb-0">
-                <thead class="bg-light"><tr><th>ID</th><th>Morador</th><th>Ação</th></tr></thead>
-                <tbody id="tableBody"></tbody>
-            </table>
+
+        <div class="campo">
+          <label>Nome completo *</label>
+          <input type="text" name="nomeCompleto" required>
         </div>
-    </div>
 
-    <!-- MODO TÉCNICO -->
-    <div id="viewTech" class="view-section" style="display:none">
-        <div class="card card-custom p-0 overflow-hidden">
-            <div class="d-flex border-bottom bg-light">
-                <button class="tab-btn active" id="btn1" onclick="switchStep(1)">SOCIAL</button>
-                <button class="tab-btn" id="btn2" onclick="switchStep(2)">TÉCNICO</button>
-                <button class="tab-btn" id="btn3" onclick="switchStep(3)">FOTOS</button>
-            </div>
-            <div class="p-3">
-                <form id="vistoForm">
-                    <div class="step-content active" id="step1">
-                        <label class="small fw-bold">ID Unidade</label><input type="text" id="f_id" class="form-control mb-2" placeholder="RF-00">
-                        <label class="small fw-bold">Nome Responsável</label><input type="text" id="f_nome" class="form-control mb-2">
-                        <label class="small fw-bold">Técnico Responsável</label><input type="text" id="f_tec" class="form-control mb-3">
-                        <button type="button" class="btn btn-primary w-100" onclick="switchStep(2)">Próximo</button>
-                    </div>
-                    <div class="step-content" id="step2">
-                        <label class="small fw-bold">Endereço</label><input type="text" id="f_end" class="form-control mb-2">
-                        <label class="small fw-bold">Prioridade</label>
-                        <select id="f_prio" class="form-select mb-3"><option>ESTRUTURAL</option><option>INSALUBRE</option><option>MELHORIA</option></select>
-                        <button type="button" class="btn btn-primary w-100" onclick="switchStep(3)">Ir para Fotos</button>
-                    </div>
-                    <div class="step-content" id="step3">
-                        <div class="row g-2" id="gridFotos"></div>
-                        <button type="button" class="btn btn-success w-100 mt-4 py-3 fw-bold" onclick="enviarTudo()">FINALIZAR VISTORIA</button>
-                    </div>
-                </form>
-            </div>
+        <div class="linha">
+          <div class="campo">
+            <label>Data de nascimento</label>
+            <input type="date" name="dataNascimento">
+          </div>
+          <div class="campo">
+            <label>CPF</label>
+            <input type="text" name="cpf">
+          </div>
+          <div class="campo">
+            <label>RG</label>
+            <input type="text" name="rg">
+          </div>
         </div>
-    </div>
-</div>
 
-<script>
-    const CLOUD_NAME = "dn3bmndvk"; 
-    const PRESET = "bonita_preset"; 
-    const APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbzPn9HO1gSVGUlAYXgyOzBqupgbB7rwNloWlG-RiOOY4Ax9oLlpvTY9V0lVUEu9F28C0A/exec";
+        <div class="campo">
+          <label>Endereço *</label>
+          <input type="text" name="endereco" required placeholder="Rua / Travessa, nº, referência">
+        </div>
 
-    let fotosDb = {};
-    let globalData = [];
+        <div class="linha">
+          <div class="campo">
+            <label>Telefone *</label>
+            <input type="tel" name="telefone" required>
+          </div>
+          <div class="campo">
+            <label>WhatsApp?</label>
+            <select name="whatsapp">
+              <option value="">Selecione</option>
+              <option>Sim</option>
+              <option>Não</option>
+            </select>
+          </div>
+        </div>
+      </fieldset>
 
-    const grid = document.getElementById('gridFotos');
-    const labels = ["Fachada", "Acesso", "Numeração", "Rua", "Banheiro 1", "Banheiro 2", "Vaso", "Pia", "Cozinha", "Lote", "Interior", "Telhado", "Problema 1", "Problema 2", "Problema 3", "Problema 4"];
-    
-    labels.forEach((l, i) => {
-        grid.innerHTML += `
-            <div class="col-3">
-                <div class="photo-box" onclick="document.getElementById('f${i}').click()">
-                    <div class="uploading-spinner" id="spin${i}"><div class="spinner-border spinner-border-sm text-primary"></div></div>
-                    <i class="fas fa-camera" id="icon${i}"></i>
-                    <input type="file" id="f${i}" hidden accept="image/*" capture="environment" onchange="handleFile(this, '${l}', ${i})">
-                    <div id="p${i}"></div>
-                </div>
-                <div class="photo-label">${l}</div>
-            </div>`;
-    });
+      <fieldset>
+        <legend>Critérios de elegibilidade</legend>
 
-    function switchStep(s) {
-        document.querySelectorAll('.step-content').forEach(c => c.classList.remove('active'));
-        document.getElementById('step' + s).classList.add('active');
-        document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', i === s-1));
-    }
+        <div class="campo">
+          <label>Possui renda mensal familiar de até 3 salários mínimos?</label>
+          <div class="opcoes">
+            <label class="opcao">
+              <input type="radio" name="rendaAte3SM" value="Sim"> <span>Sim</span>
+            </label>
+            <label class="opcao">
+              <input type="radio" name="rendaAte3SM" value="Não"> <span>Não</span>
+            </label>
+          </div>
+        </div>
 
-    function toggleView(v) {
-        document.querySelectorAll('.view-section').forEach(s => s.style.display = 'none');
-        document.getElementById('view' + v).style.display = 'block';
-    }
+        <div class="campo">
+          <label>Reside no município há pelo menos 3 anos?</label>
+          <div class="opcoes">
+            <label class="opcao">
+              <input type="radio" name="moradia3Anos" value="Sim"> <span>Sim</span>
+            </label>
+            <label class="opcao">
+              <input type="radio" name="moradia3Anos" value="Não"> <span>Não</span>
+            </label>
+          </div>
+        </div>
 
-    async function handleFile(input, label, index) {
-        const file = input.files[0];
-        if(!file) return;
-        document.getElementById('spin'+index).style.display = 'flex';
-        const formData = new FormData();
-        formData.append('file', file);
-        formData.append('upload_preset', PRESET);
+        <div class="campo">
+          <label>Proprietário do imóvel?</label>
+          <div class="opcoes">
+            <label class="opcao">
+              <input type="radio" name="proprietarioImovel" value="Sim"> <span>Sim</span>
+            </label>
+            <label class="opcao">
+              <input type="radio" name="proprietarioImovel" value="Não"> <span>Não</span>
+            </label>
+          </div>
+        </div>
 
-        try {
-            const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, { method: 'POST', body: formData });
-            const data = await res.json();
-            if(data.secure_url) {
-                fotosDb[label] = data.secure_url;
-                document.getElementById('p'+index).innerHTML = `<img src="${data.secure_url}">`;
-                document.getElementById('icon'+index).style.display = 'none';
-            }
-        } catch (err) { alert("Erro ao subir imagem."); }
-        finally { document.getElementById('spin'+index).style.display = 'none'; }
-    }
+        <div class="campo">
+          <label>Atualmente reside no imóvel?</label>
+          <div class="opcoes">
+            <label class="opcao">
+              <input type="radio" name="resideNoImovel" value="Sim"> <span>Sim</span>
+            </label>
+            <label class="opcao">
+              <input type="radio" name="resideNoImovel" value="Não"> <span>Não</span>
+            </label>
+          </div>
+        </div>
 
-    async function enviarTudo() {
-        document.getElementById('loader').style.display = 'flex';
-        const payload = {
-            unidade: document.getElementById('f_id').value,
-            morador: document.getElementById('f_nome').value,
-            tecnico: document.getElementById('f_tec').value,
-            endereco: document.getElementById('f_end').value,
-            prioridade: document.getElementById('f_prio').value,
-            fotos: JSON.stringify(fotosDb),
-            data: new Date().toISOString(),
-            // Adicionado para manter a compatibilidade com as colunas do seu Apps Script
-            renda: "0-3 SM", tempo: "Sim", posse: "Sim", area: "Sim", banheiro: "Ok", necessidades: "Geral", obs: "Vistoria concluída"
-        };
-        await fetch(APPS_SCRIPT, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
-        alert("DADOS SALVOS!");
-        location.reload();
-    }
+        <div class="campo">
+          <label>Possui outro imóvel?</label>
+          <div class="opcoes">
+            <label class="opcao">
+              <input type="radio" name="possuiOutroImovel" value="Sim"> <span>Sim</span>
+            </label>
+            <label class="opcao">
+              <input type="radio" name="possuiOutroImovel" value="Não"> <span>Não</span>
+            </label>
+          </div>
+        </div>
+      </fieldset>
 
-    async function refreshAdmin() {
-        document.getElementById('loadTxt').innerText = "Baixando dados...";
-        document.getElementById('loader').style.display = 'flex';
-        try {
-            const res = await fetch(APPS_SCRIPT);
-            const data = await res.json();
-            globalData = data;
-            const tbody = document.getElementById('tableBody');
-            tbody.innerHTML = data.slice(1).reverse().map((row, i) => {
-                const realIndex = data.length - 1 - i;
-                return `<tr><td>${row[2]}</td><td>${row[3]}</td><td><button class="btn btn-sm btn-dark" onclick="gerarLaudo(${realIndex})">PDF</button></td></tr>`;
-            }).join('');
-        } catch(e) { alert("Erro ao carregar dados."); }
-        document.getElementById('loader').style.display = 'none';
-    }
+      <fieldset>
+        <legend>Observações</legend>
+        <div class="campo">
+          <textarea name="observacoes" placeholder="Ex: situação de saúde, prioridade, observações da equipe"></textarea>
+        </div>
+      </fieldset>
 
-    // Função para converter imagem em Base64 (Resolve o problema de imagem sumida no PDF)
-    function getBase64Image(url) {
-        return new Promise((resolve, reject) => {
-            const img = new Image();
-            img.setAttribute('crossOrigin', 'anonymous');
-            img.onload = () => {
-                const canvas = document.createElement("canvas");
-                canvas.width = img.width;
-                canvas.height = img.height;
-                const ctx = canvas.getContext("2d");
-                ctx.drawImage(img, 0, 0);
-                resolve(canvas.toDataURL("image/jpeg"));
-            };
-            img.onerror = (e) => reject(e);
-            img.src = url;
+      <button type="submit" id="btnSalvar">Salvar pré-cadastro</button>
+      <div id="mensagem"></div>
+    </form>
+  </div>
+
+  <script>
+    // COLE AQUI A URL DO SEU WEB APP DO APPS SCRIPT
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyb-0DPP3M4QR_8rouDDm-ntYt85-ERp8chZWDL6I1tItvaP1N4IKefnE9SYIEjonhkYg/exec';
+
+    const form = document.getElementById('formPreCadastro');
+    const mensagem = document.getElementById('mensagem');
+    const btn = document.getElementById('btnSalvar');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      mensagem.textContent = '';
+      mensagem.style.color = '';
+      btn.disabled = true;
+      btn.textContent = 'Enviando...';
+
+      // pegar dados do formulário
+      const fd = new FormData(form);
+      const dados = Object.fromEntries(fd.entries());
+
+      // por enquanto, técnico fixo; depois vamos ligar com login Google
+      dados.emailTecnico = 'plantao@exemplo.com';
+      dados.nomeTecnico = 'Plantão Social';
+
+      const payload = {
+        action: 'salvarPreCadastro',
+        payload: dados
+      };
+
+      try {
+        const resp = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
         });
-    }
 
-    async function gerarLaudo(idx) {
-        document.getElementById('loader').style.display = 'flex';
-        document.getElementById('loadTxt').innerText = "Processando fotos para o PDF...";
-        
-        const d = globalData[idx];
-        let fotos = {};
-        try { fotos = JSON.parse(d[13] || "{}"); } catch(e) { fotos = {}; }
-        
-        let fotosHtml = "";
-        for (const [l, url] of Object.entries(fotos)) {
-            try {
-                const base64 = await getBase64Image(url);
-                fotosHtml += `<div style="display:inline-block; width:23%; margin:5px; text-align:center; vertical-align:top;">
-                    <img src="${base64}" style="width:100%; height:110px; object-fit:cover; border:1px solid #000">
-                    <p style="font-size:8px; margin:0">${l}</p>
-                </div>`;
-            } catch (e) { console.log("Erro ao converter foto", l); }
+        const json = await resp.json();
+
+        if (json.sucesso) {
+          mensagem.style.color = 'green';
+          mensagem.textContent = 'Pré-cadastro salvo com sucesso! ID: ' + json.id;
+          form.reset();
+        } else {
+          mensagem.style.color = 'red';
+          mensagem.textContent = 'Erro: ' + (json.mensagem || 'não foi possível salvar.');
         }
-
-        const template = `
-            <div id="pdf-container" style="padding:30px; font-family:sans-serif;">
-                <h2 style="color:#0056b3; text-align:center; margin-bottom:5px;">MINHA CASA + BONITA</h2>
-                <p style="text-align:center; margin-top:0; font-weight:bold;">LAUDO TÉCNICO DE VISTORIA - RISCA FACA</p>
-                <hr>
-                <table style="width:100%; font-size:12px; line-height:1.6;">
-                    <tr><td width="50%"><b>ID UNIDADE:</b> ${d[2] || '---'}</td><td><b>TÉCNICO:</b> ${d[1] || '---'}</td></tr>
-                    <tr><td><b>MORADOR:</b> ${d[3] || '---'}</td><td><b>DATA:</b> ${new Date(d[0]).toLocaleDateString()}</td></tr>
-                    <tr><td colspan="2"><b>ENDEREÇO:</b> ${d[8] || 'Não informado'}</td></tr>
-                    <tr><td colspan="2"><b>PRIORIDADE:</b> ${d[11] || '---'}</td></tr>
-                </table>
-                <hr>
-                <h4 style="font-size:12px; color:#0056b3;">GALERIA DE FOTOS</h4>
-                <div style="margin-top:10px">${fotosHtml}</div>
-            </div>`;
-
-        const opt = {
-            margin: 5, filename: `Laudo_${d[2]}.pdf`, image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2, useCORS: true }, jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-        };
-
-        html2pdf().from(template).set(opt).save().then(() => {
-            document.getElementById('loader').style.display = 'none';
-        });
-    }
-</script>
+      } catch (erro) {
+        mensagem.style.color = 'red';
+        mensagem.textContent = 'Erro de comunicação com o servidor.';
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Salvar pré-cadastro';
+      }
+    });
+  </script>
 </body>
 </html>
