@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Minha Casa + Bonita – Pré-cadastro</title>
+  <title>Minha Casa + Bonita – Visita Domiciliar</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     body {
@@ -12,7 +12,7 @@
       padding: 0;
     }
     .container {
-      max-width: 800px;
+      max-width: 900px;
       margin: 2rem auto;
       background: #fff;
       padding: 2rem;
@@ -25,7 +25,7 @@
       color: #1a5276;
     }
     h2 {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       margin-top: 0;
       margin-bottom: 1.5rem;
       color: #2c3e50;
@@ -40,6 +40,7 @@
       padding: 0 0.5rem;
       font-weight: 600;
       color: #1a5276;
+      font-size: 1rem;
     }
     .campo {
       display: flex;
@@ -55,12 +56,15 @@
     input[type="text"],
     input[type="date"],
     input[type="tel"],
+    input[type="number"],
     textarea,
     select {
       padding: 0.5rem 0.6rem;
       border-radius: 6px;
       border: 1px solid #dfe6e9;
       font-size: 0.9rem;
+      width: 100%;
+      box-sizing: border-box;
     }
     textarea {
       min-height: 80px;
@@ -134,207 +138,355 @@
 </head>
 <body>
 
-  <div class="container">
-    <h1>🏠 Minha Casa + Bonita</h1>
-    <h2>Ficha de Inscrição – Atendimento Inicial (Pré-cadastro)</h2>
+<div class="container">
+  <h1>🏠 Minha Casa + Bonita</h1>
+  <h2>Ficha Social – Visita Domiciliar</h2>
 
-    <form id="formPreCadastro">
+  <form id="formVisita">
 
-      <!-- IDENTIFICAÇÃO -->
-      <fieldset>
-        <legend>Identificação</legend>
+    <!-- 1. IDENTIFICAÇÃO -->
+    <fieldset>
+      <legend>1. Identificação do responsável familiar</legend>
 
-        <div class="linha">
-          <div class="campo">
-            <label>Código da Moradia</label>
-            <input type="text" name="codigoMoradia" placeholder="Deixe em branco se não tiver">
-          </div>
-          <div class="campo">
-            <label>Data da visita</label>
-            <input type="date" name="dataVisita">
-          </div>
-        </div>
-
+      <div class="linha">
         <div class="campo">
-          <label>Nome completo *</label>
-          <input type="text" name="nomeCompleto" required placeholder="Nome completo do responsável familiar">
+          <label>Código da Moradia</label>
+          <input type="text" name="codigoMoradia" placeholder="Mesmo código do pré-cadastro, se houver">
         </div>
-
-        <div class="linha">
-          <div class="campo">
-            <label>Data de nascimento</label>
-            <input type="date" name="dataNascimento">
-          </div>
-          <div class="campo">
-            <label>CPF</label>
-            <input type="text" name="cpf" placeholder="000.000.000-00">
-          </div>
-          <div class="campo">
-            <label>RG</label>
-            <input type="text" name="rg">
-          </div>
-        </div>
-
         <div class="campo">
-          <label>Endereço completo *</label>
-          <input type="text" name="endereco" required placeholder="Rua / Travessa, nº, referência">
+          <label>Data da visita</label>
+          <input type="date" name="dataVisita">
         </div>
+      </div>
 
-        <div class="linha">
-          <div class="campo">
-            <label>Telefone *</label>
-            <input type="tel" name="telefone" required placeholder="(21) 99999-9999">
-          </div>
-          <div class="campo">
-            <label>WhatsApp?</label>
-            <div class="opcoes">
-              <label class="opcao">
-                <input type="radio" name="whatsapp" value="Sim"> <span>Sim</span>
-              </label>
-              <label class="opcao">
-                <input type="radio" name="whatsapp" value="Não"> <span>Não</span>
-              </label>
-            </div>
-          </div>
-        </div>
+      <div class="campo">
+        <label>Nome completo *</label>
+        <input type="text" name="nomeCompleto" required placeholder="Nome completo do responsável familiar">
+      </div>
 
-      </fieldset>
-
-      <!-- CRITÉRIOS DE ELEGIBILIDADE -->
-      <fieldset>
-        <legend>Critérios de elegibilidade</legend>
-
+      <div class="linha">
         <div class="campo">
-          <label>Possui renda mensal familiar de até 3 salários mínimos?</label>
+          <label>Data de nascimento</label>
+          <input type="date" name="dataNascimento">
+        </div>
+        <div class="campo">
+          <label>CPF</label>
+          <input type="text" name="cpf" placeholder="000.000.000-00">
+        </div>
+        <div class="campo">
+          <label>RG</label>
+          <input type="text" name="rg">
+        </div>
+      </div>
+
+      <div class="campo">
+        <label>Endereço</label>
+        <input type="text" name="endereco" placeholder="Rua / Travessa, nº, referência">
+      </div>
+
+      <div class="linha">
+        <div class="campo">
+          <label>Telefone</label>
+          <input type="tel" name="telefone" placeholder="(21) 99999-9999">
+        </div>
+        <div class="campo">
+          <label>WhatsApp?</label>
           <div class="opcoes">
-            <label class="opcao">
-              <input type="radio" name="rendaAte3SM" value="Sim"> <span>Sim</span>
-            </label>
-            <label class="opcao">
-              <input type="radio" name="rendaAte3SM" value="Não"> <span>Não</span>
-            </label>
+            <label class="opcao"><input type="radio" name="whatsapp" value="Sim"> <span>Sim</span></label>
+            <label class="opcao"><input type="radio" name="whatsapp" value="Não"> <span>Não</span></label>
           </div>
         </div>
+      </div>
 
+      <div class="linha">
         <div class="campo">
-          <label>Reside no município há pelo menos 3 anos?</label>
+          <label>Tempo de residência no município</label>
+          <input type="text" name="tempoResidencia" placeholder="Ex: 5 anos">
+        </div>
+        <div class="campo">
+          <label>Estado civil</label>
+          <select name="estadoCivil">
+            <option value="">Selecione</option>
+            <option>Solteira/o</option>
+            <option>Casada/o</option>
+            <option>União estável</option>
+            <option>Divorciada/o</option>
+            <option>Viúva/o</option>
+          </select>
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- 2. SITUAÇÃO SOCIOECONÔMICA -->
+    <fieldset>
+      <legend>2. Situação socioeconômica</legend>
+
+      <div class="campo">
+        <label>Possui renda?</label>
+        <div class="opcoes">
+          <label class="opcao"><input type="radio" name="possuiRenda" value="Sim"> <span>Sim</span></label>
+          <label class="opcao"><input type="radio" name="possuiRenda" value="Não"> <span>Não</span></label>
+        </div>
+      </div>
+
+      <div class="campo">
+        <label>Faixa de renda familiar</label>
+        <div class="opcoes">
+          <label class="opcao"><input type="radio" name="faixaRenda" value="Até 3 SM"> <span>Até 3 salários mínimos</span></label>
+          <label class="opcao"><input type="radio" name="faixaRenda" value="Acima de 3 SM"> <span>Acima de 3 salários mínimos</span></label>
+        </div>
+      </div>
+
+      <div class="campo">
+        <label>Principal fonte de renda</label>
+        <div class="opcoes">
+          <label class="opcao"><input type="radio" name="principalFonte" value="Trabalho formal"> <span>Trabalho formal</span></label>
+          <label class="opcao"><input type="radio" name="principalFonte" value="Trabalho informal"> <span>Trabalho informal</span></label>
+          <label class="opcao"><input type="radio" name="principalFonte" value="Aposentadoria/Pensão"> <span>Aposentadoria / Pensão</span></label>
+          <label class="opcao"><input type="radio" name="principalFonte" value="Benefício social"> <span>Benefício social</span></label>
+          <label class="opcao"><input type="radio" name="principalFonte" value="Sem renda"> <span>Sem renda</span></label>
+        </div>
+      </div>
+
+      <div class="campo">
+        <label>Possui Cadastro Único (CadÚnico)?</label>
+        <div class="opcoes">
+          <label class="opcao"><input type="radio" name="cadunico" value="Sim"> <span>Sim</span></label>
+          <label class="opcao"><input type="radio" name="cadunico" value="Não"> <span>Não</span></label>
+        </div>
+      </div>
+
+      <div class="campo">
+        <label>Recebe algum benefício?</label>
+        <textarea name="beneficios" placeholder="Ex: Bolsa Família, BPC, Mumbuca, outros. Se não recebe, escreva Não."></textarea>
+      </div>
+    </fieldset>
+
+    <!-- 3. COMPOSIÇÃO FAMILIAR -->
+    <fieldset>
+      <legend>3. Composição familiar</legend>
+      <div class="campo">
+        <label>Resumo da composição familiar</label>
+        <textarea name="composicaoFamiliar" placeholder="Ex: 4 pessoas – responsável (35 anos, diarista), companheiro (38 anos, motorista), filha (7 anos, estudante), avó (65 anos, aposentada)"></textarea>
+      </div>
+    </fieldset>
+
+    <!-- 4. CONDIÇÕES DE MORADIA -->
+    <fieldset>
+      <legend>4. Condições de moradia</legend>
+
+      <div class="campo">
+        <label>Tipo de moradia</label>
+        <div class="opcoes">
+          <label class="opcao"><input type="radio" name="tipoMoradia" value="Casa própria"> <span>Casa própria</span></label>
+          <label class="opcao"><input type="radio" name="tipoMoradia" value="Cedida"> <span>Cedida</span></label>
+          <label class="opcao"><input type="radio" name="tipoMoradia" value="Alugada"> <span>Alugada</span></label>
+          <label class="opcao"><input type="radio" name="tipoMoradia" value="Outra"> <span>Outra</span></label>
+        </div>
+      </div>
+
+      <div class="campo">
+        <label>Material da construção</label>
+        <div class="opcoes">
+          <label class="opcao"><input type="radio" name="materialConstrucao" value="Alvenaria"> <span>Alvenaria</span></label>
+          <label class="opcao"><input type="radio" name="materialConstrucao" value="Madeira"> <span>Madeira</span></label>
+          <label class="opcao"><input type="radio" name="materialConstrucao" value="Misto"> <span>Misto</span></label>
+          <label class="opcao"><input type="radio" name="materialConstrucao" value="Outro"> <span>Outro</span></label>
+        </div>
+      </div>
+
+      <div class="linha">
+        <div class="campo">
+          <label>Número de cômodos</label>
+          <input type="number" name="nComodos" min="1" placeholder="Ex: 4">
+        </div>
+        <div class="campo">
+          <label>Possui banheiro interno?</label>
           <div class="opcoes">
-            <label class="opcao">
-              <input type="radio" name="moradia3Anos" value="Sim"> <span>Sim</span>
-            </label>
-            <label class="opcao">
-              <input type="radio" name="moradia3Anos" value="Não"> <span>Não</span>
-            </label>
+            <label class="opcao"><input type="radio" name="banheiroInterno" value="Sim"> <span>Sim</span></label>
+            <label class="opcao"><input type="radio" name="banheiroInterno" value="Não"> <span>Não</span></label>
           </div>
         </div>
+      </div>
 
+      <div class="linha">
         <div class="campo">
-          <label>Proprietário do imóvel?</label>
+          <label>Possui água encanada?</label>
           <div class="opcoes">
-            <label class="opcao">
-              <input type="radio" name="proprietarioImovel" value="Sim"> <span>Sim</span>
-            </label>
-            <label class="opcao">
-              <input type="radio" name="proprietarioImovel" value="Não"> <span>Não</span>
-            </label>
+            <label class="opcao"><input type="radio" name="aguaEncanada" value="Sim"> <span>Sim</span></label>
+            <label class="opcao"><input type="radio" name="aguaEncanada" value="Não"> <span>Não</span></label>
           </div>
         </div>
-
         <div class="campo">
-          <label>Atualmente reside no imóvel?</label>
+          <label>Possui energia elétrica?</label>
           <div class="opcoes">
-            <label class="opcao">
-              <input type="radio" name="resideNoImovel" value="Sim"> <span>Sim</span>
-            </label>
-            <label class="opcao">
-              <input type="radio" name="resideNoImovel" value="Não"> <span>Não</span>
-            </label>
+            <label class="opcao"><input type="radio" name="energiaEletrica" value="Sim"> <span>Sim</span></label>
+            <label class="opcao"><input type="radio" name="energiaEletrica" value="Não"> <span>Não</span></label>
           </div>
         </div>
+      </div>
 
+      <div class="linha">
         <div class="campo">
-          <label>Possui outro imóvel?</label>
+          <label>Possui esgoto?</label>
           <div class="opcoes">
-            <label class="opcao">
-              <input type="radio" name="possuiOutroImovel" value="Sim"> <span>Sim</span>
-            </label>
-            <label class="opcao">
-              <input type="radio" name="possuiOutroImovel" value="Não"> <span>Não</span>
-            </label>
+            <label class="opcao"><input type="radio" name="esgoto" value="Sim"> <span>Sim</span></label>
+            <label class="opcao"><input type="radio" name="esgoto" value="Não"> <span>Não</span></label>
           </div>
         </div>
-
-      </fieldset>
-
-      <!-- OBSERVAÇÕES -->
-      <fieldset>
-        <legend>Observações</legend>
         <div class="campo">
-          <textarea name="observacoes" placeholder="Situação de saúde, prioridade, observações da equipe..."></textarea>
+          <label>Possui coleta de lixo regular?</label>
+          <div class="opcoes">
+            <label class="opcao"><input type="radio" name="coletaLixo" value="Sim"> <span>Sim</span></label>
+            <label class="opcao"><input type="radio" name="coletaLixo" value="Não"> <span>Não</span></label>
+          </div>
         </div>
-      </fieldset>
+      </div>
+    </fieldset>
 
-      <button type="submit" id="btnSalvar">Salvar pré-cadastro</button>
-      <div id="mensagem"></div>
+    <!-- 5. DIAGNÓSTICO TÉCNICO DO BANHEIRO -->
+    <fieldset>
+      <legend>5. Diagnóstico técnico – Banheiro e água</legend>
 
-    </form>
-  </div>
+      <div class="campo">
+        <label>Tem caixa d'água?</label>
+        <div class="opcoes">
+          <label class="opcao"><input type="radio" name="temCaixaDagua" value="Sim"> <span>Sim</span></label>
+          <label class="opcao"><input type="radio" name="temCaixaDagua" value="Não"> <span>Não</span></label>
+          <label class="opcao"><input type="radio" name="temCaixaDagua" value="Não observado"> <span>Não observado</span></label>
+        </div>
+      </div>
 
-  <script>
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyb-0DPP3M4QR_8rouDDm-ntYt85-ERp8chZWDL6I1tItvaP1N4IKefnE9SYIEjonhkYg/exec';
+      <div class="campo">
+        <label>Condição da caixa d'água</label>
+        <select name="condicaoCaixaDagua">
+          <option value="">Selecione</option>
+          <option>Aparentemente limpa</option>
+          <option>Com sujeira / impurezas</option>
+          <option>Sem tampa</option>
+          <option>Em altura inadequada</option>
+          <option>Não observado</option>
+        </select>
+      </div>
 
-    const form = document.getElementById('formPreCadastro');
-    const mensagem = document.getElementById('mensagem');
-    const btn = document.getElementById('btnSalvar');
+      <div class="campo">
+        <label>O banheiro tem revestimento?</label>
+        <div class="opcoes">
+          <label class="opcao"><input type="radio" name="banheiroRevestimento" value="Sim, piso e parede"> <span>Sim, piso e parede</span></label>
+          <label class="opcao"><input type="radio" name="banheiroRevestimento" value="Só piso"> <span>Só piso</span></label>
+          <label class="opcao"><input type="radio" name="banheiroRevestimento" value="Só parede"> <span>Só parede</span></label>
+          <label class="opcao"><input type="radio" name="banheiroRevestimento" value="Sem revestimento"> <span>Sem revestimento</span></label>
+        </div>
+      </div>
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
+      <div class="campo">
+        <label>Tipo de revestimento do banheiro</label>
+        <input type="text" name="tipoRevestimento" placeholder="Ex: cerâmica, pintura, porcelanato, outro">
+      </div>
 
-      mensagem.textContent = '';
-      mensagem.className = '';
-      btn.disabled = true;
-      btn.textContent = 'Enviando...';
+      <div class="campo">
+        <label>O banheiro tem ventilação?</label>
+        <select name="banheiroVentilacao">
+          <option value="">Selecione</option>
+          <option>Janela</option>
+          <option>Veneziana</option>
+          <option>Exaustor</option>
+          <option>Porta sempre aberta</option>
+          <option>Sem ventilação</option>
+          <option>Não observado</option>
+        </select>
+      </div>
 
-      const fd = new FormData(form);
-      const dados = Object.fromEntries(fd.entries());
+    </fieldset>
 
-      // técnico fixo por enquanto; depois vamos ligar com login Google
-      dados.emailTecnico = 'plantao@exemplo.com';
-      dados.nomeTecnico = 'Plantão Social';
+    <!-- 6. ACESSO A SERVIÇOS PÚBLICOS -->
+    <fieldset>
+      <legend>6. Acesso a serviços públicos</legend>
 
-      // Envia como URLSearchParams (resolve o CORS do Apps Script)
-      const params = new URLSearchParams();
-      params.append('action', 'salvarPreCadastro');
-      params.append('payload', JSON.stringify(dados));
+      <div class="campo">
+        <label>Acesso à saúde</label>
+        <textarea name="acessoSaude" placeholder="Ex: UBS do bairro, hospital municipal, nenhum..."></textarea>
+      </div>
 
-      try {
-        const resp = await fetch(SCRIPT_URL, {
-          method: 'POST',
-          body: params
-        });
+      <div class="campo">
+        <label>Acesso à educação</label>
+        <textarea name="acessoEducacao" placeholder="Ex: escola pública, creche, fora da escola..."></textarea>
+      </div>
 
-        const json = await resp.json();
+      <div class="campo">
+        <label>Assistência social</label>
+        <textarea name="assistenciaSocial" placeholder="Ex: CRAS, CREAS, não acessa..."></textarea>
+      </div>
+    </fieldset>
 
-        if (json.sucesso) {
-          mensagem.className = 'sucesso';
-          mensagem.textContent = '✅ Pré-cadastro salvo com sucesso! ID: ' + json.id;
-          form.reset();
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        } else {
-          mensagem.className = 'erro';
-          mensagem.textContent = '❌ Erro: ' + (json.mensagem || 'não foi possível salvar.');
-        }
+    <!-- 7. OBSERVAÇÕES -->
+    <fieldset>
+      <legend>7. Observações gerais</legend>
+      <div class="campo">
+        <textarea name="observacoes" placeholder="Situações de vulnerabilidade, síntese da análise social, prioridade..."></textarea>
+      </div>
+    </fieldset>
 
-      } catch (erro) {
+    <button type="submit" id="btnSalvar">Salvar visita</button>
+    <div id="mensagem"></div>
+
+  </form>
+</div>
+
+<script>
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyb-0DPP3M4QR_8rouDDm-ntYt85-ERp8chZWDL6I1tItvaP1N4IKefnE9SYIEjonhkYg/exec';
+
+  const form = document.getElementById('formVisita');
+  const mensagem = document.getElementById('mensagem');
+  const btn = document.getElementById('btnSalvar');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    mensagem.textContent = '';
+    mensagem.className = '';
+    btn.disabled = true;
+    btn.textContent = 'Enviando...';
+
+    const fd = new FormData(form);
+    const dados = Object.fromEntries(fd.entries());
+
+    // técnico fixo por enquanto; depois integramos com login Google
+    dados.emailTecnico = 'plantao@exemplo.com';
+    dados.nomeTecnico = 'Plantão Social';
+
+    const params = new URLSearchParams();
+    params.append('action', 'salvarVisita');
+    params.append('payload', JSON.stringify(dados));
+
+    try {
+      const resp = await fetch(SCRIPT_URL, {
+        method: 'POST',
+        body: params
+      });
+
+      const json = await resp.json();
+
+      if (json.sucesso) {
+        mensagem.className = 'sucesso';
+        mensagem.textContent = '✅ Visita registrada com sucesso! ID: ' + json.id;
+        form.reset();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
         mensagem.className = 'erro';
-        mensagem.textContent = '❌ Erro de comunicação com o servidor.';
-        console.error(erro);
-      } finally {
-        btn.disabled = false;
-        btn.textContent = 'Salvar pré-cadastro';
+        mensagem.textContent = '❌ Erro: ' + (json.mensagem || 'não foi possível salvar.');
       }
-    });
-  </script>
+
+    } catch (erro) {
+      mensagem.className = 'erro';
+      mensagem.textContent = '❌ Erro de comunicação com o servidor.';
+      console.error(erro);
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Salvar visita';
+    }
+  });
+</script>
 
 </body>
 </html>
