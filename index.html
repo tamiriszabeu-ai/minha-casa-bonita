@@ -78,11 +78,13 @@
       flex-wrap: wrap;
       gap: 1rem;
       font-size: 0.9rem;
+      margin-top: 0.3rem;
     }
     .opcao {
       display: flex;
       align-items: center;
       gap: 0.35rem;
+      cursor: pointer;
     }
     button {
       background: #1a7a4a;
@@ -94,6 +96,7 @@
       font-weight: 600;
       cursor: pointer;
       margin-top: 0.5rem;
+      width: 100%;
     }
     button:disabled {
       opacity: 0.6;
@@ -102,10 +105,29 @@
     #mensagem {
       margin-top: 1rem;
       font-size: 0.95rem;
+      padding: 0.75rem 1rem;
+      border-radius: 6px;
+      display: none;
+    }
+    #mensagem.sucesso {
+      display: block;
+      background: #e8f8f0;
+      color: #145a35;
+      border: 1px solid #2ecc71;
+    }
+    #mensagem.erro {
+      display: block;
+      background: #fdedec;
+      color: #c0392b;
+      border: 1px solid #e74c3c;
     }
     @media (max-width: 768px) {
       .linha {
         flex-direction: column;
+      }
+      .container {
+        margin: 1rem;
+        padding: 1rem;
       }
     }
   </style>
@@ -117,13 +139,15 @@
     <h2>Ficha de Inscrição – Atendimento Inicial (Pré-cadastro)</h2>
 
     <form id="formPreCadastro">
+
+      <!-- IDENTIFICAÇÃO -->
       <fieldset>
         <legend>Identificação</legend>
 
         <div class="linha">
           <div class="campo">
             <label>Código da Moradia</label>
-            <input type="text" name="codigoMoradia" placeholder="Se ainda não tiver, deixe em branco">
+            <input type="text" name="codigoMoradia" placeholder="Deixe em branco se não tiver">
           </div>
           <div class="campo">
             <label>Data da visita</label>
@@ -133,7 +157,7 @@
 
         <div class="campo">
           <label>Nome completo *</label>
-          <input type="text" name="nomeCompleto" required>
+          <input type="text" name="nomeCompleto" required placeholder="Nome completo do responsável familiar">
         </div>
 
         <div class="linha">
@@ -143,7 +167,7 @@
           </div>
           <div class="campo">
             <label>CPF</label>
-            <input type="text" name="cpf">
+            <input type="text" name="cpf" placeholder="000.000.000-00">
           </div>
           <div class="campo">
             <label>RG</label>
@@ -152,26 +176,31 @@
         </div>
 
         <div class="campo">
-          <label>Endereço *</label>
+          <label>Endereço completo *</label>
           <input type="text" name="endereco" required placeholder="Rua / Travessa, nº, referência">
         </div>
 
         <div class="linha">
           <div class="campo">
             <label>Telefone *</label>
-            <input type="tel" name="telefone" required>
+            <input type="tel" name="telefone" required placeholder="(21) 99999-9999">
           </div>
           <div class="campo">
             <label>WhatsApp?</label>
-            <select name="whatsapp">
-              <option value="">Selecione</option>
-              <option>Sim</option>
-              <option>Não</option>
-            </select>
+            <div class="opcoes">
+              <label class="opcao">
+                <input type="radio" name="whatsapp" value="Sim"> <span>Sim</span>
+              </label>
+              <label class="opcao">
+                <input type="radio" name="whatsapp" value="Não"> <span>Não</span>
+              </label>
+            </div>
           </div>
         </div>
+
       </fieldset>
 
+      <!-- CRITÉRIOS DE ELEGIBILIDADE -->
       <fieldset>
         <legend>Critérios de elegibilidade</legend>
 
@@ -234,22 +263,24 @@
             </label>
           </div>
         </div>
+
       </fieldset>
 
+      <!-- OBSERVAÇÕES -->
       <fieldset>
         <legend>Observações</legend>
         <div class="campo">
-          <textarea name="observacoes" placeholder="Ex: situação de saúde, prioridade, observações da equipe"></textarea>
+          <textarea name="observacoes" placeholder="Situação de saúde, prioridade, observações da equipe..."></textarea>
         </div>
       </fieldset>
 
       <button type="submit" id="btnSalvar">Salvar pré-cadastro</button>
       <div id="mensagem"></div>
+
     </form>
   </div>
 
   <script>
-    // COLE AQUI A URL DO SEU WEB APP DO APPS SCRIPT
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyb-0DPP3M4QR_8rouDDm-ntYt85-ERp8chZWDL6I1tItvaP1N4IKefnE9SYIEjonhkYg/exec';
 
     const form = document.getElementById('formPreCadastro');
@@ -258,49 +289,52 @@
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
+
       mensagem.textContent = '';
-      mensagem.style.color = '';
+      mensagem.className = '';
       btn.disabled = true;
       btn.textContent = 'Enviando...';
 
-      // pegar dados do formulário
       const fd = new FormData(form);
       const dados = Object.fromEntries(fd.entries());
 
-      // por enquanto, técnico fixo; depois vamos ligar com login Google
+      // técnico fixo por enquanto; depois vamos ligar com login Google
       dados.emailTecnico = 'plantao@exemplo.com';
       dados.nomeTecnico = 'Plantão Social';
 
-      const payload = {
-        action: 'salvarPreCadastro',
-        payload: dados
-      };
+      // Envia como URLSearchParams (resolve o CORS do Apps Script)
+      const params = new URLSearchParams();
+      params.append('action', 'salvarPreCadastro');
+      params.append('payload', JSON.stringify(dados));
 
       try {
         const resp = await fetch(SCRIPT_URL, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
+          body: params
         });
 
         const json = await resp.json();
 
         if (json.sucesso) {
-          mensagem.style.color = 'green';
-          mensagem.textContent = 'Pré-cadastro salvo com sucesso! ID: ' + json.id;
+          mensagem.className = 'sucesso';
+          mensagem.textContent = '✅ Pré-cadastro salvo com sucesso! ID: ' + json.id;
           form.reset();
+          window.scrollTo({ top: 0, behavior: 'smooth' });
         } else {
-          mensagem.style.color = 'red';
-          mensagem.textContent = 'Erro: ' + (json.mensagem || 'não foi possível salvar.');
+          mensagem.className = 'erro';
+          mensagem.textContent = '❌ Erro: ' + (json.mensagem || 'não foi possível salvar.');
         }
+
       } catch (erro) {
-        mensagem.style.color = 'red';
-        mensagem.textContent = 'Erro de comunicação com o servidor.';
+        mensagem.className = 'erro';
+        mensagem.textContent = '❌ Erro de comunicação com o servidor.';
+        console.error(erro);
       } finally {
         btn.disabled = false;
         btn.textContent = 'Salvar pré-cadastro';
       }
     });
   </script>
+
 </body>
 </html>
