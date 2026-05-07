@@ -90,6 +90,9 @@
       gap: 0.35rem;
       cursor: pointer;
     }
+    .campo-oculto {
+      display: none;
+    }
     button {
       background: #1a7a4a;
       color: #fff;
@@ -126,18 +129,12 @@
       border: 1px solid #e74c3c;
     }
     @media (max-width: 768px) {
-      .linha {
-        flex-direction: column;
-      }
-      .container {
-        margin: 1rem;
-        padding: 1rem;
-      }
+      .linha { flex-direction: column; }
+      .container { margin: 1rem; padding: 1rem; }
     }
   </style>
 </head>
 <body>
-
 <div class="container">
   <h1>🏠 Minha Casa + Bonita</h1>
   <h2>Ficha Social – Visita Domiciliar</h2>
@@ -146,15 +143,15 @@
 
     <!-- 1. IDENTIFICAÇÃO -->
     <fieldset>
-      <legend>1. Identificação do responsável familiar</legend>
+      <legend>1. Identificação</legend>
 
       <div class="linha">
         <div class="campo">
           <label>Código da Moradia</label>
-          <input type="text" name="codigoMoradia" placeholder="Mesmo código do pré-cadastro, se houver">
+          <input type="text" name="codigoMoradia" placeholder="Ex: MC-001">
         </div>
         <div class="campo">
-          <label>Data da visita</label>
+          <label>Data da Visita</label>
           <input type="date" name="dataVisita">
         </div>
       </div>
@@ -181,7 +178,7 @@
 
       <div class="campo">
         <label>Endereço</label>
-        <input type="text" name="endereco" placeholder="Rua / Travessa, nº, referência">
+        <input type="text" name="endereco" placeholder="Rua, nº, referência">
       </div>
 
       <div class="linha">
@@ -197,29 +194,56 @@
           </div>
         </div>
       </div>
+    </fieldset>
 
-      <div class="linha">
-        <div class="campo">
-          <label>Tempo de residência no município</label>
-          <input type="text" name="tempoResidencia" placeholder="Ex: 5 anos">
+    <!-- 2. CRITÉRIOS DE ELEGIBILIDADE -->
+    <fieldset>
+      <legend>2. Critérios de elegibilidade</legend>
+
+      <div class="campo">
+        <label>Possui renda mensal familiar de até 3 salários mínimos?</label>
+        <div class="opcoes">
+          <label class="opcao"><input type="radio" name="rendaAte3SM" value="Sim"> <span>Sim</span></label>
+          <label class="opcao"><input type="radio" name="rendaAte3SM" value="Não"> <span>Não</span></label>
         </div>
-        <div class="campo">
-          <label>Estado civil</label>
-          <select name="estadoCivil">
-            <option value="">Selecione</option>
-            <option>Solteira/o</option>
-            <option>Casada/o</option>
-            <option>União estável</option>
-            <option>Divorciada/o</option>
-            <option>Viúva/o</option>
-          </select>
+      </div>
+
+      <div class="campo">
+        <label>Reside no município há pelo menos 3 anos?</label>
+        <div class="opcoes">
+          <label class="opcao"><input type="radio" name="moradia3Anos" value="Sim"> <span>Sim</span></label>
+          <label class="opcao"><input type="radio" name="moradia3Anos" value="Não"> <span>Não</span></label>
+        </div>
+      </div>
+
+      <div class="campo">
+        <label>Proprietário do imóvel?</label>
+        <div class="opcoes">
+          <label class="opcao"><input type="radio" name="proprietarioImovel" value="Sim"> <span>Sim</span></label>
+          <label class="opcao"><input type="radio" name="proprietarioImovel" value="Não"> <span>Não</span></label>
+        </div>
+      </div>
+
+      <div class="campo">
+        <label>Atualmente reside no imóvel?</label>
+        <div class="opcoes">
+          <label class="opcao"><input type="radio" name="resideNoImovel" value="Sim"> <span>Sim</span></label>
+          <label class="opcao"><input type="radio" name="resideNoImovel" value="Não"> <span>Não</span></label>
+        </div>
+      </div>
+
+      <div class="campo">
+        <label>Possui outro imóvel?</label>
+        <div class="opcoes">
+          <label class="opcao"><input type="radio" name="possuiOutroImovel" value="Sim"> <span>Sim</span></label>
+          <label class="opcao"><input type="radio" name="possuiOutroImovel" value="Não"> <span>Não</span></label>
         </div>
       </div>
     </fieldset>
 
-    <!-- 2. SITUAÇÃO SOCIOECONÔMICA -->
+    <!-- 3. SITUAÇÃO SOCIOECONÔMICA -->
     <fieldset>
-      <legend>2. Situação socioeconômica</legend>
+      <legend>3. Situação socioeconômica</legend>
 
       <div class="campo">
         <label>Possui renda?</label>
@@ -232,7 +256,9 @@
       <div class="campo">
         <label>Faixa de renda familiar</label>
         <div class="opcoes">
-          <label class="opcao"><input type="radio" name="faixaRenda" value="Até 3 SM"> <span>Até 3 salários mínimos</span></label>
+          <label class="opcao"><input type="radio" name="faixaRenda" value="Até 1 SM"> <span>Até 1 salário mínimo</span></label>
+          <label class="opcao"><input type="radio" name="faixaRenda" value="De 1 a 2 SM"> <span>De 1 a 2 salários mínimos</span></label>
+          <label class="opcao"><input type="radio" name="faixaRenda" value="De 2 a 3 SM"> <span>De 2 a 3 salários mínimos</span></label>
           <label class="opcao"><input type="radio" name="faixaRenda" value="Acima de 3 SM"> <span>Acima de 3 salários mínimos</span></label>
         </div>
       </div>
@@ -241,11 +267,17 @@
         <label>Principal fonte de renda</label>
         <div class="opcoes">
           <label class="opcao"><input type="radio" name="principalFonte" value="Trabalho formal"> <span>Trabalho formal</span></label>
-          <label class="opcao"><input type="radio" name="principalFonte" value="Trabalho informal"> <span>Trabalho informal</span></label>
+          <label class="opcao"><input type="radio" name="principalFonte" value="Trabalho informal" id="rdInformal"> <span>Trabalho informal</span></label>
           <label class="opcao"><input type="radio" name="principalFonte" value="Aposentadoria/Pensão"> <span>Aposentadoria / Pensão</span></label>
           <label class="opcao"><input type="radio" name="principalFonte" value="Benefício social"> <span>Benefício social</span></label>
           <label class="opcao"><input type="radio" name="principalFonte" value="Sem renda"> <span>Sem renda</span></label>
         </div>
+      </div>
+
+      <!-- campo que aparece só quando marca "Trabalho informal" -->
+      <div class="campo campo-oculto" id="campoInformalQual">
+        <label>Trabalho informal – qual?</label>
+        <input type="text" name="trabalhoInformalQual" placeholder="Ex: diarista, ambulante, catador, motorista de app...">
       </div>
 
       <div class="campo">
@@ -262,18 +294,18 @@
       </div>
     </fieldset>
 
-    <!-- 3. COMPOSIÇÃO FAMILIAR -->
+    <!-- 4. COMPOSIÇÃO FAMILIAR -->
     <fieldset>
-      <legend>3. Composição familiar</legend>
+      <legend>4. Composição familiar</legend>
       <div class="campo">
         <label>Resumo da composição familiar</label>
         <textarea name="composicaoFamiliar" placeholder="Ex: 4 pessoas – responsável (35 anos, diarista), companheiro (38 anos, motorista), filha (7 anos, estudante), avó (65 anos, aposentada)"></textarea>
       </div>
     </fieldset>
 
-    <!-- 4. CONDIÇÕES DE MORADIA -->
+    <!-- 5. CONDIÇÕES DE MORADIA -->
     <fieldset>
-      <legend>4. Condições de moradia</legend>
+      <legend>5. Condições de moradia</legend>
 
       <div class="campo">
         <label>Tipo de moradia</label>
@@ -344,9 +376,29 @@
       </div>
     </fieldset>
 
-    <!-- 5. DIAGNÓSTICO TÉCNICO DO BANHEIRO -->
+    <!-- 6. ACESSO A SERVIÇOS -->
     <fieldset>
-      <legend>5. Diagnóstico técnico – Banheiro e água</legend>
+      <legend>6. Acesso a serviços públicos</legend>
+
+      <div class="campo">
+        <label>Acesso à saúde</label>
+        <textarea name="acessoSaude" placeholder="Ex: UBS do bairro, hospital municipal, nenhum..."></textarea>
+      </div>
+
+      <div class="campo">
+        <label>Acesso à educação</label>
+        <textarea name="acessoEducacao" placeholder="Ex: escola pública, creche, fora da escola..."></textarea>
+      </div>
+
+      <div class="campo">
+        <label>Assistência social</label>
+        <textarea name="assistenciaSocial" placeholder="Ex: CRAS, CREAS, não acessa..."></textarea>
+      </div>
+    </fieldset>
+
+    <!-- 7. DIAGNÓSTICO TÉCNICO -->
+    <fieldset>
+      <legend>7. Diagnóstico técnico – Banheiro e água</legend>
 
       <div class="campo">
         <label>Tem caixa d'água?</label>
@@ -381,11 +433,11 @@
 
       <div class="campo">
         <label>Tipo de revestimento do banheiro</label>
-        <input type="text" name="tipoRevestimento" placeholder="Ex: cerâmica, pintura, porcelanato, outro">
+        <input type="text" name="tipoRevestimento" placeholder="Ex: cerâmica, porcelanato, pintura, outro">
       </div>
 
       <div class="campo">
-        <label>O banheiro tem ventilação?</label>
+        <label>Banheiro – tipo de ventilação</label>
         <select name="banheiroVentilacao">
           <option value="">Selecione</option>
           <option>Janela</option>
@@ -396,34 +448,13 @@
           <option>Não observado</option>
         </select>
       </div>
-
     </fieldset>
 
-    <!-- 6. ACESSO A SERVIÇOS PÚBLICOS -->
+    <!-- 8. OBSERVAÇÕES -->
     <fieldset>
-      <legend>6. Acesso a serviços públicos</legend>
-
+      <legend>8. Observações gerais</legend>
       <div class="campo">
-        <label>Acesso à saúde</label>
-        <textarea name="acessoSaude" placeholder="Ex: UBS do bairro, hospital municipal, nenhum..."></textarea>
-      </div>
-
-      <div class="campo">
-        <label>Acesso à educação</label>
-        <textarea name="acessoEducacao" placeholder="Ex: escola pública, creche, fora da escola..."></textarea>
-      </div>
-
-      <div class="campo">
-        <label>Assistência social</label>
-        <textarea name="assistenciaSocial" placeholder="Ex: CRAS, CREAS, não acessa..."></textarea>
-      </div>
-    </fieldset>
-
-    <!-- 7. OBSERVAÇÕES -->
-    <fieldset>
-      <legend>7. Observações gerais</legend>
-      <div class="campo">
-        <textarea name="observacoes" placeholder="Situações de vulnerabilidade, síntese da análise social, prioridade..."></textarea>
+        <textarea name="observacoes" placeholder="Situações de vulnerabilidade, síntese da análise social, prioridade de atendimento..."></textarea>
       </div>
     </fieldset>
 
@@ -435,6 +466,19 @@
 
 <script>
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyb-0DPP3M4QR_8rouDDm-ntYt85-ERp8chZWDL6I1tItvaP1N4IKefnE9SYIEjonhkYg/exec';
+
+  // Mostrar/ocultar campo "Trabalho informal – qual?"
+  document.querySelectorAll('input[name="principalFonte"]').forEach(radio => {
+    radio.addEventListener('change', function () {
+      const campo = document.getElementById('campoInformalQual');
+      if (this.value === 'Trabalho informal') {
+        campo.classList.remove('campo-oculto');
+      } else {
+        campo.classList.add('campo-oculto');
+        campo.querySelector('input').value = '';
+      }
+    });
+  });
 
   const form = document.getElementById('formVisita');
   const mensagem = document.getElementById('mensagem');
@@ -451,9 +495,17 @@
     const fd = new FormData(form);
     const dados = Object.fromEntries(fd.entries());
 
-    // técnico fixo por enquanto; depois integramos com login Google
+    // técnico fixo por enquanto
     dados.emailTecnico = 'plantao@exemplo.com';
     dados.nomeTecnico = 'Plantão Social';
+
+    // campos de fotos (vazios por enquanto, virão na próxima etapa)
+    dados.linkPastaFotos = '';
+    dados.linkFotosBanheiro = '';
+    dados.linkFotosCozinha = '';
+    dados.linkFotosSala = '';
+    dados.linkFotosQuarto = '';
+    dados.linkFotosFachada = '';
 
     const params = new URLSearchParams();
     params.append('action', 'salvarVisita');
@@ -471,6 +523,7 @@
         mensagem.className = 'sucesso';
         mensagem.textContent = '✅ Visita registrada com sucesso! ID: ' + json.id;
         form.reset();
+        document.getElementById('campoInformalQual').classList.add('campo-oculto');
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } else {
         mensagem.className = 'erro';
