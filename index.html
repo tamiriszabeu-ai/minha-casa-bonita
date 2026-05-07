@@ -563,31 +563,33 @@
 </div>
 
 <script>
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyb-0DPP3M4QR_8rouDDm-ntYt85-ERp8chZWDL6I1tItvaP1N4IKefnE9SYIEjonhkYg/exec';
+document.addEventListener('DOMContentLoaded', function() {
 
-  const linksColetados = { banheiro: [], cozinha: [], sala: [], quarto: [], fachada: [] };
-  let linkPastaMoradiaGlobal = '';
-  const imagensBase64 = {};
+  var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyb-0DPP3M4QR_8rouDDm-ntYt85-ERp8chZWDL6I1tItvaP1N4IKefnE9SYIEjonhkYg/exec';
+
+  var linksColetados = { banheiro: [], cozinha: [], sala: [], quarto: [], fachada: [] };
+  var linkPastaMoradiaGlobal = '';
+  var imagensBase64 = {};
 
   document.querySelectorAll('.input-foto').forEach(function(input) {
     input.addEventListener('change', function() {
-      const wrapper = this.closest('.item-foto');
-      const preview = wrapper.querySelector('.preview-foto');
-      const status  = wrapper.querySelector('.status-foto');
+      var wrapper  = this.closest('.item-foto');
+      var preview  = wrapper.querySelector('.preview-foto');
+      var status   = wrapper.querySelector('.status-foto');
       if (!this.files || !this.files[0]) return;
 
-      const file = this.files[0];
-      const categoria = this.getAttribute('data-categoria');
-      const num       = this.getAttribute('data-num');
-      const chave     = categoria + '_' + num;
-      const reader    = new FileReader();
+      var file      = this.files[0];
+      var categoria = this.getAttribute('data-categoria');
+      var num       = this.getAttribute('data-num');
+      var chave     = categoria + '_' + num;
+      var reader    = new FileReader();
 
       reader.onload = function(ev) {
         imagensBase64[chave] = { base64: ev.target.result, nome: file.name };
-        preview.src = ev.target.result;
+        preview.src          = ev.target.result;
         preview.style.display = 'block';
-        status.textContent = 'Foto pronta para envio.';
-        status.className = 'status-foto';
+        status.textContent   = 'Foto pronta para envio.';
+        status.className     = 'status-foto';
       };
 
       reader.readAsDataURL(file);
@@ -606,19 +608,18 @@
     });
   });
 
-  function enviarFotoBase64(chave, codigoMoradia) {
+  function enviarFoto(chave, codigoMoradia) {
     var info = imagensBase64[chave];
     if (!info) return Promise.resolve(null);
 
-    var partes = chave.split('_');
+    var partes    = chave.split('_');
     var categoria = partes[0];
     var num       = partes[1];
-
-    var inputEl  = document.querySelector('.input-foto[data-categoria="' + categoria + '"][data-num="' + num + '"]');
-    var statusEl = inputEl.closest('.item-foto').querySelector('.status-foto');
+    var inputEl   = document.querySelector('.input-foto[data-categoria="' + categoria + '"][data-num="' + num + '"]');
+    var statusEl  = inputEl.closest('.item-foto').querySelector('.status-foto');
 
     statusEl.textContent = 'Enviando...';
-    statusEl.className = 'status-foto';
+    statusEl.className   = 'status-foto';
 
     var params = new URLSearchParams();
     params.append('action',        'uploadFotoBase64');
@@ -628,24 +629,24 @@
     params.append('nomeArquivo',   info.nome || (categoria + '_' + num + '.jpg'));
 
     return fetch(SCRIPT_URL, { method: 'POST', body: params })
-      .then(function(resp) { return resp.json(); })
+      .then(function(r) { return r.json(); })
       .then(function(json) {
         if (json.sucesso) {
           statusEl.textContent = '✅ Enviada';
-          statusEl.className = 'status-foto ok';
+          statusEl.className   = 'status-foto ok';
           linksColetados[categoria].push(json.urlArquivo);
           if (!linkPastaMoradiaGlobal && json.urlPastaMoradia) {
             linkPastaMoradiaGlobal = json.urlPastaMoradia;
           }
         } else {
-          statusEl.textContent = '❌ Erro: ' + (json.mensagem || 'falha');
-          statusEl.className = 'status-foto erro';
+          statusEl.textContent = '❌ ' + (json.mensagem || 'Erro no envio');
+          statusEl.className   = 'status-foto erro';
         }
         return json;
       })
-      .catch(function(err) {
+      .catch(function() {
         statusEl.textContent = '❌ Erro de conexão';
-        statusEl.className = 'status-foto erro';
+        statusEl.className   = 'status-foto erro';
         return null;
       });
   }
@@ -657,67 +658,66 @@
     var btn      = document.getElementById('btnSalvar');
 
     mensagem.textContent = '';
-    mensagem.className = '';
-    btn.disabled = true;
-    btn.textContent = 'Enviando fotos...';
+    mensagem.className   = '';
+    btn.disabled         = true;
+    btn.textContent      = 'Enviando fotos...';
 
     var codigoMoradia = document.getElementById('codigoMoradia').value || 'SEM_CODIGO';
-    var chaves = Object.keys(imagensBase64);
+    var chaves        = Object.keys(imagensBase64);
 
-    var promessas = chaves.map(function(chave) {
-      return enviarFotoBase64(chave, codigoMoradia);
-    });
+    Promise.all(chaves.map(function(c) { return enviarFoto(c, codigoMoradia); }))
+      .then(function() {
+        btn.textContent = 'Salvando visita...';
 
-    Promise.all(promessas).then(function() {
-      btn.textContent = 'Salvando visita...';
+        var fd    = new FormData(document.getElementById('formVisita'));
+        var dados = {};
+        fd.forEach(function(v, k) { dados[k] = v; });
 
-      var fd = new FormData(document.getElementById('formVisita'));
-      var dados = {};
-      fd.forEach(function(valor, chave) { dados[chave] = valor; });
+        dados.emailTecnico      = 'plantao@exemplo.com';
+        dados.nomeTecnico       = 'Plantão Social';
+        dados.linkPastaFotos    = linkPastaMoradiaGlobal || '';
+        dados.linkFotosBanheiro = linksColetados.banheiro.join(' | ');
+        dados.linkFotosCozinha  = linksColetados.cozinha.join(' | ');
+        dados.linkFotosSala     = linksColetados.sala.join(' | ');
+        dados.linkFotosQuarto   = linksColetados.quarto.join(' | ');
+        dados.linkFotosFachada  = linksColetados.fachada.join(' | ');
 
-      dados.emailTecnico      = 'plantao@exemplo.com';
-      dados.nomeTecnico       = 'Plantão Social';
-      dados.linkPastaFotos    = linkPastaMoradiaGlobal || '';
-      dados.linkFotosBanheiro = linksColetados.banheiro.join(' | ');
-      dados.linkFotosCozinha  = linksColetados.cozinha.join(' | ');
-      dados.linkFotosSala     = linksColetados.sala.join(' | ');
-      dados.linkFotosQuarto   = linksColetados.quarto.join(' | ');
-      dados.linkFotosFachada  = linksColetados.fachada.join(' | ');
+        var params = new URLSearchParams();
+        params.append('action',  'salvarVisita');
+        params.append('payload', JSON.stringify(dados));
 
-      var params = new URLSearchParams();
-      params.append('action',  'salvarVisita');
-      params.append('payload', JSON.stringify(dados));
+        return fetch(SCRIPT_URL, { method: 'POST', body: params });
+      })
+      .then(function(r) { return r.json(); })
+      .then(function(json) {
+        if (json.sucesso) {
+          mensagem.className   = 'sucesso';
+          mensagem.textContent = '✅ Visita registrada! ID: ' + json.id;
 
-      return fetch(SCRIPT_URL, { method: 'POST', body: params });
-    })
-    .then(function(resp) { return resp.json(); })
-    .then(function(json) {
-      if (json.sucesso) {
-        mensagem.className   = 'sucesso';
-        mensagem.textContent = '✅ Visita registrada! ID: ' + json.id;
-
-        document.getElementById('formVisita').reset();
-        document.getElementById('campoInformalQual').classList.add('campo-oculto');
-        document.querySelectorAll('.preview-foto').forEach(function(img) { img.style.display = 'none'; });
-        document.querySelectorAll('.status-foto').forEach(function(s) { s.textContent = ''; });
-        Object.keys(imagensBase64).forEach(function(k) { delete imagensBase64[k]; });
-        Object.keys(linksColetados).forEach(function(k) { linksColetados[k] = []; });
-        linkPastaMoradiaGlobal = '';
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      } else {
+          document.getElementById('formVisita').reset();
+          document.getElementById('campoInformalQual').classList.add('campo-oculto');
+          document.querySelectorAll('.preview-foto').forEach(function(img) { img.style.display = 'none'; });
+          document.querySelectorAll('.status-foto').forEach(function(s) { s.textContent = ''; });
+          Object.keys(imagensBase64).forEach(function(k) { delete imagensBase64[k]; });
+          Object.keys(linksColetados).forEach(function(k) { linksColetados[k] = []; });
+          linkPastaMoradiaGlobal = '';
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+          mensagem.className   = 'erro';
+          mensagem.textContent = '❌ Erro: ' + (json.mensagem || 'não foi possível salvar.');
+        }
+      })
+      .catch(function() {
         mensagem.className   = 'erro';
-        mensagem.textContent = '❌ Erro: ' + (json.mensagem || 'não foi possível salvar.');
-      }
-    })
-    .catch(function(err) {
-      mensagem.className   = 'erro';
-      mensagem.textContent = '❌ Erro de comunicação com o servidor.';
-    })
-    .finally(function() {
-      btn.disabled    = false;
-      btn.textContent = 'Salvar visita';
-    });
+        mensagem.textContent = '❌ Erro de comunicação com o servidor.';
+      })
+      .finally(function() {
+        btn.disabled    = false;
+        btn.textContent = 'Salvar visita';
+      });
   });
+
+});
 </script>
 </body>
 </html>
