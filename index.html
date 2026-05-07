@@ -586,7 +586,6 @@
 <script>
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyb-0DPP3M4QR_8rouDDm-ntYt85-ERp8chZWDL6I1tItvaP1N4IKefnE9SYIEjonhkYg/exec';
 
-  // links coletados durante upload das fotos
   const linksColetados = {
     banheiro: [],
     cozinha:  [],
@@ -594,8 +593,10 @@
     quarto:   [],
     fachada:  []
   };
+  let linkPastaMoradiaGlobal = '';
 
-  // Preview imediato ao selecionar foto
+  const imagensBase64 = {};
+
   document.querySelectorAll('.input-foto').forEach(input => {
     input.addEventListener('change', function () {
       const wrapper = this.closest('.item-foto');
@@ -603,19 +604,25 @@
       const status  = wrapper.querySelector('.status-foto');
 
       if (this.files && this.files[0]) {
+        const file = this.files[0];
         const reader = new FileReader();
+
         reader.onload = ev => {
-          preview.src = ev.target.result;
+          const base64 = ev.target.result;
+          const chave = this.dataset.categoria + '_' + this.dataset.num;
+          imagensBase64[chave] = { base64, nome: file.name };
+
+          preview.src = base64;
           preview.style.display = 'block';
+          status.textContent = 'Foto pronta para envio.';
+          status.className = 'status-foto';
         };
-        reader.readAsDataURL(this.files[0]);
-        status.textContent = 'Foto selecionada. Será enviada ao salvar.';
-        status.className = 'status-foto';
+
+        reader.readAsDataURL(file);
       }
     });
   });
 
-  // Mostrar/ocultar campo "Trabalho informal – qual?"
   document.querySelectorAll('input[name="principalFonte"]').forEach(radio => {
     radio.addEventListener('change', function () {
       const campo = document.getElementById('campoInformalQual');
@@ -628,31 +635,42 @@
     });
   });
 
-  // Envia UMA foto para o Apps Script
-  async function enviarFoto(inputEl, codigoMoradia) {
-    if (!inputEl.files || inputEl.files.length === 0) return null;
+  async function enviarFotoBase64(chave, codigoMoradia) {
+    const info = imagensBase64[chave];
+    if (!info) return null;
 
-    const categoria = inputEl.dataset.categoria;
-    const num       = inputEl.dataset.num;
-    const arquivo   = inputEl.files[0];
-
+    const [categoria, num] = chave.split('_');
+    const inputEl = document.querySelector(
+      `.input-foto[data-categoria="${categoria}"][data-num="${num}"]`
+    );
     const statusEl = inputEl.closest('.item-foto').querySelector('.status-foto');
+
     statusEl.textContent = 'Enviando...';
     statusEl.className = 'status-foto';
 
-    const fd = new FormData();
-    fd.append('action', 'uploadFotoVisita');
-    fd.append('codigoMoradia', codigoMoradia || 'SEM_CODIGO');
-    fd.append('categoria', categoria);
-    fd.append('foto', arquivo, categoria + '_' + num + '_' + arquivo.name);
+    const params = new URLSearchParams();
+    params.append('action', 'uploadFotoBase64');
+    params.append('codigoMoradia', codigoMoradia || 'SEM_CODIGO');
+    params.append('categoria', categoria);
+    params.append('base64', info.base64);
+    params.append('nomeArquivo', info.nome || (categoria + '_' + num + '.jpg'));
 
     try {
-      const resp = await fetch(SCRIPT_URL, { method: 'POST', body: fd });
+      const resp = await fetch(SCRIPT_URL, {
+        method: 'POST',
+        body: params
+      });
       const json = await resp.json();
 
       if (json.sucesso) {
         statusEl.textContent = '✅ Enviada';
         statusEl.className = 'status-foto ok';
+
+        linksColetados[categoria].push(json.urlArquivo);
+        if (!linkPastaMoradiaGlobal && json.urlPastaMoradia) {
+          linkPastaMoradiaGlobal = json.urlPastaMoradia;
+        }
+
         return json;
       } else {
         statusEl.textContent = '❌ Erro: ' + (json.mensagem || 'falha no envio');
@@ -666,7 +684,6 @@
     }
   }
 
-  // Submit principal
   const form     = document.getElementById('formVisita');
   const mensagem = document.getElementById('mensagem');
   const btn      = document.getElementById('btnSalvar');
@@ -681,29 +698,19 @@
 
     const codigoMoradia = document.getElementById('codigoMoradia').value || 'SEM_CODIGO';
 
-    // 1) Enviar todas as fotos selecionadas
-    const inputs = document.querySelectorAll('.input-foto');
-    for (const input of inputs) {
-      if (input.files && input.files.length > 0) {
-        const resultado = await enviarFoto(input, codigoMoradia);
-        if (resultado) {
-          const cat = input.dataset.categoria;
-          linksColetados[cat].push(resultado.urlArquivo);
-        }
-      }
+    for (const chave of Object.keys(imagensBase64)) {
+      await enviarFotoBase64(chave, codigoMoradia);
     }
 
-    // 2) Montar payload dos dados da visita
     btn.textContent = 'Salvando visita...';
+
     const fd = new FormData(form);
     const dados = Object.fromEntries(fd.entries());
 
     dados.emailTecnico = 'plantao@exemplo.com';
     dados.nomeTecnico  = 'Plantão Social';
 
-    // links das fotos (pasta da moradia + links por categoria)
-    // pega o link da pasta da moradia a partir de qualquer categoria que tenha retornado
-    dados.linkPastaFotos    = '';
+    dados.linkPastaFotos    = linkPastaMoradiaGlobal || '';
     dados.linkFotosBanheiro = linksColetados.banheiro.join(' | ');
     dados.linkFotosCozinha  = linksColetados.cozinha.join(' | ');
     dados.linkFotosSala     = linksColetados.sala.join(' | ');
@@ -715,16 +722,25 @@
     params.append('payload', JSON.stringify(dados));
 
     try {
-      const resp = await fetch(SCRIPT_URL, { method: 'POST', body: params });
+      const resp = await fetch(SCRIPT_URL, {
+        method: 'POST',
+        body: params
+      });
       const json = await resp.json();
 
       if (json.sucesso) {
         mensagem.className = 'sucesso';
         mensagem.textContent = '✅ Visita registrada com sucesso! ID: ' + json.id;
+
         form.reset();
         document.getElementById('campoInformalQual').classList.add('campo-oculto');
         document.querySelectorAll('.preview-foto').forEach(img => img.style.display = 'none');
         document.querySelectorAll('.status-foto').forEach(s => s.textContent = '');
+
+        for (const k in imagensBase64) delete imagensBase64[k];
+        for (const k in linksColetados) linksColetados[k] = [];
+        linkPastaMoradiaGlobal = '';
+
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } else {
         mensagem.className = 'erro';
