@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Minha Casa + Bonita – Visita Domiciliar</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f4f6f7; margin: 0; padding: 0; }
+    .container { max-width: 900px; margin: 2rem auto; background: #fff; padding: 2rem; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
+    h1 { font-size: 1.6rem; margin-bottom: 0.25rem; color: #1a5276; }
+    h2 { font-size: 1.1rem; margin-top: 0; margin-bottom: 1.5rem; color: #2c3e50; }
+    fieldset { border: 1px solid #dfe6e9; border-radius: 8px; padding: 1rem 1.2rem 1.2rem; margin-bottom: 1.2rem; }
+    legend { padding: 0 0.5rem; font-weight: 600; color: #1a5276; font-size: 1rem; }
+    .campo { display: flex; flex-direction: column; margin-bottom: 0.75rem; }
+    label { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.25rem; color: #2c3e50; }
+    input[type="text"], input[type="date"], input[type="tel"], input[type="number"], textarea, select { padding: 0.5rem 0.6rem; border-radius: 6px; border: 1px solid #dfe6e9; font-size: 0.9rem; width: 100%; box-sizing: border-box; }
+    textarea { min-height: 80px; resize: vertical; }
+    .linha { display: flex; gap: 1rem; }
+    .linha > .campo { flex: 1; }
+    .opcoes { display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; margin-top: 0.3rem; }
+    .opcao { display: flex; align-items: center; gap: 0.35rem; cursor: pointer; }
+    .campo-oculto { display: none; }
+    .bloco-fotos { margin-bottom: 1.2rem; }
+    .bloco-fotos h3 { font-size: 0.95rem; color: #1a5276; margin-bottom: 0.5rem; border-bottom: 1px solid #dfe6e9; padding-bottom: 0.3rem; }
+    .grade-fotos { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
+    .item-foto { display: flex; flex-direction: column; gap: 0.3rem; }
+    .item-foto label { font-size: 0.82rem; font-weight: 600; color: #2c3e50; }
+    .item-foto input[type="file"] { font-size: 0.82rem; padding: 0.4rem; border: 1px dashed #aaa; border-radius: 6px; background: #f9f9f9; cursor: pointer; }
+    .preview-foto { width: 100%; max-height: 140px; object-fit: cover; border-radius: 6px; border: 1px solid #ddd; display: none; }
+    .status-foto { font-size: 0.78rem; color: #888; min-height: 1rem; }
+    .status-foto.ok { color: #1a7a4a; font-weight: 600; }
+    .status-foto.erro { color: #c0392b; font-weight: 600; }
+    button { background: #1a7a4a; color: #fff; border: none; padding: 0.8rem 1.6rem; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; margin-top: 0.5rem; width: 100%; }
+    button:disabled { opacity: 0.6; cursor: not-allowed; }
+    #mensagem { margin-top: 1rem; font-size: 0.95rem; padding: 0.75rem 1rem; border-radius: 6px; display: none; }
+    #mensagem.sucesso { display: block; background: #e8f8f0; color: #145a35; border: 1px solid #2ecc71; }
+    #mensagem.erro    { display: block; background: #fdedec; color: #c0392b; border: 1px solid #e74c3c; }
+    @media (max-width: 600px) { .linha { flex-direction: column; } .container { margin: 1rem; padding: 1rem; } .grade-fotos { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>🏠 Minha Casa + Bonita</h1>
+  <h2>Ficha Social – Visita Domiciliar</h2>
+  <form id="formVisita">
+
+    <fieldset>
+      <legend>1. Identificação</legend>
+      <div class="linha">
+        <div class="campo"><label>Código da Moradia</label><input type="text" name="codigoMoradia" id="codigoMoradia" placeholder="Ex: MC-001"></div>
+        <div class="campo"><label>Data da Visita</label><input type="date" name="dataVisita"></div>
+      </div>
+      <div class="campo"><label>Nome completo *</label><input type="text" name="nomeCompleto" required placeholder="Nome completo do responsável familiar"></div>
+      <div class="linha">
+        <div class="campo"><label>Data de nascimento</label><input type="date" name="dataNascimento"></div>
+        <div class="campo"><label>CPF</label><input type="text" name="cpf" placeholder="000.000.000-00"></div>
+        <div class="campo"><label>RG</label><input type="text" name="rg"></div>
+      </div>
+      <div class="campo"><label>Endereço</label><input type="text" name="endereco" placeholder="Rua, nº, referência"></div>
+      <div class="linha">
+        <div class="campo"><label>Telefone</label><input type="tel" name="telefone" placeholder="(21) 99999-9999"></div>
+        <div class="campo">
+          <label>WhatsApp?</label>
+          <div class="opcoes">
+            <label class="opcao"><input type="radio" name="whatsapp" value="Sim"> <span>Sim</span></label>
+            <label class="opcao"><input type="radio" name="whatsapp" value="Não"> <span>Não</span></label>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>2. Critérios de elegibilidade</legend>
+      <div class="campo"><label>Renda familiar de até 3 salários mínimos?</label><div class="opcoes"><label class="opcao"><input type="radio" name="rendaAte3SM" value="Sim"> <span>Sim</span></label><label class="opcao"><input type="radio" name="rendaAte3SM" value="Não"> <span>Não</span></label></div></div>
+      <div class="campo"><label>Reside no município há pelo menos 3 anos?</label><div class="opcoes"><label class="opcao"><input type="radio" name="moradia3Anos" value="Sim"> <span>Sim</span></label><label class="opcao"><input type="radio" name="moradia3Anos" value="Não"> <span>Não</span></label></div></div>
+      <div class="campo"><label>Proprietário do imóvel?</label><div class="opcoes"><label class="opcao"><input type="radio" name="proprietarioImovel" value="Sim"> <span>Sim</span></label><label class="opcao"><input type="radio" name="proprietarioImovel" value="Não"> <span>Não</span></label></div></div>
+      <div class="campo"><label>Atualmente reside no imóvel?</label><div class="opcoes"><label class="opcao"><input type="radio" name="resideNoImovel" value="Sim"> <span>Sim</span></label><label class="opcao"><input type="radio" name="resideNoImovel" value="Não"> <span>Não</span></label></div></div>
+      <div class="campo"><label>Possui outro imóvel?</label><div class="opcoes"><label class="opcao"><input type="radio" name="possuiOutroImovel" value="Sim"> <span>Sim</span></label><label class="opcao"><input type="radio" name="possuiOutroImovel" value="Não"> <span>Não</span></label></div></div>
+    </fieldset>
+
+    <fieldset>
+      <legend>3. Situação socioeconômica</legend>
+      <div class="campo"><label>Possui renda?</label><div class="opcoes"><label class="opcao"><input type="radio" name="possuiRenda" value="Sim"> <span>Sim</span></label><label class="opcao"><input type="radio" name="possuiRenda" value="Não"> <span>Não</span></label></div></div>
+      <div class="campo">
+        <label>Faixa de renda familiar</label>
+        <div class="opcoes">
+          <label class="opcao"><input type="radio" name="faixaRenda" value="Até 1 SM"> <span>Até 1 salário mínimo</span></label>
+          <label class="opcao"><input type="radio" name="faixaRenda" value="De 1 a 2 SM"> <span>De 1 a 2 salários mínimos</span></label>
+          <label class="opcao"><input type="radio" name="faixaRenda" value="De 2 a 3 SM"> <span>De 2 a 3 salários mínimos</span></label>
+          <label class="opcao"><input type="radio" name="faixaRenda" value="Acima de 3 SM"> <span>Acima de 3 salários mínimos</span></label>
+        </div>
+      </div>
+      <div class="campo">
+        <label>Principal fonte de renda</label>
+        <div class="opcoes">
+          <label class="opcao"><input type="radio" name="principalFonte" value="Trabalho formal"> <span>Trabalho formal</span></label>
+          <label class="opcao"><input type="radio" name="principalFonte" value="Trabalho informal"> <span>Trabalho informal</span></label>
+          <label class="opcao"><input type="radio" name="principalFonte" value="Aposentadoria/Pensão"> <span>Aposentadoria / Pensão</span></label>
+          <label class="opcao"><input type="radio" name="principalFonte" value="Benefício social"> <span>Benefício social</span></label>
+          <label class="opcao"><input type="radio" name="principalFonte" value="Sem renda"> <span>Sem renda</span></label>
+        </div>
+      </div>
+      <div class="campo campo-oculto" id="campoInformalQual">
+        <label>Trabalho informal – qual?</label>
+        <input type="text" name="trabalhoInformalQual" placeholder="Ex: diarista, ambulante, catador...">
+      </div>
+      <div class="campo"><label>Possui Cadastro Único (CadÚnico)?</label><div class="opcoes"><label class="opcao"><input type="radio" name="cadunico" value="Sim"> <span>Sim</span></label><label class="opcao"><input type="radio" name="cadunico" value="Não"> <span>Não</span></label></div></div>
+      <div class="campo"><label>Recebe algum benefício?</label><textarea name="beneficios" placeholder="Ex: Bolsa Família, BPC, Mumbuca. Se não recebe, escreva Não."></textarea></div>
+    </fieldset>
+
+    <fieldset>
+      <legend>4. Composição familiar</legend>
+      <div class="campo"><label>Resumo da composição familiar</label><textarea name="composicaoFamiliar" placeholder="Ex: 4 pessoas – responsável (35 anos), companheiro (38 anos), filha (7 anos), avó (65 anos)"></textarea></div>
+    </fieldset>
+
+    <fieldset>
+      <legend>5. Condições de moradia</legend>
+      <div class="campo"><label>Tipo de moradia</label><div class="opcoes"><label class="opcao"><input type="radio" name="tipoMoradia" value="Casa própria"> <span>Casa própria</span></label><label class="opcao"><input type="radio" name="tipoMoradia" value="Cedida"> <span>Cedida</span></label><label class="opcao"><input type="radio" name="tipoMoradia" value="Alugada"> <span>Alugada</span></label><label class="opcao"><input type="radio" name="tipoMoradia" value="Outra"> <span>Outra</span></label></div></div>
+      <div class="campo"><label>Material da construção</label><div class="opcoes"><label class="opcao"><input type="radio" name="materialConstrucao" value="Alvenaria"> <span>Alvenaria</span></label><label class="opcao"><input type="radio" name="materialConstrucao" value="Madeira"> <span>Madeira</span></label><label class="opcao"><input type="radio" name="materialConstrucao" value="Misto"> <span>Misto</span></label><label class="opcao"><input type="radio" name="materialConstrucao" value="Outro"> <span>Outro</span></label></div></div>
+      <div class="linha">
+        <div class="campo"><label>Número de cômodos</label><input type="number" name="nComodos" min="1" placeholder="Ex: 4"></div>
+        <div class="campo"><label>Possui banheiro interno?</label><div class="opcoes"><label class="opcao"><input type="radio" name="banheiroInterno" value="Sim"> <span>Sim</span></label><label class="opcao"><input type="radio" name="banheiroInterno" value="Não"> <span>Não</span></label></div></div>
+      </div>
+      <div class="linha">
+        <div class="campo"><label>Possui água encanada?</label><div class="opcoes"><label class="opcao"><input type="radio" name="aguaEncanada" value="Sim"> <span>Sim</span></label><label class="opcao"><input type="radio" name="aguaEncanada" value="Não"> <span>Não</span></label></div></div>
+        <div class="campo"><label>Possui energia elétrica?</label><div class="opcoes"><label class="opcao"><input type="radio" name="energiaEletrica" value="Sim"> <span>Sim</span></label><label class="opcao"><input type="radio" name="energiaEletrica" value="Não"> <span>Não</span></label></div></div>
+      </div>
+      <div class="linha">
+        <div class="campo"><label>Possui esgoto?</label><div class="opcoes"><label class="opcao"><input type="radio" name="esgoto" value="Sim"> <span>Sim</span></label><label class="opcao"><input type="radio" name="esgoto" value="Não"> <span>Não</span></label></div></div>
+        <div class="campo"><label>Possui coleta de lixo regular?</label><div class="opcoes"><label class="opcao"><input type="radio" name="coletaLixo" value="Sim"> <span>Sim</span></label><label class="opcao"><input type="radio" name="coletaLixo" value="Não"> <span>Não</span></label></div></div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>6. Acesso a serviços públicos</legend>
+      <div class="campo"><label>Acesso à saúde</label><textarea name="acessoSaude" placeholder="Ex: UBS do bairro, hospital municipal, nenhum..."></textarea></div>
+      <div class="campo"><label>Acesso à educação</label><textarea name="acessoEducacao" placeholder="Ex: escola pública, creche, fora da escola..."></textarea></div>
+      <div class="campo"><label>Assistência social</label><textarea name="assistenciaSocial" placeholder="Ex: CRAS, CREAS, não acessa..."></textarea></div>
+    </fieldset>
+
+    <fieldset>
+      <legend>7. Diagnóstico técnico – Banheiro e água</legend>
+      <div class="campo"><label>Tem caixa d'água?</label><div class="opcoes"><label class="opcao"><input type="radio" name="temCaixaDagua" value="Sim"> <span>Sim</span></label><label class="opcao"><input type="radio" name="temCaixaDagua" value="Não"> <span>Não</span></label><label class="opcao"><input type="radio" name="temCaixaDagua" value="Não observado"> <span>Não observado</span></label></div></div>
+      <div class="campo"><label>Condição da caixa d'água</label><select name="condicaoCaixaDagua"><option value="">Selecione</option><option>Aparentemente limpa</option><option>Com sujeira / impurezas</option><option>Sem tampa</option><option>Em altura inadequada</option><option>Não observado</option></select></div>
+      <div class="campo"><label>O banheiro tem revestimento?</label><div class="opcoes"><label class="opcao"><input type="radio" name="banheiroRevestimento" value="Sim, piso e parede"> <span>Sim, piso e parede</span></label><label class="opcao"><input type="radio" name="banheiroRevestimento" value="Só piso"> <span>Só piso</span></label><label class="opcao"><input type="radio" name="banheiroRevestimento" value="Só parede"> <span>Só parede</span></label><label class="opcao"><input type="radio" name="banheiroRevestimento" value="Sem revestimento"> <span>Sem revestimento</span></label></div></div>
+      <div class="campo"><label>Tipo de revestimento do banheiro</label><input type="text" name="tipoRevestimento" placeholder="Ex: cerâmica, porcelanato, pintura, outro"></div>
+      <div class="campo"><label>Banheiro – tipo de ventilação</label><select name="banheiroVentilacao"><option value="">Selecione</option><option>Janela</option><option>Veneziana</option><option>Exaustor</option><option>Porta sempre aberta</option><option>Sem ventilação</option><option>Não observado</option></select></div>
+    </fieldset>
+
+    <fieldset>
+      <legend>8. Fotos da moradia</legend>
+      <p style="font-size:0.85rem;color:#666;margin-top:0;">Tire até 4 fotos de cada ambiente.</p>
+
+      <div class="bloco-fotos">
+        <h3>Fachada</h3>
+        <div class="grade-fotos">
+          <div class="item-foto"><label>Foto 1</label><input type="file" accept="image/*" capture="environment" data-categoria="fachada" data-num="1" class="input-foto"><img class="preview-foto"><span class="status-foto"></span></div>
+          <div class="item-foto"><label>Foto 2</label><input type="file" accept="image/*" capture="environment" data-categoria="fachada" data-num="2" class="input-foto"><img class="preview-foto"><span class="status-foto"></span></div>
+          <div class="item-foto"><label>Foto 3</label><input type="file" accept="image/*" capture="environment" data-categoria="fachada" data-num="3" class="input-foto"><img class="preview-foto"><span class="status-foto"></span></div>
+          <div class="item-foto"><label>Foto 4</label><input type="file" accept="image/*" capture="environment" data-categoria="fachada" data-num="4" class="input-foto"><img class="preview-foto"><span class="status-foto"></span></div>
+        </div>
+      </div>
+
+      <div class="bloco-fotos">
+        <h3>Sala</h3>
+        <div class="grade-fotos">
+          <div class="item-foto"><label>Foto 1</label><input type="file" accept="image/*" capture="environment" data-categoria="sala" data-num="1" class="input-foto"><img class="preview-foto"><span class="status-foto"></span></div>
+          <div class="item-foto"><label>Foto 2</label><input type="file" accept="image/*" capture="environment" data-categoria="sala" data-num="2" class="input-foto"><img class="preview-foto"><span class="status-foto"></span></div>
+          <div class="item-foto"><label>Foto 3</label><input type="file" accept="image/*" capture="environment" data-categoria="sala" data-num="3" class="input-foto"><img class="preview-foto"><span class="status-foto"></span></div>
+          <div class="item-foto"><label>Foto 4</label><input type="file" accept="image/*" capture="environment" data-categoria="sala" data-num="4" class="input-foto"><img class="preview-foto"><span class="status-foto"></span></div>
+        </div>
+      </div>
+
+      <div class="bloco-fotos">
+        <h3>Quarto</h3>
+        <div class="grade-fotos">
+          <div class="item-foto"><label>Foto 1</label><input type="file" accept="image/*" capture="environment" data-categoria="quarto" data-num="1" class="input-foto"><img class="preview-foto"><span class="status-foto"></span></div>
+          <div class="item-foto"><label>Foto 2</label><input type="file" accept="image/*" capture="environment" data-categoria="quarto" data-num="2" class="input-foto"><img class="preview-foto"><span class="status-foto"></span></div>
+          <div class="item-foto"><label>Foto 3</label><input type="file" accept="image/*" capture="environment" data-categoria="quarto" data-num="3" class="input-foto"><img class="preview-foto"><span class="status-foto"></span></div>
+          <div class="item-foto"><label>Foto 4</label><input type="file" accept="image/*" capture="environment" data-categoria="quarto" data-num="4" class="input-foto"><img class="preview-foto"><span class="status-foto"></span></div>
+        </div>
+      </div>
+
+      <div class="bloco-fotos">
+        <h3>Cozinha</h3>
+        <div class="grade-fotos">
+          <div class="item-foto"><label>Foto 1</label><input type="file" accept="image/*" capture="environment" data-categoria="cozinha" data-num="1" class="input-foto"><img class="preview-foto"><span class="status-foto"></span></div>
+          <div class="item-foto"><label>Foto 2</label><input type="file" accept="image/*" capture="environment" data-categoria="cozinha" data-num="2" class="input-foto"><img class="preview-foto"><span class="status-foto"></span></div>
+          <div class="item-foto"><label>Foto 3</label><input type="file" accept="image/*" capture="environment" data-categoria="cozinha" data-num="3" class="input-foto"><img class="preview-foto"><span class="status-foto"></span></div>
+          <div class="item-foto"><label>Foto 4</label><input type="file" accept="image/*" capture="environment" data-categoria="cozinha" data-num="4" class="input-foto"><img class="preview-foto"><span class="status-foto"></span></div>
+        </div>
+      </div>
+
+      <div class="bloco-fotos">
+        <h3>Banheiro</h3>
+        <div class="grade-fotos">
+          <div class="item-foto"><label>Foto 1</label><input type="file" accept="image/*" capture="environment" data-categoria="banheiro" data-num="1" class="input-foto"><img class="preview-foto"><span class="status-foto"></span></div>
+          <div class="item-foto"><label>Foto 2</label><input type="file" accept="image/*" capture="environment" data-categoria="banheiro" data-num="2" class="input-foto"><img class="preview-foto"><span class="status-foto"></span></div>
+          <div class="item-foto"><label>Foto 3</label><input type="file" accept="image/*" capture="environment" data-categoria="banheiro" data-num="3" class="input-foto"><img class="preview-foto"><span class="status-foto"></span></div>
+          <div class="item-foto"><label>Foto 4</label><input type="file" accept="image/*" capture="environment" data-categoria="banheiro" data-num="4" class="input-foto"><img class="preview-foto"><span class="status-foto"></span></div>
+        </div>
+      </div>
+
+    </fieldset>
+
+    <fieldset>
+      <legend>9. Observações gerais</legend>
+      <div class="campo"><textarea name="observacoes" placeholder="Situações de vulnerabilidade, síntese da análise social, prioridade de atendimento..."></textarea></div>
+    </fieldset>
+
+    <button type="submit" id="btnSalvar">Salvar visita</button>
+    <div id="mensagem"></div>
+  </form>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+
+  var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzx7rrwybDqsdZ8lFTVpVsy0gm3uvFSzf_qXlzL4Y0KDuEjM6kRukYnnvxnZZDR_aef/exec';
+
+  var linksColetados         = { banheiro: [], cozinha: [], sala: [], quarto: [], fachada: [] };
+  var linkPastaMoradiaGlobal = '';
+  var imagensBase64          = {};
+
+  document.querySelectorAll('.input-foto').forEach(function(input) {
+    input.addEventListener('change', function() {
+      var wrapper  = this.closest('.item-foto');
+      var preview  = wrapper.querySelector('.preview-foto');
+      var status   = wrapper.querySelector('.status-foto');
+      if (!this.files || !this.files[0]) return;
+
+      var file      = this.files[0];
+      var categoria = this.getAttribute('data-categoria');
+      var num       = this.getAttribute('data-num');
+      var chave     = categoria + '_' + num;
+      var reader    = new FileReader();
+
+      reader.onload = function(ev) {
+        imagensBase64[chave]  = { base64: ev.target.result, nome: file.name };
+        preview.src           = ev.target.result;
+        preview.style.display = 'block';
+        status.textContent    = 'Foto pronta para envio.';
+        status.className      = 'status-foto';
+      };
+      reader.readAsDataURL(file);
+    });
+  });
+
+  document.querySelectorAll('input[name="principalFonte"]').forEach(function(radio) {
+    radio.addEventListener('change', function() {
+      var campo = document.getElementById('campoInformalQual');
+      if (this.value === 'Trabalho informal') {
+        campo.classList.remove('campo-oculto');
+      } else {
+        campo.classList.add('campo-oculto');
+        campo.querySelector('input').value = '';
+      }
+    });
+  });
+
+  function enviarFoto(chave, codigoMoradia) {
+    var info = imagensBase64[chave];
+    if (!info) return Promise.resolve(null);
+
+    var partes    = chave.split('_');
+    var categoria = partes[0];
+    var num       = partes[1];
+    var inputEl   = document.querySelector('.input-foto[data-categoria="' + categoria + '"][data-num="' + num + '"]');
+    var statusEl  = inputEl.closest('.item-foto').querySelector('.status-foto');
+
+    statusEl.textContent = 'Enviando...';
+    statusEl.className   = 'status-foto';
+
+    var params = new URLSearchParams();
+    params.append('action',        'uploadFotoBase64');
+    params.append('codigoMoradia', codigoMoradia || 'SEM_CODIGO');
+    params.append('categoria',     categoria);
+    params.append('base64',        info.base64);
+    params.append('nomeArquivo',   info.nome || (categoria + '_' + num + '.jpg'));
+
+    return fetch(SCRIPT_URL, { method: 'POST', body: params })
+      .then(function(r) { return r.json(); })
+      .then(function(json) {
+        if (json.sucesso) {
+          statusEl.textContent = '✅ Enviada';
+          statusEl.className   = 'status-foto ok';
+          linksColetados[categoria].push(json.urlArquivo);
+          if (!linkPastaMoradiaGlobal && json.urlPastaMoradia) {
+            linkPastaMoradiaGlobal = json.urlPastaMoradia;
+          }
+        } else {
+          statusEl.textContent = '❌ ' + (json.mensagem || 'Erro no envio');
+          statusEl.className   = 'status-foto erro';
+        }
+        return json;
+      })
+      .catch(function() {
+        statusEl.textContent = '❌ Erro de conexão';
+        statusEl.className   = 'status-foto erro';
+        return null;
+      });
+  }
+
+  document.getElementById('formVisita').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    var mensagem = document.getElementById('mensagem');
+    var btn      = document.getElementById('btnSalvar');
+
+    mensagem.textContent = '';
+    mensagem.className   = '';
+    btn.disabled         = true;
+    btn.textContent      = 'Enviando fotos...';
+
+    var codigoMoradia = document.getElementById('codigoMoradia').value || 'SEM_CODIGO';
+    var chaves        = Object.keys(imagensBase64);
+
+    Promise.all(chaves.map(function(c) { return enviarFoto(c, codigoMoradia); }))
+      .then(function() {
+        btn.textContent = 'Salvando visita...';
+
+        var fd    = new FormData(document.getElementById('formVisita'));
+        var dados = {};
+        fd.forEach(function(v, k) { dados[k] = v; });
+
+        dados.emailTecnico      = 'plantao@exemplo.com';
+        dados.nomeTecnico       = 'Plantão Social';
+        dados.linkPastaFotos    = linkPastaMoradiaGlobal || '';
+        dados.linkFotosBanheiro = linksColetados.banheiro.join(' | ');
+        dados.linkFotosCozinha  = linksColetados.cozinha.join(' | ');
+        dados.linkFotosSala     = linksColetados.sala.join(' | ');
+        dados.linkFotosQuarto   = linksColetados.quarto.join(' | ');
+        dados.linkFotosFachada  = linksColetados.fachada.join(' | ');
+
+        var params = new URLSearchParams();
+        params.append('action',  'salvarVisita');
+        params.append('payload', JSON.stringify(dados));
+
+        return fetch(SCRIPT_URL, { method: 'POST', body: params });
+      })
+      .then(function(r) { return r.json(); })
+      .then(function(json) {
+        if (json.sucesso) {
+          mensagem.className   = 'sucesso';
+          mensagem.textContent = '✅ Visita registrada! ID: ' + json.id;
+          document.getElementById('formVisita').reset();
+          document.getElementById('campoInformalQual').classList.add('campo-oculto');
+          document.querySelectorAll('.preview-foto').forEach(function(img) { img.style.display = 'none'; });
+          document.querySelectorAll('.status-foto').forEach(function(s) { s.textContent = ''; });
+          Object.keys(imagensBase64).forEach(function(k) { delete imagensBase64[k]; });
+          Object.keys(linksColetados).forEach(function(k) { linksColetados[k] = []; });
+          linkPastaMoradiaGlobal = '';
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+          mensagem.className   = 'erro';
+          mensagem.textContent = '❌ Erro: ' + (json.mensagem || 'não foi possível salvar.');
+        }
+      })
+      .catch(function() {
+        mensagem.className   = 'erro';
+        mensagem.textContent = '❌ Erro de comunicação com o servidor.';
+      })
+      .finally(function() {
+        btn.disabled    = false;
+        btn.textContent = 'Salvar visita';
+      });
+  });
+
+});
+</script>
+</body>
+</html>
