@@ -49,8 +49,6 @@
     .opcoes { display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; margin-top: 0.3rem; }
     .opcao { display: flex; align-items: center; gap: 0.35rem; cursor: pointer; }
     .campo-oculto { display: none; }
-
-    /* FOTOS */
     .bloco-fotos { margin-bottom: 1.2rem; }
     .bloco-fotos h3 {
       font-size: 0.95rem;
@@ -82,14 +80,9 @@
       border: 1px solid #ddd;
       display: none;
     }
-    .status-foto {
-      font-size: 0.78rem;
-      color: #888;
-      min-height: 1rem;
-    }
+    .status-foto { font-size: 0.78rem; color: #888; min-height: 1rem; }
     .status-foto.ok { color: #1a7a4a; font-weight: 600; }
     .status-foto.erro { color: #c0392b; font-weight: 600; }
-
     button {
       background: #1a7a4a;
       color: #fff;
@@ -126,7 +119,6 @@
 
   <form id="formVisita">
 
-    <!-- 1. IDENTIFICAÇÃO -->
     <fieldset>
       <legend>1. Identificação</legend>
       <div class="linha">
@@ -176,7 +168,6 @@
       </div>
     </fieldset>
 
-    <!-- 2. CRITÉRIOS DE ELEGIBILIDADE -->
     <fieldset>
       <legend>2. Critérios de elegibilidade</legend>
       <div class="campo">
@@ -216,7 +207,6 @@
       </div>
     </fieldset>
 
-    <!-- 3. SITUAÇÃO SOCIOECONÔMICA -->
     <fieldset>
       <legend>3. Situação socioeconômica</legend>
       <div class="campo">
@@ -247,7 +237,7 @@
       </div>
       <div class="campo campo-oculto" id="campoInformalQual">
         <label>Trabalho informal – qual?</label>
-        <input type="text" name="trabalhoInformalQual" placeholder="Ex: diarista, ambulante, catador, motorista de app...">
+        <input type="text" name="trabalhoInformalQual" placeholder="Ex: diarista, ambulante, catador...">
       </div>
       <div class="campo">
         <label>Possui Cadastro Único (CadÚnico)?</label>
@@ -258,20 +248,18 @@
       </div>
       <div class="campo">
         <label>Recebe algum benefício?</label>
-        <textarea name="beneficios" placeholder="Ex: Bolsa Família, BPC, Mumbuca, outros. Se não recebe, escreva Não."></textarea>
+        <textarea name="beneficios" placeholder="Ex: Bolsa Família, BPC, Mumbuca. Se não recebe, escreva Não."></textarea>
       </div>
     </fieldset>
 
-    <!-- 4. COMPOSIÇÃO FAMILIAR -->
     <fieldset>
       <legend>4. Composição familiar</legend>
       <div class="campo">
         <label>Resumo da composição familiar</label>
-        <textarea name="composicaoFamiliar" placeholder="Ex: 4 pessoas – responsável (35 anos, diarista), companheiro (38 anos, motorista), filha (7 anos, estudante), avó (65 anos, aposentada)"></textarea>
+        <textarea name="composicaoFamiliar" placeholder="Ex: 4 pessoas – responsável (35 anos), companheiro (38 anos), filha (7 anos), avó (65 anos)"></textarea>
       </div>
     </fieldset>
 
-    <!-- 5. CONDIÇÕES DE MORADIA -->
     <fieldset>
       <legend>5. Condições de moradia</legend>
       <div class="campo">
@@ -339,7 +327,6 @@
       </div>
     </fieldset>
 
-    <!-- 6. ACESSO A SERVIÇOS -->
     <fieldset>
       <legend>6. Acesso a serviços públicos</legend>
       <div class="campo">
@@ -356,7 +343,6 @@
       </div>
     </fieldset>
 
-    <!-- 7. DIAGNÓSTICO TÉCNICO -->
     <fieldset>
       <legend>7. Diagnóstico técnico – Banheiro e água</legend>
       <div class="campo">
@@ -405,14 +391,12 @@
       </div>
     </fieldset>
 
-    <!-- 8. FOTOS DA MORADIA -->
     <fieldset>
       <legend>8. Fotos da moradia</legend>
       <p style="font-size:0.85rem; color:#666; margin-top:0;">
-        Tire até 4 fotos de cada ambiente. Clique no botão de cada ambiente para abrir a câmera.
+        Tire até 4 fotos de cada ambiente.
       </p>
 
-      <!-- FACHADA -->
       <div class="bloco-fotos">
         <h3>Fachada</h3>
         <div class="grade-fotos">
@@ -443,7 +427,6 @@
         </div>
       </div>
 
-      <!-- SALA -->
       <div class="bloco-fotos">
         <h3>Sala</h3>
         <div class="grade-fotos">
@@ -474,7 +457,6 @@
         </div>
       </div>
 
-      <!-- QUARTO -->
       <div class="bloco-fotos">
         <h3>Quarto</h3>
         <div class="grade-fotos">
@@ -505,7 +487,6 @@
         </div>
       </div>
 
-      <!-- COZINHA -->
       <div class="bloco-fotos">
         <h3>Cozinha</h3>
         <div class="grade-fotos">
@@ -536,7 +517,6 @@
         </div>
       </div>
 
-      <!-- BANHEIRO -->
       <div class="bloco-fotos">
         <h3>Banheiro</h3>
         <div class="grade-fotos">
@@ -569,7 +549,6 @@
 
     </fieldset>
 
-    <!-- 9. OBSERVAÇÕES -->
     <fieldset>
       <legend>9. Observações gerais</legend>
       <div class="campo">
@@ -586,46 +565,38 @@
 <script>
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyb-0DPP3M4QR_8rouDDm-ntYt85-ERp8chZWDL6I1tItvaP1N4IKefnE9SYIEjonhkYg/exec';
 
-  const linksColetados = {
-    banheiro: [],
-    cozinha:  [],
-    sala:     [],
-    quarto:   [],
-    fachada:  []
-  };
+  const linksColetados = { banheiro: [], cozinha: [], sala: [], quarto: [], fachada: [] };
   let linkPastaMoradiaGlobal = '';
-
   const imagensBase64 = {};
 
-  document.querySelectorAll('.input-foto').forEach(input => {
-    input.addEventListener('change', function () {
+  document.querySelectorAll('.input-foto').forEach(function(input) {
+    input.addEventListener('change', function() {
       const wrapper = this.closest('.item-foto');
       const preview = wrapper.querySelector('.preview-foto');
       const status  = wrapper.querySelector('.status-foto');
+      if (!this.files || !this.files[0]) return;
 
-      if (this.files && this.files[0]) {
-        const file = this.files[0];
-        const reader = new FileReader();
+      const file = this.files[0];
+      const categoria = this.getAttribute('data-categoria');
+      const num       = this.getAttribute('data-num');
+      const chave     = categoria + '_' + num;
+      const reader    = new FileReader();
 
-        reader.onload = ev => {
-          const base64 = ev.target.result;
-          const chave = this.dataset.categoria + '_' + this.dataset.num;
-          imagensBase64[chave] = { base64, nome: file.name };
+      reader.onload = function(ev) {
+        imagensBase64[chave] = { base64: ev.target.result, nome: file.name };
+        preview.src = ev.target.result;
+        preview.style.display = 'block';
+        status.textContent = 'Foto pronta para envio.';
+        status.className = 'status-foto';
+      };
 
-          preview.src = base64;
-          preview.style.display = 'block';
-          status.textContent = 'Foto pronta para envio.';
-          status.className = 'status-foto';
-        };
-
-        reader.readAsDataURL(file);
-      }
+      reader.readAsDataURL(file);
     });
   });
 
-  document.querySelectorAll('input[name="principalFonte"]').forEach(radio => {
-    radio.addEventListener('change', function () {
-      const campo = document.getElementById('campoInformalQual');
+  document.querySelectorAll('input[name="principalFonte"]').forEach(function(radio) {
+    radio.addEventListener('change', function() {
+      var campo = document.getElementById('campoInformalQual');
       if (this.value === 'Trabalho informal') {
         campo.classList.remove('campo-oculto');
       } else {
@@ -635,127 +606,118 @@
     });
   });
 
-  async function enviarFotoBase64(chave, codigoMoradia) {
-    const info = imagensBase64[chave];
-    if (!info) return null;
+  function enviarFotoBase64(chave, codigoMoradia) {
+    var info = imagensBase64[chave];
+    if (!info) return Promise.resolve(null);
 
-    const [categoria, num] = chave.split('_');
-    const inputEl = document.querySelector(
-      `.input-foto[data-categoria="${categoria}"][data-num="${num}"]`
-    );
-    const statusEl = inputEl.closest('.item-foto').querySelector('.status-foto');
+    var partes = chave.split('_');
+    var categoria = partes[0];
+    var num       = partes[1];
+
+    var inputEl  = document.querySelector('.input-foto[data-categoria="' + categoria + '"][data-num="' + num + '"]');
+    var statusEl = inputEl.closest('.item-foto').querySelector('.status-foto');
 
     statusEl.textContent = 'Enviando...';
     statusEl.className = 'status-foto';
 
-    const params = new URLSearchParams();
-    params.append('action', 'uploadFotoBase64');
+    var params = new URLSearchParams();
+    params.append('action',        'uploadFotoBase64');
     params.append('codigoMoradia', codigoMoradia || 'SEM_CODIGO');
-    params.append('categoria', categoria);
-    params.append('base64', info.base64);
-    params.append('nomeArquivo', info.nome || (categoria + '_' + num + '.jpg'));
+    params.append('categoria',     categoria);
+    params.append('base64',        info.base64);
+    params.append('nomeArquivo',   info.nome || (categoria + '_' + num + '.jpg'));
 
-    try {
-      const resp = await fetch(SCRIPT_URL, {
-        method: 'POST',
-        body: params
-      });
-      const json = await resp.json();
-
-      if (json.sucesso) {
-        statusEl.textContent = '✅ Enviada';
-        statusEl.className = 'status-foto ok';
-
-        linksColetados[categoria].push(json.urlArquivo);
-        if (!linkPastaMoradiaGlobal && json.urlPastaMoradia) {
-          linkPastaMoradiaGlobal = json.urlPastaMoradia;
+    return fetch(SCRIPT_URL, { method: 'POST', body: params })
+      .then(function(resp) { return resp.json(); })
+      .then(function(json) {
+        if (json.sucesso) {
+          statusEl.textContent = '✅ Enviada';
+          statusEl.className = 'status-foto ok';
+          linksColetados[categoria].push(json.urlArquivo);
+          if (!linkPastaMoradiaGlobal && json.urlPastaMoradia) {
+            linkPastaMoradiaGlobal = json.urlPastaMoradia;
+          }
+        } else {
+          statusEl.textContent = '❌ Erro: ' + (json.mensagem || 'falha');
+          statusEl.className = 'status-foto erro';
         }
-
         return json;
-      } else {
-        statusEl.textContent = '❌ Erro: ' + (json.mensagem || 'falha no envio');
+      })
+      .catch(function(err) {
+        statusEl.textContent = '❌ Erro de conexão';
         statusEl.className = 'status-foto erro';
         return null;
-      }
-    } catch (err) {
-      statusEl.textContent = '❌ Erro de conexão';
-      statusEl.className = 'status-foto erro';
-      return null;
-    }
+      });
   }
 
-  const form     = document.getElementById('formVisita');
-  const mensagem = document.getElementById('mensagem');
-  const btn      = document.getElementById('btnSalvar');
-
-  form.addEventListener('submit', async (e) => {
+  document.getElementById('formVisita').addEventListener('submit', function(e) {
     e.preventDefault();
+
+    var mensagem = document.getElementById('mensagem');
+    var btn      = document.getElementById('btnSalvar');
 
     mensagem.textContent = '';
     mensagem.className = '';
     btn.disabled = true;
     btn.textContent = 'Enviando fotos...';
 
-    const codigoMoradia = document.getElementById('codigoMoradia').value || 'SEM_CODIGO';
+    var codigoMoradia = document.getElementById('codigoMoradia').value || 'SEM_CODIGO';
+    var chaves = Object.keys(imagensBase64);
 
-    for (const chave of Object.keys(imagensBase64)) {
-      await enviarFotoBase64(chave, codigoMoradia);
-    }
+    var promessas = chaves.map(function(chave) {
+      return enviarFotoBase64(chave, codigoMoradia);
+    });
 
-    btn.textContent = 'Salvando visita...';
+    Promise.all(promessas).then(function() {
+      btn.textContent = 'Salvando visita...';
 
-    const fd = new FormData(form);
-    const dados = Object.fromEntries(fd.entries());
+      var fd = new FormData(document.getElementById('formVisita'));
+      var dados = {};
+      fd.forEach(function(valor, chave) { dados[chave] = valor; });
 
-    dados.emailTecnico = 'plantao@exemplo.com';
-    dados.nomeTecnico  = 'Plantão Social';
+      dados.emailTecnico      = 'plantao@exemplo.com';
+      dados.nomeTecnico       = 'Plantão Social';
+      dados.linkPastaFotos    = linkPastaMoradiaGlobal || '';
+      dados.linkFotosBanheiro = linksColetados.banheiro.join(' | ');
+      dados.linkFotosCozinha  = linksColetados.cozinha.join(' | ');
+      dados.linkFotosSala     = linksColetados.sala.join(' | ');
+      dados.linkFotosQuarto   = linksColetados.quarto.join(' | ');
+      dados.linkFotosFachada  = linksColetados.fachada.join(' | ');
 
-    dados.linkPastaFotos    = linkPastaMoradiaGlobal || '';
-    dados.linkFotosBanheiro = linksColetados.banheiro.join(' | ');
-    dados.linkFotosCozinha  = linksColetados.cozinha.join(' | ');
-    dados.linkFotosSala     = linksColetados.sala.join(' | ');
-    dados.linkFotosQuarto   = linksColetados.quarto.join(' | ');
-    dados.linkFotosFachada  = linksColetados.fachada.join(' | ');
+      var params = new URLSearchParams();
+      params.append('action',  'salvarVisita');
+      params.append('payload', JSON.stringify(dados));
 
-    const params = new URLSearchParams();
-    params.append('action', 'salvarVisita');
-    params.append('payload', JSON.stringify(dados));
-
-    try {
-      const resp = await fetch(SCRIPT_URL, {
-        method: 'POST',
-        body: params
-      });
-      const json = await resp.json();
-
+      return fetch(SCRIPT_URL, { method: 'POST', body: params });
+    })
+    .then(function(resp) { return resp.json(); })
+    .then(function(json) {
       if (json.sucesso) {
-        mensagem.className = 'sucesso';
-        mensagem.textContent = '✅ Visita registrada com sucesso! ID: ' + json.id;
+        mensagem.className   = 'sucesso';
+        mensagem.textContent = '✅ Visita registrada! ID: ' + json.id;
 
-        form.reset();
+        document.getElementById('formVisita').reset();
         document.getElementById('campoInformalQual').classList.add('campo-oculto');
-        document.querySelectorAll('.preview-foto').forEach(img => img.style.display = 'none');
-        document.querySelectorAll('.status-foto').forEach(s => s.textContent = '');
-
-        for (const k in imagensBase64) delete imagensBase64[k];
-        for (const k in linksColetados) linksColetados[k] = [];
+        document.querySelectorAll('.preview-foto').forEach(function(img) { img.style.display = 'none'; });
+        document.querySelectorAll('.status-foto').forEach(function(s) { s.textContent = ''; });
+        Object.keys(imagensBase64).forEach(function(k) { delete imagensBase64[k]; });
+        Object.keys(linksColetados).forEach(function(k) { linksColetados[k] = []; });
         linkPastaMoradiaGlobal = '';
-
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } else {
-        mensagem.className = 'erro';
+        mensagem.className   = 'erro';
         mensagem.textContent = '❌ Erro: ' + (json.mensagem || 'não foi possível salvar.');
       }
-    } catch (erro) {
-      mensagem.className = 'erro';
+    })
+    .catch(function(err) {
+      mensagem.className   = 'erro';
       mensagem.textContent = '❌ Erro de comunicação com o servidor.';
-      console.error(erro);
-    } finally {
-      btn.disabled = false;
+    })
+    .finally(function() {
+      btn.disabled    = false;
       btn.textContent = 'Salvar visita';
-    }
+    });
   });
 </script>
-
 </body>
 </html>
