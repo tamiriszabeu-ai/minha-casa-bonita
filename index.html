@@ -15,7 +15,7 @@
     .card { background: #fff; border-radius: 10px; padding: 1rem 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 1rem; }
     h2 { font-size: 1.2rem; margin-top: 0; color: #1a5276; }
     label { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.25rem; color: #2c3e50; display: block; }
-    input[type="text"], input[type="date"], input[type="tel"], textarea, select {
+    input[type="text"], input[type="date"], input[type="tel"], input[type="number"], input[type="email"], textarea, select {
       padding: 0.5rem 0.6rem; border-radius: 6px; border: 1px solid #dfe6e9; font-size: 0.9rem; width: 100%; box-sizing: border-box;
     }
     textarea { min-height: 80px; resize: vertical; }
@@ -31,7 +31,6 @@
     .msg { margin-top: 0.6rem; font-size: 0.9rem; padding: 0.5rem 0.8rem; border-radius: 6px; display: none; }
     .msg.ok { display: block; background: #e8f8f0; color: #145a35; border: 1px solid #2ecc71; }
     .msg.erro { display: block; background: #fdedec; color: #c0392b; border: 1px solid #e74c3c; }
-
     .painel-numeros { display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem; }
     .box-num { flex: 1; min-width: 160px; background: #fdfefe; border-radius: 10px; padding: 0.7rem 1rem; border: 1px solid #d6eaf8; }
     .box-num .titulo { font-size: 0.85rem; color: #566573; margin-bottom: 0.3rem; }
@@ -40,13 +39,13 @@
     th, td { padding: 0.35rem 0.4rem; border-bottom: 1px solid #ecf0f1; }
     th { text-align: left; background: #f4f6f7; color: #34495e; position: sticky; top: 0; z-index: 1; }
     .tabela-container { max-height: 300px; overflow: auto; border-radius: 8px; border: 1px solid #e5e7e9; margin-top: 0.5rem; }
-    .btn-mini { font-size: 0.75rem; padding: 0.25rem 0.6rem; border-radius: 999px; }
+    .btn-mini { font-size: 0.75rem; padding: 0.25rem 0.6rem; border-radius: 999px; margin-top: 0; }
     .tag { display: inline-block; padding: 0.2rem 0.5rem; border-radius: 999px; font-size: 0.7rem; }
     .tag.sm { background: #d5f5e3; color: #145a35; }
     .tag.nao { background: #fdebd0; color: #af601a; }
     .tag.sim { background: #d4efdf; color: #1d8348; }
     .tag.info { background: #d6eaf8; color: #1b4f72; }
-
+    .btn-localizacao { background: #117a65; color: #fff; border: none; padding: 0.5rem 1rem; border-radius: 999px; font-size: 0.85rem; cursor: pointer; margin-top: 0.3rem; }
     @media (max-width: 700px) {
       .linha { flex-direction: column; }
       .container { padding: 0.5rem; }
@@ -61,6 +60,7 @@
   <div class="tabs">
     <button class="tab-btn atual" data-tab="pre">Pré-cadastro</button>
     <button class="tab-btn" data-tab="visita">Visita domiciliar</button>
+    <button class="tab-btn" data-tab="fachada">Fachada</button>
     <button class="tab-btn" data-tab="dash">Dashboard</button>
   </div>
 
@@ -75,10 +75,10 @@
             <label>Código da Moradia</label>
             <input type="text" name="codigoMoradia" placeholder="Ex: MC-001">
           </div>
-         <div>
-  <label>Data da visita</label>
-  <input type="date" name="dataVisita">
-</div>
+          <div>
+            <label>Data da visita</label>
+            <input type="date" name="dataVisita">
+          </div>
         </div>
 
         <label>Nome completo *</label>
@@ -149,6 +149,167 @@
       <a href="visita.html" class="btn-link" target="_blank">Abrir formulário de visita</a>
     </div>
 
+    <!-- FACHADA -->
+    <div id="tab-fachada" class="card" style="display:none;">
+      <h2>Avaliação de Fachada</h2>
+      <form id="formFachada">
+
+        <h3 style="color:#1a5276; font-size:1rem; margin-top:0.5rem;">1. Identificação da família</h3>
+        <div class="linha">
+          <div>
+            <label>Código da moradia</label>
+            <input type="text" name="codigoMoradia" placeholder="Ex: MC-001">
+          </div>
+          <div>
+            <label>Nome completo do responsável</label>
+            <input type="text" name="nomeCompleto">
+          </div>
+        </div>
+        <div class="linha">
+          <div><label>CPF</label><input type="text" name="cpf"></div>
+          <div><label>Telefone</label><input type="tel" name="telefone"></div>
+          <div><label>WhatsApp</label><input type="tel" name="whatsapp"></div>
+        </div>
+        <label>Endereço</label>
+        <input type="text" name="endereco">
+
+        <h3 style="color:#1a5276; font-size:1rem; margin-top:1rem;">2. Técnico responsável</h3>
+        <div class="linha">
+          <div><label>Nome do técnico</label><input type="text" name="nomeTecnico"></div>
+          <div><label>E-mail do técnico</label><input type="email" name="emailTecnico"></div>
+        </div>
+
+        <h3 style="color:#1a5276; font-size:1rem; margin-top:1rem;">3. Localização (GPS)</h3>
+        <div class="linha">
+          <div><label>Latitude</label><input type="text" name="latitude" id="fach-lat" readonly></div>
+          <div><label>Longitude</label><input type="text" name="longitude" id="fach-lng" readonly></div>
+        </div>
+        <button type="button" class="btn-localizacao" id="btnLocFachada">Obter localização atual</button>
+
+        <h3 style="color:#1a5276; font-size:1rem; margin-top:1rem;">4. Informações da fachada</h3>
+        <div class="linha">
+          <div>
+            <label>Tipo de fachada</label>
+            <select name="tipoFachada">
+              <option value="">Selecione</option>
+              <option value="Residencial">Residencial</option>
+              <option value="Comercial">Comercial</option>
+              <option value="Mista">Mista</option>
+            </select>
+          </div>
+          <div>
+            <label>Quantidade de andares</label>
+            <input type="number" name="qtdAndares" min="1">
+          </div>
+          <div>
+            <label>Material predominante</label>
+            <input type="text" name="materialPredominante" placeholder="Ex: Reboco pintado, cerâmica...">
+          </div>
+        </div>
+        <div class="linha">
+          <div>
+            <label>Possui emboço?</label>
+            <select name="possuiEmboco">
+              <option value="">Selecione</option>
+              <option value="Sim">Sim</option>
+              <option value="Não">Não</option>
+              <option value="Parcial">Parcial</option>
+            </select>
+          </div>
+          <div>
+            <label>Condição do emboço</label>
+            <select name="condicaoEmboco">
+              <option value="">Selecione</option>
+              <option value="Bom">Bom</option>
+              <option value="Regular">Regular</option>
+              <option value="Ruim">Ruim</option>
+              <option value="Soltando/destacando">Soltando/destacando</option>
+            </select>
+          </div>
+          <div>
+            <label>Estado geral da pintura</label>
+            <select name="estadoPintura">
+              <option value="">Selecione</option>
+              <option value="Boa">Boa</option>
+              <option value="Desbotada">Desbotada</option>
+              <option value="Descascando">Descascando</option>
+              <option value="Com mofo/bolor">Com mofo/bolor</option>
+            </select>
+          </div>
+        </div>
+        <div class="linha">
+          <div>
+            <label>Necessita reforma?</label>
+            <select name="necessitaReforma">
+              <option value="">Selecione</option>
+              <option value="Sim">Sim</option>
+              <option value="Não">Não</option>
+            </select>
+          </div>
+          <div style="flex:2;">
+            <label>Tipo de reforma necessária</label>
+            <input type="text" name="tipoReforma" placeholder="Descreva a reforma necessária">
+          </div>
+        </div>
+
+        <h3 style="color:#1a5276; font-size:1rem; margin-top:1rem;">5. Problemas identificados</h3>
+        <div class="linha">
+          <div>
+            <label>Infiltrações/umidade?</label>
+            <select name="temInfiltracao">
+              <option value="">Selecione</option>
+              <option value="Sim">Sim</option>
+              <option value="Não">Não</option>
+            </select>
+          </div>
+          <div style="flex:2;">
+            <label>Onde? (infiltração)</label>
+            <input type="text" name="ondeInfiltracao">
+          </div>
+        </div>
+        <div class="linha">
+          <div>
+            <label>Rachaduras/trincas?</label>
+            <select name="temRachaduras">
+              <option value="">Selecione</option>
+              <option value="Sim">Sim</option>
+              <option value="Não">Não</option>
+            </select>
+          </div>
+          <div style="flex:2;">
+            <label>Descrição das rachaduras</label>
+            <input type="text" name="descRachaduras">
+          </div>
+        </div>
+        <div class="linha">
+          <div>
+            <label>Risco de queda de elementos?</label>
+            <select name="riscoQueda">
+              <option value="">Selecione</option>
+              <option value="Sim">Sim</option>
+              <option value="Não">Não</option>
+            </select>
+          </div>
+          <div>
+            <label>Grau do risco</label>
+            <select name="grauRisco">
+              <option value="">Selecione</option>
+              <option value="Baixo">Baixo</option>
+              <option value="Moderado">Moderado</option>
+              <option value="Alto / Iminente">Alto / Iminente</option>
+            </select>
+          </div>
+        </div>
+
+        <h3 style="color:#1a5276; font-size:1rem; margin-top:1rem;">6. Observações técnicas</h3>
+        <label>Observações</label>
+        <textarea name="observacoes"></textarea>
+
+        <button type="submit" id="btnFachada">Salvar fachada</button>
+        <div id="msgFachada" class="msg"></div>
+      </form>
+    </div>
+
     <!-- DASHBOARD -->
     <div id="tab-dash" class="card" style="display:none;">
       <h2>Dashboard em tempo real</h2>
@@ -161,6 +322,10 @@
           <div class="titulo">Visitas realizadas</div>
           <div class="valor" id="numVis">-</div>
         </div>
+        <div class="box-num">
+          <div class="titulo">Fachadas avaliadas</div>
+          <div class="valor" id="numFach">-</div>
+        </div>
       </div>
 
       <h3>Pré-cadastros</h3>
@@ -168,13 +333,8 @@
         <table>
           <thead>
             <tr>
-              <th>ID</th>
-              <th>Data</th>
-              <th>Família</th>
-              <th>Cód. Moradia</th>
-              <th>Renda ≤ 3 SM</th>
-              <th>3 anos cidade</th>
-              <th>PDF</th>
+              <th>ID</th><th>Data</th><th>Família</th><th>Cód. Moradia</th>
+              <th>Renda ≤ 3 SM</th><th>3 anos cidade</th><th>PDF</th>
             </tr>
           </thead>
           <tbody id="tPre"></tbody>
@@ -186,17 +346,24 @@
         <table>
           <thead>
             <tr>
-              <th>ID</th>
-              <th>Data</th>
-              <th>Família</th>
-              <th>Cód. Moradia</th>
-              <th>Renda ≤ 3 SM</th>
-              <th>Faixa de renda</th>
-              <th>Tipo moradia</th>
-              <th>PDF</th>
+              <th>ID</th><th>Data</th><th>Família</th><th>Cód. Moradia</th>
+              <th>Renda ≤ 3 SM</th><th>Faixa de renda</th><th>Tipo moradia</th><th>PDF</th>
             </tr>
           </thead>
           <tbody id="tVis"></tbody>
+        </table>
+      </div>
+
+      <h3 style="margin-top:1.2rem;">Fachadas avaliadas</h3>
+      <div class="tabela-container">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th><th>Data</th><th>Família</th><th>Cód. Moradia</th>
+              <th>Tipo fachada</th><th>Necessita reforma?</th><th>PDF</th>
+            </tr>
+          </thead>
+          <tbody id="tFach"></tbody>
         </table>
       </div>
 
@@ -210,34 +377,31 @@ document.addEventListener('DOMContentLoaded', function() {
 
   var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzx7rrwybDqsdZ8lFTVpVsy0gm3uvFSzf_qXlzL4Y0KDuEjM6kRukYnnvxnZZDR_aef/exec';
 
-  // Tabs
+  // ── TABS ──
   document.querySelectorAll('.tab-btn').forEach(function(btn) {
     btn.addEventListener('click', function() {
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('atual'));
       this.classList.add('atual');
-
       var tab = this.getAttribute('data-tab');
-      document.getElementById('tab-pre').style.display   = (tab === 'pre'   ? 'block' : 'none');
-      document.getElementById('tab-visita').style.display= (tab === 'visita'? 'block' : 'none');
-      document.getElementById('tab-dash').style.display  = (tab === 'dash'  ? 'block' : 'none');
-
+      document.getElementById('tab-pre').style.display     = (tab === 'pre'     ? 'block' : 'none');
+      document.getElementById('tab-visita').style.display  = (tab === 'visita'  ? 'block' : 'none');
+      document.getElementById('tab-fachada').style.display = (tab === 'fachada' ? 'block' : 'none');
+      document.getElementById('tab-dash').style.display    = (tab === 'dash'    ? 'block' : 'none');
       if (tab === 'dash') carregarDashboard();
     });
   });
 
-  // Pré-cadastro
+  // ── PRÉ-CADASTRO ──
   document.getElementById('formPre').addEventListener('submit', function(e) {
     e.preventDefault();
-
     var msg = document.getElementById('msgPre');
     var btn = document.getElementById('btnPre');
-    msg.textContent = ''; msg.className = 'msg'; 
+    msg.textContent = ''; msg.className = 'msg';
     btn.disabled = true; btn.textContent = 'Enviando...';
 
-    var fd    = new FormData(document.getElementById('formPre'));
+    var fd = new FormData(document.getElementById('formPre'));
     var dados = {};
     fd.forEach(function(v, k) { dados[k] = v; });
-
     dados.emailTecnico = 'plantao@exemplo.com';
     dados.nomeTecnico  = 'Plantão Social';
 
@@ -267,7 +431,63 @@ document.addEventListener('DOMContentLoaded', function() {
       });
   });
 
-  // Dashboard
+  // ── FACHADA – GPS ──
+  document.getElementById('btnLocFachada').addEventListener('click', function() {
+    if (!navigator.geolocation) {
+      alert('Geolocalização não suportada neste navegador.');
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      function(pos) {
+        document.getElementById('fach-lat').value = pos.coords.latitude.toFixed(6);
+        document.getElementById('fach-lng').value = pos.coords.longitude.toFixed(6);
+      },
+      function() { alert('Não foi possível obter a localização.'); },
+      { enableHighAccuracy: true, timeout: 15000 }
+    );
+  });
+
+  // ── FACHADA – SALVAR ──
+  document.getElementById('formFachada').addEventListener('submit', function(e) {
+    e.preventDefault();
+    var msg = document.getElementById('msgFachada');
+    var btn = document.getElementById('btnFachada');
+    msg.textContent = ''; msg.className = 'msg';
+    btn.disabled = true; btn.textContent = 'Enviando...';
+
+    var fd = new FormData(document.getElementById('formFachada'));
+    var dados = {};
+    fd.forEach(function(v, k) { dados[k] = v; });
+
+    var params = new URLSearchParams();
+    params.append('action',  'salvarFachada');
+    params.append('payload', JSON.stringify(dados));
+
+    fetch(SCRIPT_URL, { method: 'POST', body: params })
+      .then(function(r) { return r.json(); })
+      .then(function(json) {
+        if (json.sucesso) {
+          msg.className   = 'msg ok';
+          msg.textContent = 'Fachada salva! ID: ' + json.id;
+          document.getElementById('formFachada').reset();
+          document.getElementById('fach-lat').value = '';
+          document.getElementById('fach-lng').value = '';
+        } else {
+          msg.className   = 'msg erro';
+          msg.textContent = 'Erro: ' + (json.mensagem || 'não foi possível salvar.');
+        }
+      })
+      .catch(function() {
+        msg.className   = 'msg erro';
+        msg.textContent = 'Erro de comunicação com o servidor.';
+      })
+      .finally(function() {
+        btn.disabled = false;
+        btn.textContent = 'Salvar fachada';
+      });
+  });
+
+  // ── DASHBOARD ──
   function carregarDashboard() {
     var msg = document.getElementById('msgDash');
     msg.textContent = ''; msg.className = 'msg';
@@ -284,10 +504,11 @@ document.addEventListener('DOMContentLoaded', function() {
           return;
         }
 
-        document.getElementById('numPre').textContent = json.preCadastros.total;
-        document.getElementById('numVis').textContent = json.visitas.total;
+        document.getElementById('numPre').textContent  = json.preCadastros.total;
+        document.getElementById('numVis').textContent  = json.visitas.total;
+        document.getElementById('numFach').textContent = json.fachadas ? json.fachadas.total : 0;
 
-        // Pre-cadastros
+        // Pré-cadastros
         var tPre = document.getElementById('tPre');
         tPre.innerHTML = '';
         json.preCadastros.registros.forEach(function(r) {
@@ -320,21 +541,37 @@ document.addEventListener('DOMContentLoaded', function() {
           tVis.appendChild(tr);
         });
 
+        // Fachadas
+        var tFach = document.getElementById('tFach');
+        tFach.innerHTML = '';
+        if (json.fachadas && json.fachadas.registros) {
+          json.fachadas.registros.forEach(function(r) {
+            var tr = document.createElement('tr');
+            tr.innerHTML =
+              '<td>' + r.id + '</td>' +
+              '<td>' + (r.dataHora || '') + '</td>' +
+              '<td>' + (r.nomeCompleto || '') + '</td>' +
+              '<td>' + (r.codigoMoradia || '') + '</td>' +
+              '<td>' + (r.tipoFachada || '') + '</td>' +
+              '<td>' + tagSimNao(r.necessitaReforma) + '</td>' +
+              '<td><button class="btn-mini" data-pdf-fach="' + r.id + '">PDF</button></td>';
+            tFach.appendChild(tr);
+          });
+        }
+
         msg.className   = 'msg ok';
         msg.textContent = 'Dashboard atualizado.';
 
-        // Eventos de PDF
+        // Eventos PDF
         document.querySelectorAll('[data-pdf-pre]').forEach(function(btn) {
-          btn.addEventListener('click', function() {
-            gerarPdfPre(this.getAttribute('data-pdf-pre'));
-          });
+          btn.addEventListener('click', function() { gerarPdf('gerarPdfPreCadastro', this.getAttribute('data-pdf-pre')); });
         });
         document.querySelectorAll('[data-pdf-vis]').forEach(function(btn) {
-          btn.addEventListener('click', function() {
-            gerarPdfVis(this.getAttribute('data-pdf-vis'));
-          });
+          btn.addEventListener('click', function() { gerarPdf('gerarPdfVisita', this.getAttribute('data-pdf-vis')); });
         });
-
+        document.querySelectorAll('[data-pdf-fach]').forEach(function(btn) {
+          btn.addEventListener('click', function() { gerarPdf('gerarPdfFachada', this.getAttribute('data-pdf-fach')); });
+        });
       })
       .catch(function() {
         msg.className   = 'msg erro';
@@ -349,11 +586,10 @@ document.addEventListener('DOMContentLoaded', function() {
     return '<span class="tag">' + v + '</span>';
   }
 
-  function gerarPdfPre(id) {
+  function gerarPdf(action, id) {
     var params = new URLSearchParams();
-    params.append('action', 'gerarPdfPreCadastro');
+    params.append('action', action);
     params.append('id', id);
-
     fetch(SCRIPT_URL, { method: 'POST', body: params })
       .then(function(r) { return r.json(); })
       .then(function(json) {
@@ -363,28 +599,7 @@ document.addEventListener('DOMContentLoaded', function() {
           alert('Erro ao gerar PDF: ' + (json.mensagem || ''));
         }
       })
-      .catch(function() {
-        alert('Erro de comunicação ao gerar PDF.');
-      });
-  }
-
-  function gerarPdfVis(id) {
-    var params = new URLSearchParams();
-    params.append('action', 'gerarPdfVisita');
-    params.append('id', id);
-
-    fetch(SCRIPT_URL, { method: 'POST', body: params })
-      .then(function(r) { return r.json(); })
-      .then(function(json) {
-        if (json.sucesso && json.urlPdf) {
-          window.open(json.urlPdf, '_blank');
-        } else {
-          alert('Erro ao gerar PDF: ' + (json.mensagem || ''));
-        }
-      })
-      .catch(function() {
-        alert('Erro de comunicação ao gerar PDF.');
-      });
+      .catch(function() { alert('Erro de comunicação ao gerar PDF.'); });
   }
 
 });
