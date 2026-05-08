@@ -46,6 +46,11 @@
     .tag.sim { background: #d4efdf; color: #1d8348; }
     .tag.info { background: #d6eaf8; color: #1b4f72; }
     .btn-localizacao { background: #117a65; color: #fff; border: none; padding: 0.5rem 1rem; border-radius: 999px; font-size: 0.85rem; cursor: pointer; margin-top: 0.3rem; }
+    .bloco-fotos { background: #f8f9fa; border: 1px dashed #aab7c4; border-radius: 8px; padding: 1rem; margin-top: 0.5rem; }
+    .bloco-fotos label { color: #1a5276; font-size: 0.95rem; }
+    .fotos-preview { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+    .fotos-preview img { width: 80px; height: 60px; object-fit: cover; border-radius: 4px; border: 1px solid #ccc; }
+    .progresso-fotos { font-size: 0.82rem; color: #566573; margin-top: 4px; }
     @media (max-width: 700px) {
       .linha { flex-direction: column; }
       .container { padding: 0.5rem; }
@@ -158,7 +163,7 @@
         <div class="linha">
           <div>
             <label>Código da moradia</label>
-            <input type="text" name="codigoMoradia" placeholder="Ex: MC-001">
+            <input type="text" name="codigoMoradia" id="fach-codigo" placeholder="Ex: MC-001">
           </div>
           <div>
             <label>Nome completo do responsável</label>
@@ -305,6 +310,20 @@
         <label>Observações</label>
         <textarea name="observacoes"></textarea>
 
+        <!-- 7. FOTOS DA FACHADA -->
+        <h3 style="color:#1a5276; font-size:1rem; margin-top:1rem;">7. Fotos da fachada</h3>
+        <div class="bloco-fotos">
+          <label>Selecione as fotos da fachada (mínimo 5 fotos)</label>
+          <small class="progresso-fotos">Tire fotos da parte frontal, laterais e detalhes de danos.</small>
+          <input type="file" id="fachadaFiles" accept="image/*" capture="environment" multiple style="margin-top:0.5rem;">
+          <div id="fachadaPreview" class="fotos-preview"></div>
+          <div id="statusUploadFachada" class="msg" style="margin-top:0.5rem;"></div>
+        </div>
+
+        <!-- campos hidden que guardam os links para enviar na planilha -->
+        <input type="hidden" name="linkPastaFotos"   id="fach-linkPasta">
+        <input type="hidden" name="linkFotosFachada" id="fach-linksFotos">
+
         <button type="submit" id="btnFachada">Salvar fachada</button>
         <div id="msgFachada" class="msg"></div>
       </form>
@@ -447,6 +466,84 @@ document.addEventListener('DOMContentLoaded', function() {
     );
   });
 
+  // ── FACHADA – UPLOAD DE FOTOS ──
+  var fachadaLinksAcumulados = [];
+  var fachadaPastaLink = '';
+
+  document.getElementById('fachadaFiles').addEventListener('change', async function() {
+    var files = Array.from(this.files || []);
+    if (!files.length) return;
+
+    var codigoMoradia = document.getElementById('fach-codigo').value.trim();
+    if (!codigoMoradia) {
+      var st = document.getElementById('statusUploadFachada');
+      st.className = 'msg erro';
+      st.textContent = 'Informe o Código da Moradia antes de selecionar as fotos.';
+      this.value = '';
+      return;
+    }
+
+    var statusEl  = document.getElementById('statusUploadFachada');
+    var previewEl = document.getElementById('fachadaPreview');
+    statusEl.className   = 'msg ok';
+    statusEl.textContent = 'Iniciando envio das fotos...';
+
+    try {
+      for (var i = 0; i < files.length; i++) {
+        var file = files[i];
+
+        // preview local
+        var previewImg = document.createElement('img');
+        previewImg.src = URL.createObjectURL(file);
+        previewEl.appendChild(previewImg);
+
+        // converte para base64
+        var base64 = await new Promise(function(resolve, reject) {
+          var reader = new FileReader();
+          reader.onload  = function() { resolve(reader.result); };
+          reader.onerror = function(err) { reject(err); };
+          reader.readAsDataURL(file);
+        });
+
+        var params = new URLSearchParams();
+        params.append('action',        'uploadFotoBase64');
+        params.append('codigoMoradia', codigoMoradia);
+        params.append('categoria',     'FACHADA');
+        params.append('nomeArquivo',   file.name);
+        params.append('base64',        base64);
+
+        statusEl.textContent = 'Enviando foto ' + (i + 1) + ' de ' + files.length + '...';
+
+        var resp = await fetch(SCRIPT_URL, { method: 'POST', body: params });
+        var json = await resp.json();
+
+        if (!json.sucesso) {
+          throw new Error(json.mensagem || 'Falha ao enviar foto ' + (i + 1));
+        }
+
+        if (!fachadaPastaLink && json.urlPastaMoradia) {
+          fachadaPastaLink = json.urlPastaMoradia;
+          document.getElementById('fach-linkPasta').value = fachadaPastaLink;
+        }
+        if (json.urlArquivo) {
+          fachadaLinksAcumulados.push(json.urlArquivo);
+          document.getElementById('fach-linksFotos').value = fachadaLinksAcumulados.join('|');
+        }
+      }
+
+      var total = fachadaLinksAcumulados.length;
+      var aviso = total < 5 ? ' ⚠️ Recomendado mínimo de 5 fotos (você tem ' + total + ').' : '';
+      statusEl.className   = 'msg ok';
+      statusEl.textContent = total + ' foto(s) enviada(s) com sucesso!' + aviso;
+      this.value = '';
+
+    } catch(erro) {
+      console.error(erro);
+      statusEl.className   = 'msg erro';
+      statusEl.textContent = 'Erro ao enviar fotos: ' + erro.message;
+    }
+  });
+
   // ── FACHADA – SALVAR ──
   document.getElementById('formFachada').addEventListener('submit', function(e) {
     e.preventDefault();
@@ -468,10 +565,17 @@ document.addEventListener('DOMContentLoaded', function() {
       .then(function(json) {
         if (json.sucesso) {
           msg.className   = 'msg ok';
-          msg.textContent = 'Fachada salva! ID: ' + json.id;
+          msg.textContent = 'Fachada salva com sucesso! ID: ' + json.id;
           document.getElementById('formFachada').reset();
           document.getElementById('fach-lat').value = '';
           document.getElementById('fach-lng').value = '';
+          document.getElementById('fach-linkPasta').value  = '';
+          document.getElementById('fach-linksFotos').value = '';
+          document.getElementById('fachadaPreview').innerHTML = '';
+          document.getElementById('statusUploadFachada').className = 'msg';
+          document.getElementById('statusUploadFachada').textContent = '';
+          fachadaLinksAcumulados = [];
+          fachadaPastaLink = '';
         } else {
           msg.className   = 'msg erro';
           msg.textContent = 'Erro: ' + (json.mensagem || 'não foi possível salvar.');
