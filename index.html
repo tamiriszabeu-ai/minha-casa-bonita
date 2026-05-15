@@ -110,8 +110,6 @@
   .dash-lista-item-botoes button:hover { background: #e0e0e0; }
   .dash-lista-item-botoes .btn-pdf { background: #e74c3c; color: #fff; border-color: #c0392b; }
   .dash-lista-item-botoes .btn-pdf:hover { background: #c0392b; }
-  .dash-lista-item-botoes .btn-editar { background: #3498db; color: #fff; border-color: #2980b9; }
-  .dash-lista-item-botoes .btn-editar:hover { background: #2980b9; }
 
 
   @media(max-width:520px) {
@@ -233,15 +231,14 @@
       <div class="opcoes">
         <label><input type="radio" name="pre-poligonal" value="Sim"> Sim</label>
         <label><input type="radio" name="pre-poligonal" value="Não"> Não</label>
-        <label><input type="radio" name="pre-poligonal" value="Não sabe"> Não sabe</label>
       </div>
     </div>
   </div>
 
   <div class="card">
-    <h2>Seção 2 — Perfil da família</h2>
+    <h2>Seção 2 — Composição familiar e vulnerabilidades</h2>
     <div class="campo">
-      <label>Número de pessoas na casa</label>
+      <label>Quantas pessoas moram na casa? *</label>
       <div class="opcoes">
         <label><input type="radio" name="pre-qtdPessoas" value="1 a 2"> 1 a 2</label>
         <label><input type="radio" name="pre-qtdPessoas" value="3 a 4"> 3 a 4</label>
@@ -249,47 +246,42 @@
       </div>
     </div>
     <div class="campo">
-      <label>Há crianças, idosos ou pessoas com deficiência na casa?</label>
+      <label>Há crianças (0-11 anos), idosos (60+ anos) ou pessoas com deficiência na casa?</label>
       <div class="opcoes">
-        <label><input type="radio" name="pre-temCriIdoPcd" value="Sim" onclick="mostrar('pre-tipoCri-div')"> Sim</label>
-        <label><input type="radio" name="pre-temCriIdoPcd" value="Não" onclick="esconder('pre-tipoCri-div')"> Não</label>
+        <label><input type="radio" name="pre-temCriIdoPcd" value="Sim"> Sim</label>
+        <label><input type="radio" name="pre-temCriIdoPcd" value="Não"> Não</label>
       </div>
     </div>
-    <div id="pre-tipoCri-div" class="campo" style="display:none">
-      <label>Quais?</label>
+    <div class="campo">
+      <label>Se sim, quais?</label>
       <div class="opcoes">
-        <label><input type="checkbox" name="pre-tipoCri" value="Crianças (0-12 anos)"> Crianças (0-12 anos)</label>
-        <label><input type="checkbox" name="pre-tipoCri" value="Adolescentes (13-17 anos)"> Adolescentes (13-17 anos)</label>
-        <label><input type="checkbox" name="pre-tipoCri" value="Idosos (60+ anos)"> Idosos (60+ anos)</label>
+        <label><input type="checkbox" name="pre-tipoCri" value="Crianças (0-11)"> Crianças (0-11)</label>
+        <label><input type="checkbox" name="pre-tipoCri" value="Idosos (60+)"> Idosos (60+)</label>
         <label><input type="checkbox" name="pre-tipoCri" value="Pessoas com deficiência"> Pessoas com deficiência</label>
       </div>
     </div>
     <div class="campo">
-      <label>Há pessoas com doenças crônicas ou graves na casa?</label>
+      <label>Há alguém na casa com doença crônica (diabetes, hipertensão, etc.)?</label>
       <div class="opcoes">
-        <label><input type="radio" name="pre-temDoencaCron" value="Sim" onclick="mostrar('pre-tipoDoenca-div')"> Sim</label>
-        <label><input type="radio" name="pre-temDoencaCron" value="Não" onclick="esconder('pre-tipoDoenca-div')"> Não</label>
+        <label><input type="radio" name="pre-temDoencaCron" value="Sim"> Sim</label>
+        <label><input type="radio" name="pre-temDoencaCron" value="Não"> Não</label>
       </div>
     </div>
-    <div id="pre-tipoDoenca-div" class="campo" style="display:none">
-      <label>Quais?</label>
+    <div class="campo">
+      <label>Se sim, quais?</label>
       <div class="opcoes">
         <label><input type="checkbox" name="pre-tipoDoenca" value="Diabetes"> Diabetes</label>
         <label><input type="checkbox" name="pre-tipoDoenca" value="Hipertensão"> Hipertensão</label>
-        <label><input type="checkbox" name="pre-tipoDoenca" value="Doença cardíaca"> Doença cardíaca</label>
         <label><input type="checkbox" name="pre-tipoDoenca" value="Doença respiratória"> Doença respiratória</label>
-        <label><input type="checkbox" name="pre-tipoDoenca" value="Câncer"> Câncer</label>
-        <label><input type="checkbox" name="pre-tipoDoenca" value="Doença renal"> Doença renal</label>
-        <label><input type="checkbox" name="pre-tipoDoenca" value="Doença neurológica"> Doença neurológica</label>
         <label><input type="checkbox" name="pre-tipoDoenca" value="Outra"> Outra</label>
       </div>
     </div>
   </div>
 
   <div class="card">
-    <h2>Seção 3 — Condições da moradia</h2>
+    <h2>Seção 3 — Avaliação da moradia (percepção da família)</h2>
     <div class="box-orientacao">
-      Avalie cada item de acordo com a percepção da família sobre a gravidade do problema.
+      <strong>Orientação:</strong> Para cada problema, marque a opção que melhor representa a situação da moradia. "Não se aplica" pode ser usado para problemas que não existem na casa.
     </div>
     <table class="grade-avaliacao">
       <thead>
@@ -304,70 +296,70 @@
       <tbody>
         <tr>
           <td>Rachaduras ou trincas nas paredes</td>
-          <td><input type="radio" name="grade-rachaduras" value="Não se aplica" checked></td>
+          <td><input type="radio" name="grade-rachaduras" value="Não se aplica"></td>
           <td><input type="radio" name="grade-rachaduras" value="Leve"></td>
           <td><input type="radio" name="grade-rachaduras" value="Moderado"></td>
           <td><input type="radio" name="grade-rachaduras" value="Grave"></td>
         </tr>
         <tr>
           <td>Problemas na instalação elétrica</td>
-          <td><input type="radio" name="grade-eletrica" value="Não se aplica" checked></td>
+          <td><input type="radio" name="grade-eletrica" value="Não se aplica"></td>
           <td><input type="radio" name="grade-eletrica" value="Leve"></td>
           <td><input type="radio" name="grade-eletrica" value="Moderado"></td>
           <td><input type="radio" name="grade-eletrica" value="Grave"></td>
         </tr>
         <tr>
           <td>Infiltrações ou umidade</td>
-          <td><input type="radio" name="grade-infiltracao" value="Não se aplica" checked></td>
+          <td><input type="radio" name="grade-infiltracao" value="Não se aplica"></td>
           <td><input type="radio" name="grade-infiltracao" value="Leve"></td>
           <td><input type="radio" name="grade-infiltracao" value="Moderado"></td>
           <td><input type="radio" name="grade-infiltracao" value="Grave"></td>
         </tr>
         <tr>
           <td>Piso danificado ou irregular</td>
-          <td><input type="radio" name="grade-piso" value="Não se aplica" checked></td>
+          <td><input type="radio" name="grade-piso" value="Não se aplica"></td>
           <td><input type="radio" name="grade-piso" value="Leve"></td>
           <td><input type="radio" name="grade-piso" value="Moderado"></td>
           <td><input type="radio" name="grade-piso" value="Grave"></td>
         </tr>
         <tr>
           <td>Paredes sem acabamento ou reboco</td>
-          <td><input type="radio" name="grade-paredes" value="Não se aplica" checked></td>
+          <td><input type="radio" name="grade-paredes" value="Não se aplica"></td>
           <td><input type="radio" name="grade-paredes" value="Leve"></td>
           <td><input type="radio" name="grade-paredes" value="Moderado"></td>
           <td><input type="radio" name="grade-paredes" value="Grave"></td>
         </tr>
         <tr>
           <td>Ferro exposto (vergalhões)</td>
-          <td><input type="radio" name="grade-vergalhoes" value="Não se aplica" checked></td>
+          <td><input type="radio" name="grade-vergalhoes" value="Não se aplica"></td>
           <td><input type="radio" name="grade-vergalhoes" value="Leve"></td>
           <td><input type="radio" name="grade-vergalhoes" value="Moderado"></td>
           <td><input type="radio" name="grade-vergalhoes" value="Grave"></td>
         </tr>
         <tr>
           <td>Telhado com vazamentos ou danificado</td>
-          <td><input type="radio" name="grade-telhado" value="Não se aplica" checked></td>
+          <td><input type="radio" name="grade-telhado" value="Não se aplica"></td>
           <td><input type="radio" name="grade-telhado" value="Leve"></td>
           <td><input type="radio" name="grade-telhado" value="Moderado"></td>
           <td><input type="radio" name="grade-telhado" value="Grave"></td>
         </tr>
         <tr>
           <td>Calor excessivo na casa</td>
-          <td><input type="radio" name="grade-calor" value="Não se aplica" checked></td>
+          <td><input type="radio" name="grade-calor" value="Não se aplica"></td>
           <td><input type="radio" name="grade-calor" value="Leve"></td>
           <td><input type="radio" name="grade-calor" value="Moderado"></td>
           <td><input type="radio" name="grade-calor" value="Grave"></td>
         </tr>
         <tr>
           <td>Falta de luminosidade natural</td>
-          <td><input type="radio" name="grade-luminosidade" value="Não se aplica" checked></td>
+          <td><input type="radio" name="grade-luminosidade" value="Não se aplica"></td>
           <td><input type="radio" name="grade-luminosidade" value="Leve"></td>
           <td><input type="radio" name="grade-luminosidade" value="Moderado"></td>
           <td><input type="radio" name="grade-luminosidade" value="Grave"></td>
         </tr>
         <tr>
           <td>Espaço insuficiente para a família</td>
-          <td><input type="radio" name="grade-espaco" value="Não se aplica" checked></td>
+          <td><input type="radio" name="grade-espaco" value="Não se aplica"></td>
           <td><input type="radio" name="grade-espaco" value="Leve"></td>
           <td><input type="radio" name="grade-espaco" value="Moderado"></td>
           <td><input type="radio" name="grade-espaco" value="Grave"></td>
@@ -376,19 +368,17 @@
     </table>
   </div>
 
-  <button class="btn-enviar" id="btn-pre" onclick="enviarPreCadastro()">Enviar Pré-cadastro</button>
-  <div id="msg-pre" class="msg" style="display:none;"></div>
-
+  <button id="btn-pre" class="btn-enviar" onclick="enviarPreCadastro()">Enviar Pré-cadastro</button>
+  <div id="msg-pre" class="msg"></div>
 </div>
 
 <!-- ========================================================== -->
 <!-- FORMULÁRIO 2 — VISITA DOMICILIAR                           -->
 <!-- ========================================================== -->
 <div id="painel-vis" class="painel">
-
   <div class="card-apresentacao">
-    <h2>Formulário de Visita Domiciliar</h2>
-    <p>Este formulário é destinado ao registro detalhado das informações coletadas durante a visita domiciliar, complementando o pré-cadastro e aprofundando o diagnóstico da situação da moradia e da família. As informações aqui registradas são cruciais para o planejamento das intervenções e o acompanhamento do Programa Minha Casa + Bonita.</p>
+    <h2>Apresentação do formulário de Visita Domiciliar</h2>
+    <p>Este formulário é para ser preenchido durante a visita domiciliar, aprofundando o diagnóstico da moradia e da família. Ele complementa o pré-cadastro e ajuda a equipe técnica a planejar as intervenções necessárias.</p>
   </div>
 
   <div class="card">
@@ -405,7 +395,7 @@
   </div>
 
   <div class="card">
-    <h2>Seção 1 — Identificação da Visita</h2>
+    <h2>Seção 1 — Identificação da visita e da família</h2>
     <div class="campo">
       <label>Nome completo do responsável pela moradia *</label>
       <input type="text" id="vis-nomeCompleto" placeholder="Nome completo">
@@ -420,7 +410,7 @@
         <input type="text" id="vis-cpf" placeholder="000.000.000-00" maxlength="14">
       </div>
       <div class="campo">
-        <label>ID do domicílio (se houver)</label>
+        <label>ID do domicílio *</label>
         <input type="text" id="vis-idDomicilio" placeholder="Código de identificação do domicílio">
       </div>
     </div>
@@ -430,15 +420,15 @@
         <input type="date" id="vis-dataVisita">
       </div>
       <div class="campo">
-        <label>Nome do entrevistador</label>
-        <input type="text" id="vis-nomeEntrevistador" placeholder="Nome do técnico responsável">
+        <label>Nome do entrevistador *</label>
+        <input type="text" id="vis-nomeEntrevistador" placeholder="Nome do técnico/entrevistador">
       </div>
     </div>
     <div class="campo">
       <label>Equipe responsável</label>
       <div class="opcoes">
-        <label><input type="radio" name="vis-equipeResponsavel" value="Equipe A"> Equipe A</label>
-        <label><input type="radio" name="vis-equipeResponsavel" value="Equipe B"> Equipe B</label>
+        <label><input type="radio" name="vis-equipeResponsavel" value="Equipe 1"> Equipe 1</label>
+        <label><input type="radio" name="vis-equipeResponsavel" value="Equipe 2"> Equipe 2</label>
         <label><input type="radio" name="vis-equipeResponsavel" value="Outra"> Outra</label>
       </div>
     </div>
@@ -453,261 +443,267 @@
   </div>
 
   <div class="card">
-    <h2>Seção 2 — Perfil Social e Econômico</h2>
-    <div class="duas-col">
-      <div class="campo">
-        <label>Identidade de gênero</label>
-        <div class="opcoes">
-          <label><input type="radio" name="vis-genero" value="Feminino"> Feminino</label>
-          <label><input type="radio" name="vis-genero" value="Masculino"> Masculino</label>
-          <label><input type="radio" name="vis-genero" value="Outro"> Outro</label>
-        </div>
-      </div>
-      <div class="campo">
-        <label>Raça/cor</label>
-        <div class="opcoes">
-          <label><input type="radio" name="vis-racaCor" value="Branca"> Branca</label>
-          <label><input type="radio" name="vis-racaCor" value="Preta"> Preta</label>
-          <label><input type="radio" name="vis-racaCor" value="Parda"> Parda</label>
-          <label><input type="radio" name="vis-racaCor" value="Amarela"> Amarela</label>
-          <label><input type="radio" name="vis-racaCor" value="Indígena"> Indígena</label>
-        </div>
+    <h2>Seção 2 — Dados socioeconômicos</h2>
+    <div class="campo">
+      <label>Gênero do responsável</label>
+      <div class="opcoes">
+        <label><input type="radio" name="vis-genero" value="Feminino"> Feminino</label>
+        <label><input type="radio" name="vis-genero" value="Masculino"> Masculino</label>
+        <label><input type="radio" name="vis-genero" value="Não binário"> Não binário</label>
+        <label><input type="radio" name="vis-genero" value="Prefiro não informar"> Prefiro não informar</label>
       </div>
     </div>
     <div class="campo">
-      <label>Escolaridade</label>
+      <label>Raça/Cor</label>
+      <div class="opcoes">
+        <label><input type="radio" name="vis-racaCor" value="Branca"> Branca</label>
+        <label><input type="radio" name="vis-racaCor" value="Preta"> Preta</label>
+        <label><input type="radio" name="vis-racaCor" value="Parda"> Parda</label>
+        <label><input type="radio" name="vis-racaCor" value="Amarela"> Amarela</label>
+        <label><input type="radio" name="vis-racaCor" value="Indígena"> Indígena</label>
+      </div>
+    </div>
+    <div class="campo">
+      <label>Escolaridade do responsável</label>
       <div class="opcoes">
         <label><input type="radio" name="vis-escolaridade" value="Analfabeto"> Analfabeto</label>
-        <label><input type="radio" name="vis-escolaridade" value="Fundamental Incompleto"> Fundamental Incompleto</label>
-        <label><input type="radio" name="vis-escolaridade" value="Fundamental Completo"> Fundamental Completo</label>
-        <label><input type="radio" name="vis-escolaridade" value="Médio Incompleto"> Médio Incompleto</label>
-        <label><input type="radio" name="vis-escolaridade" value="Médio Completo"> Médio Completo</label>
-        <label><input type="radio" name="vis-escolaridade" value="Superior Incompleto"> Superior Incompleto</label>
-        <label><input type="radio" name="vis-escolaridade" value="Superior Completo"> Superior Completo</label>
-      </div>
-    </div>
-    <div class="duas-col">
-      <div class="campo">
-        <label>Ocupação</label>
-        <input type="text" id="vis-ocupacao" placeholder="Profissão ou atividade principal">
-      </div>
-      <div class="campo">
-        <label>Principal fonte de renda</label>
-        <div class="opcoes">
-          <label><input type="radio" name="vis-fonteRenda" value="Emprego formal"> Emprego formal</label>
-          <label><input type="radio" name="vis-fonteRenda" value="Autônomo"> Autônomo</label>
-          <label><input type="radio" name="vis-fonteRenda" value="Aposentadoria/Pensão"> Aposentadoria/Pensão</label>
-          <label><input type="radio" name="vis-fonteRenda" value="Benefícios sociais"> Benefícios sociais</label>
-          <label><input type="radio" name="vis-fonteRenda" value="Outra"> Outra</label>
-        </div>
+        <label><input type="radio" name="vis-escolaridade" value="Fundamental incompleto"> Fundamental incompleto</label>
+        <label><input type="radio" name="vis-escolaridade" value="Fundamental completo"> Fundamental completo</label>
+        <label><input type="radio" name="vis-escolaridade" value="Médio incompleto"> Médio incompleto</label>
+        <label><input type="radio" name="vis-escolaridade" value="Médio completo"> Médio completo</label>
+        <label><input type="radio" name="vis-escolaridade" value="Superior incompleto"> Superior incompleto</label>
+        <label><input type="radio" name="vis-escolaridade" value="Superior completo"> Superior completo</label>
       </div>
     </div>
     <div class="campo">
-      <label>Realiza alguma atividade remunerada em casa?</label>
+      <label>Ocupação do responsável</label>
       <div class="opcoes">
-        <label><input type="radio" name="vis-atividadeCasa" value="Sim" onclick="mostrar('vis-tipoAtividadeCasa-div')"> Sim</label>
-        <label><input type="radio" name="vis-atividadeCasa" value="Não" onclick="esconder('vis-tipoAtividadeCasa-div')"> Não</label>
+        <label><input type="radio" name="vis-ocupacao" value="Empregado formal"> Empregado formal</label>
+        <label><input type="radio" name="vis-ocupacao" value="Empregado informal"> Empregado informal</label>
+        <label><input type="radio" name="vis-ocupacao" value="Autônomo"> Autônomo</label>
+        <label><input type="radio" name="vis-ocupacao" value="Aposentado/Pensionista"> Aposentado/Pensionista</label>
+        <label><input type="radio" name="vis-ocupacao" value="Desempregado"> Desempregado</label>
+        <label><input type="radio" name="vis-ocupacao" value="Estudante"> Estudante</label>
+        <label><input type="radio" name="vis-ocupacao" value="Dona de casa"> Dona de casa</label>
+        <label><input type="radio" name="vis-ocupacao" value="Outra"> Outra</label>
       </div>
     </div>
-    <div id="vis-tipoAtividadeCasa-div" class="campo" style="display:none">
-      <label>Qual atividade?</label>
-      <input type="text" id="vis-tipoAtividadeCasa" placeholder="Ex: costura, artesanato, venda de alimentos">
-    </div>
-    <div class="duas-col">
-      <div class="campo">
-        <label>Possui CadÚnico?</label>
-        <div class="opcoes">
-          <label><input type="radio" name="vis-cadUnico" value="Sim"> Sim</label>
-          <label><input type="radio" name="vis-cadUnico" value="Não"> Não</label>
-        </div>
-      </div>
-      <div class="campo">
-        <label>Benefícios recebidos (se houver)</label>
-        <div class="opcoes">
-          <label><input type="checkbox" name="vis-beneficios" value="Bolsa Família"> Bolsa Família</label>
-          <label><input type="checkbox" name="vis-beneficios" value="BPC"> BPC</label>
-          <label><input type="checkbox" name="vis-beneficios" value="Auxílio Gás"> Auxílio Gás</label>
-          <label><input type="checkbox" name="vis-beneficios" value="Outro"> Outro</label>
-        </div>
+    <div class="campo">
+      <label>Principal fonte de renda familiar</label>
+      <div class="opcoes">
+        <label><input type="radio" name="vis-fonteRenda" value="Trabalho formal"> Trabalho formal</label>
+        <label><input type="radio" name="vis-fonteRenda" value="Trabalho informal/autônomo"> Trabalho informal/autônomo</label>
+        <label><input type="radio" name="vis-fonteRenda" value="Aposentadoria/Pensão"> Aposentadoria/Pensão</label>
+        <label><input type="radio" name="vis-fonteRenda" value="Benefícios sociais"> Benefícios sociais</label>
+        <label><input type="radio" name="vis-fonteRenda" value="Ajuda de terceiros"> Ajuda de terceiros</label>
+        <label><input type="radio" name="vis-fonteRenda" value="Outra"> Outra</label>
       </div>
     </div>
-    <div class="duas-col">
-      <div class="campo">
-        <label>Renda familiar total</label>
-        <div class="opcoes">
-          <label><input type="radio" name="vis-rendaFamiliarTotal" value="Até 1 salário mínimo"> Até 1 salário mínimo</label>
-          <label><input type="radio" name="vis-rendaFamiliarTotal" value="De 1 a 3 salários mínimos"> De 1 a 3 salários mínimos</label>
-          <label><input type="radio" name="vis-rendaFamiliarTotal" value="Acima de 3 salários mínimos"> Acima de 3 salários mínimos</label>
-        </div>
+    <div class="campo">
+      <label>Alguém na casa realiza atividade remunerada em casa?</label>
+      <div class="opcoes">
+        <label><input type="radio" name="vis-atividadeCasa" value="Sim"> Sim</label>
+        <label><input type="radio" name="vis-atividadeCasa" value="Não"> Não</label>
       </div>
-      <div class="campo">
-        <label>Responsável pela renda</label>
-        <div class="opcoes">
-          <label><input type="radio" name="vis-responsavelRenda" value="Homem"> Homem</label>
-          <label><input type="radio" name="vis-responsavelRenda" value="Mulher"> Mulher</label>
-          <label><input type="radio" name="vis-responsavelRenda" value="Ambos"> Ambos</label>
-        </div>
+    </div>
+    <div class="campo">
+      <label>Se sim, qual atividade?</label>
+      <input type="text" id="vis-tipoAtividadeCasa" placeholder="Ex: costura, artesanato, alimentação">
+    </div>
+    <div class="campo">
+      <label>A família possui CadÚnico?</label>
+      <div class="opcoes">
+        <label><input type="radio" name="vis-cadUnico" value="Sim"> Sim</label>
+        <label><input type="radio" name="vis-cadUnico" value="Não"> Não</label>
+        <label><input type="radio" name="vis-cadUnico" value="Não sabe"> Não sabe</label>
+      </div>
+    </div>
+    <div class="campo">
+      <label>Quais benefícios sociais a família recebe?</label>
+      <div class="opcoes">
+        <label><input type="checkbox" name="vis-beneficios" value="Bolsa Família"> Bolsa Família</label>
+        <label><input type="checkbox" name="vis-beneficios" value="BPC"> BPC</label>
+        <label><input type="checkbox" name="vis-beneficios" value="Auxílio Gás"> Auxílio Gás</label>
+        <label><input type="checkbox" name="vis-beneficios" value="Outro"> Outro</label>
+        <label><input type="checkbox" name="vis-beneficios" value="Nenhum"> Nenhum</label>
+      </div>
+    </div>
+    <div class="campo">
+      <label>Renda familiar total (aproximada)</label>
+      <div class="opcoes">
+        <label><input type="radio" name="vis-rendaFamiliarTotal" value="Até 1 salário mínimo"> Até 1 salário mínimo</label>
+        <label><input type="radio" name="vis-rendaFamiliarTotal" value="De 1 a 3 salários mínimos"> De 1 a 3 salários mínimos</label>
+        <label><input type="radio" name="vis-rendaFamiliarTotal" value="Acima de 3 salários mínimos"> Acima de 3 salários mínimos</label>
+      </div>
+    </div>
+    <div class="campo">
+      <label>Quem é o principal responsável pela renda familiar?</label>
+      <div class="opcoes">
+        <label><input type="radio" name="vis-responsavelRenda" value="Homem"> Homem</label>
+        <label><input type="radio" name="vis-responsavelRenda" value="Mulher"> Mulher</label>
+        <label><input type="radio" name="vis-responsavelRenda" value="Ambos"> Ambos</label>
       </div>
     </div>
   </div>
 
   <div class="card">
-    <h2>Seção 3 — Composição Familiar e Saúde</h2>
+    <h2>Seção 3 — Composição familiar detalhada</h2>
     <div class="duas-col">
       <div class="campo">
         <label>Total de pessoas na casa</label>
-        <input type="text" id="vis-totalPessoas" placeholder="Número total">
+        <input type="text" id="vis-totalPessoas" placeholder="Número">
       </div>
       <div class="campo">
         <label>Total de núcleos familiares</label>
-        <input type="text" id="vis-totalNucleos" placeholder="Ex: 1, 2">
+        <input type="text" id="vis-totalNucleos" placeholder="Número">
       </div>
     </div>
     <div class="duas-col">
       <div class="campo">
-        <label>Crianças (0-6 anos)</label>
-        <input type="text" id="vis-qtdCriancas0a6" placeholder="Quantidade">
+        <label>Qtd. crianças (0-6 anos)</label>
+        <input type="text" id="vis-qtdCriancas0a6" placeholder="Número">
       </div>
       <div class="campo">
-        <label>Crianças (7-11 anos)</label>
-        <input type="text" id="vis-qtdCriancas7a11" placeholder="Quantidade">
-      </div>
-    </div>
-    <div class="duas-col">
-      <div class="campo">
-        <label>Adolescentes (12-17 anos)</label>
-        <input type="text" id="vis-qtdAdol12a17" placeholder="Quantidade">
-      </div>
-      <div class="campo">
-        <label>Jovens (18-29 anos)</label>
-        <input type="text" id="vis-qtdJovens18a29" placeholder="Quantidade">
+        <label>Qtd. crianças (7-11 anos)</label>
+        <input type="text" id="vis-qtdCriancas7a11" placeholder="Número">
       </div>
     </div>
     <div class="duas-col">
       <div class="campo">
-        <label>Adultos (30-59 anos)</label>
-        <input type="text" id="vis-qtdAdultos30a59" placeholder="Quantidade">
+        <label>Qtd. adolescentes (12-17 anos)</label>
+        <input type="text" id="vis-qtdAdol12a17" placeholder="Número">
       </div>
       <div class="campo">
-        <label>Idosos (60+ anos)</label>
-        <input type="text" id="vis-qtdIdosos60mais" placeholder="Quantidade">
+        <label>Qtd. jovens (18-29 anos)</label>
+        <input type="text" id="vis-qtdJovens18a29" placeholder="Número">
+      </div>
+    </div>
+    <div class="duas-col">
+      <div class="campo">
+        <label>Qtd. adultos (30-59 anos)</label>
+        <input type="text" id="vis-qtdAdultos30a59" placeholder="Número">
+      </div>
+      <div class="campo">
+        <label>Qtd. idosos (60+ anos)</label>
+        <input type="text" id="vis-qtdIdosos60mais" placeholder="Número">
+      </div>
+    </div>
+    <div class="duas-col">
+      <div class="campo">
+        <label>Qtd. pessoas com deficiência</label>
+        <input type="text" id="vis-qtdPcD" placeholder="Número">
+      </div>
+      <div class="campo">
+        <label>Tipo de deficiência</label>
+        <div class="opcoes">
+          <label><input type="checkbox" name="vis-tipoDeficiencia" value="Física"> Física</label>
+          <label><input type="checkbox" name="vis-tipoDeficiencia" value="Visual"> Visual</label>
+          <label><input type="checkbox" name="vis-tipoDeficiencia" value="Auditiva"> Auditiva</label>
+          <label><input type="checkbox" name="vis-tipoDeficiencia" value="Intelectual"> Intelectual</label>
+          <label><input type="checkbox" name="vis-tipoDeficiencia" value="Múltipla"> Múltipla</label>
+        </div>
       </div>
     </div>
     <div class="campo">
-      <label>Pessoas com deficiência (PcD)</label>
-      <input type="text" id="vis-qtdPcD" placeholder="Quantidade">
+      <label>Qtd. pessoas com mobilidade reduzida / acamadas</label>
+      <input type="text" id="vis-qtdAcamados" placeholder="Número">
     </div>
     <div class="campo">
-      <label>Tipo de deficiência (se houver)</label>
+      <label>Há alguém na casa com doença recorrente?</label>
       <div class="opcoes">
-        <label><input type="checkbox" name="vis-tipoDeficiencia" value="Física"> Física</label>
-        <label><input type="checkbox" name="vis-tipoDeficiencia" value="Visual"> Visual</label>
-        <label><input type="checkbox" name="vis-tipoDeficiencia" value="Auditiva"> Auditiva</label>
-        <label><input type="checkbox" name="vis-tipoDeficiencia" value="Intelectual"> Intelectual</label>
-        <label><input type="checkbox" name="vis-tipoDeficiencia" value="Múltipla"> Múltipla</label>
+        <label><input type="radio" name="vis-haDoencaRecorrente" value="Sim"> Sim</label>
+        <label><input type="radio" name="vis-haDoencaRecorrente" value="Não"> Não</label>
       </div>
     </div>
     <div class="campo">
-      <label>Pessoas acamadas ou com mobilidade reduzida</label>
-      <input type="text" id="vis-qtdAcamados" placeholder="Quantidade">
-    </div>
-    <div class="campo">
-      <label>Há pessoas com doenças crônicas ou graves?</label>
-      <div class="opcoes">
-        <label><input type="radio" name="vis-haDoencaRecorrente" value="Sim" onclick="mostrar('vis-tipoDoenca-div')"> Sim</label>
-        <label><input type="radio" name="vis-haDoencaRecorrente" value="Não" onclick="esconder('vis-tipoDoenca-div')"> Não</label>
-      </div>
-    </div>
-    <div id="vis-tipoDoenca-div" class="campo" style="display:none">
-      <label>Quais doenças?</label>
+      <label>Se sim, quais?</label>
       <div class="opcoes">
         <label><input type="checkbox" name="vis-tipoDoenca" value="Diabetes"> Diabetes</label>
         <label><input type="checkbox" name="vis-tipoDoenca" value="Hipertensão"> Hipertensão</label>
-        <label><input type="checkbox" name="vis-tipoDoenca" value="Doença cardíaca"> Doença cardíaca</label>
         <label><input type="checkbox" name="vis-tipoDoenca" value="Doença respiratória"> Doença respiratória</label>
-        <label><input type="checkbox" name="vis-tipoDoenca" value="Câncer"> Câncer</label>
-        <label><input type="checkbox" name="vis-tipoDoenca" value="Doença renal"> Doença renal</label>
-        <label><input type="checkbox" name="vis-tipoDoenca" value="Doença neurológica"> Doença neurológica</label>
         <label><input type="checkbox" name="vis-tipoDoenca" value="Outra"> Outra</label>
       </div>
     </div>
-    <div class="duas-col">
-      <div class="campo">
-        <label>Gestantes</label>
-        <input type="text" id="vis-qtdGestantes" placeholder="Quantidade">
-      </div>
-      <div class="campo">
-        <label>Pessoas fora da escola</label>
-        <input type="text" id="vis-qtdForaEscola" placeholder="Quantidade">
-      </div>
+    <div class="campo">
+      <label>Qtd. gestantes na casa</label>
+      <input type="text" id="vis-qtdGestantes" placeholder="Número">
     </div>
     <div class="campo">
-      <label>Pessoas em busca de emprego/capacitação</label>
-      <input type="text" id="vis-qtdBuscaEmprego" placeholder="Quantidade">
+      <label>Qtd. pessoas fora da escola (0-17 anos)</label>
+      <input type="text" id="vis-qtdForaEscola" placeholder="Número">
+    </div>
+    <div class="campo">
+      <label>Qtd. pessoas buscando emprego/capacitação (18+ anos)</label>
+      <input type="text" id="vis-qtdBuscaEmprego" placeholder="Número">
     </div>
   </div>
 
   <div class="card">
-    <h2>Seção 4 — Condições da Moradia e Acesso a Serviços</h2>
-    <div class="duas-col">
-      <div class="campo">
-        <label>Tipo de ocupação da moradia</label>
-        <div class="opcoes">
-          <label><input type="radio" name="vis-tipoOcupacao" value="Própria"> Própria</label>
-          <label><input type="radio" name="vis-tipoOcupacao" value="Alugada"> Alugada</label>
-          <label><input type="radio" name="vis-tipoOcupacao" value="Cedida"> Cedida</label>
-          <label><input type="radio" name="vis-tipoOcupacao" value="Invadida"> Invadida</label>
-        </div>
-      </div>
-      <div class="campo">
-        <label>Possui documento da moradia?</label>
-        <div class="opcoes">
-          <label><input type="radio" name="vis-possuiDocumento" value="Sim" onclick="mostrar('vis-tipoDocumento-div')"> Sim</label>
-          <label><input type="radio" name="vis-possuiDocumento" value="Não" onclick="esconder('vis-tipoDocumento-div')"> Não</label>
-        </div>
+    <h2>Seção 4 — Condições da moradia</h2>
+    <div class="campo">
+      <label>Tipo de ocupação da moradia</label>
+      <div class="opcoes">
+        <label><input type="radio" name="vis-tipoOcupacao" value="Própria quitada"> Própria quitada</label>
+        <label><input type="radio" name="vis-tipoOcupacao" value="Própria financiada"> Própria financiada</label>
+        <label><input type="radio" name="vis-tipoOcupacao" value="Alugada"> Alugada</label>
+        <label><input type="radio" name="vis-tipoOcupacao" value="Cedida"> Cedida</label>
+        <label><input type="radio" name="vis-tipoOcupacao" value="Invadida"> Invadida</label>
+        <label><input type="radio" name="vis-tipoOcupacao" value="Outra"> Outra</label>
       </div>
     </div>
-    <div id="vis-tipoDocumento-div" class="campo" style="display:none">
-      <label>Tipo de documento</label>
+    <div class="campo">
+      <label>A família possui documento da moradia?</label>
+      <div class="opcoes">
+        <label><input type="radio" name="vis-possuiDocumento" value="Sim"> Sim</label>
+        <label><input type="radio" name="vis-possuiDocumento" value="Não"> Não</label>
+      </div>
+    </div>
+    <div class="campo">
+      <label>Se sim, qual tipo de documento?</label>
       <div class="opcoes">
         <label><input type="radio" name="vis-tipoDocumento" value="Escritura"> Escritura</label>
         <label><input type="radio" name="vis-tipoDocumento" value="Contrato de compra e venda"> Contrato de compra e venda</label>
-        <label><input type="radio" name="vis-tipoDocumento" value="Posse"> Posse</label>
+        <label><input type="radio" name="vis-tipoDocumento" value="Termo de posse"> Termo de posse</label>
         <label><input type="radio" name="vis-tipoDocumento" value="Outro"> Outro</label>
       </div>
     </div>
+  </div>
+
+  <div class="card">
+    <h2>Seção 5 — Acesso a serviços públicos</h2>
     <div class="campo">
-      <label>Serviço de saúde de referência</label>
+      <label>Serviço de saúde de referência da família</label>
       <input type="text" id="vis-servicoSaudeRef" placeholder="Nome da UBS, hospital, etc.">
     </div>
     <div class="campo">
-      <label>Acesso à saúde</label>
+      <label>Como a família avalia o acesso à saúde?</label>
       <div class="opcoes">
-        <label><input type="radio" name="vis-acessoSaude" value="Fácil"> Fácil</label>
-        <label><input type="radio" name="vis-acessoSaude" value="Médio"> Médio</label>
-        <label><input type="radio" name="vis-acessoSaude" value="Difícil"> Difícil</label>
+        <label><input type="radio" name="vis-acessoSaude" value="Bom"> Bom</label>
+        <label><input type="radio" name="vis-acessoSaude" value="Regular"> Regular</label>
+        <label><input type="radio" name="vis-acessoSaude" value="Ruim"> Ruim</label>
       </div>
     </div>
     <div class="campo">
-      <label>Dificuldades na saúde (se houver)</label>
+      <label>Principais dificuldades no acesso à saúde</label>
       <div class="opcoes">
         <label><input type="checkbox" name="vis-dificuldadesSaude" value="Falta de médico"> Falta de médico</label>
         <label><input type="checkbox" name="vis-dificuldadesSaude" value="Falta de exames"> Falta de exames</label>
         <label><input type="checkbox" name="vis-dificuldadesSaude" value="Falta de medicamentos"> Falta de medicamentos</label>
-        <label><input type="checkbox" name="vis-dificuldadesSaude" value="Longa espera"> Longa espera</label>
         <label><input type="checkbox" name="vis-dificuldadesSaude" value="Distância"> Distância</label>
+        <label><input type="checkbox" name="vis-dificuldadesSaude" value="Tempo de espera"> Tempo de espera</label>
+        <label><input type="checkbox" name="vis-dificuldadesSaude" value="Outra"> Outra</label>
       </div>
     </div>
     <div class="campo">
       <label>Situação escolar das crianças/adolescentes</label>
       <div class="opcoes">
-        <label><input type="radio" name="vis-situacaoEscolar" value="Matriculados"> Matriculados</label>
-        <label><input type="radio" name="vis-situacaoEscolar" value="Fora da escola"> Fora da escola</label>
+        <label><input type="radio" name="vis-situacaoEscolar" value="Todos na escola"> Todos na escola</label>
+        <label><input type="radio" name="vis-situacaoEscolar" value="Alguns fora da escola"> Alguns fora da escola</label>
         <label><input type="radio" name="vis-situacaoEscolar" value="Não se aplica"> Não se aplica</label>
       </div>
     </div>
     <div class="campo">
-      <label>Acesso à creche</label>
+      <label>Acesso à creche (0-3 anos)</label>
       <div class="opcoes">
         <label><input type="radio" name="vis-acessoCreche" value="Sim"> Sim</label>
         <label><input type="radio" name="vis-acessoCreche" value="Não"> Não</label>
@@ -715,47 +711,47 @@
       </div>
     </div>
     <div class="campo">
-      <label>Demanda por creche</label>
+      <label>Há demanda por creche?</label>
       <div class="opcoes">
         <label><input type="radio" name="vis-demandaCreche" value="Sim"> Sim</label>
         <label><input type="radio" name="vis-demandaCreche" value="Não"> Não</label>
         <label><input type="radio" name="vis-demandaCreche" value="Não se aplica"> Não se aplica</label>
       </div>
     </div>
-    <div class="duas-col">
-      <div class="campo">
-        <label>Acesso ao CRAS</label>
-        <div class="opcoes">
-          <label><input type="radio" name="vis-acessoCRAS" value="Sim"> Sim</label>
-          <label><input type="radio" name="vis-acessoCRAS" value="Não"> Não</label>
-        </div>
-      </div>
-      <div class="campo">
-        <label>Acesso ao CREAS</label>
-        <div class="opcoes">
-          <label><input type="radio" name="vis-acessoCREAS" value="Sim"> Sim</label>
-          <label><input type="radio" name="vis-acessoCREAS" value="Não"> Não</label>
-        </div>
+    <div class="campo">
+      <label>A família tem acesso ao CRAS?</label>
+      <div class="opcoes">
+        <label><input type="radio" name="vis-acessoCRAS" value="Sim"> Sim</label>
+        <label><input type="radio" name="vis-acessoCRAS" value="Não"> Não</label>
+        <label><input type="radio" name="vis-acessoCRAS" value="Não sabe"> Não sabe</label>
       </div>
     </div>
     <div class="campo">
-      <label>Participa de alguma associação/coletivo?</label>
+      <label>A família tem acesso ao CREAS?</label>
       <div class="opcoes">
-        <label><input type="radio" name="vis-participaAssociacao" value="Sim" onclick="mostrar('vis-qualAssociacao-div')"> Sim</label>
-        <label><input type="radio" name="vis-participaAssociacao" value="Não" onclick="esconder('vis-qualAssociacao-div')"> Não</label>
+        <label><input type="radio" name="vis-acessoCREAS" value="Sim"> Sim</label>
+        <label><input type="radio" name="vis-acessoCREAS" value="Não"> Não</label>
+        <label><input type="radio" name="vis-acessoCREAS" value="Não sabe"> Não sabe</label>
       </div>
     </div>
-    <div id="vis-qualAssociacao-div" class="campo" style="display:none">
-      <label>Qual?</label>
+    <div class="campo">
+      <label>A família participa de alguma associação/coletivo na comunidade?</label>
+      <div class="opcoes">
+        <label><input type="radio" name="vis-participaAssociacao" value="Sim"> Sim</label>
+        <label><input type="radio" name="vis-participaAssociacao" value="Não"> Não</label>
+      </div>
+    </div>
+    <div class="campo">
+      <label>Se sim, qual?</label>
       <input type="text" id="vis-qualAssociacao" placeholder="Nome da associação/coletivo">
     </div>
   </div>
 
   <div class="card">
-    <h2>Seção 5 — Observações e Fechamento</h2>
+    <h2>Seção 6 — Observações e fechamento</h2>
     <div class="campo">
-      <label>Observações qualitativas</label>
-      <textarea id="vis-observacoesQualitativas" placeholder="Detalhes adicionais, impressões da equipe, etc."></textarea>
+      <label>Observações qualitativas da visita</label>
+      <textarea id="vis-observacoesQualitativas" placeholder="Descreva aspectos relevantes não abordados"></textarea>
     </div>
     <div class="campo">
       <label>Nome do responsável familiar (fechamento)</label>
@@ -766,7 +762,7 @@
       <input type="text" id="vis-nomeEntrevistadorFechamento" placeholder="Nome completo">
     </div>
     <div class="campo">
-      <label>Assinatura da equipe (se aplicável)</label>
+      <label>Assinatura da equipe (fechamento)</label>
       <input type="text" id="vis-assinaturaEquipe" placeholder="Assinatura digital ou nome da equipe">
     </div>
     <div class="campo">
@@ -775,19 +771,17 @@
     </div>
   </div>
 
-  <button class="btn-enviar" id="btn-vis" onclick="enviarVisita()">Enviar Visita Domiciliar</button>
-  <div id="msg-vis" class="msg" style="display:none;"></div>
-
+  <button id="btn-vis" class="btn-enviar" onclick="enviarVisita()">Enviar Visita Domiciliar</button>
+  <div id="msg-vis" class="msg"></div>
 </div>
 
 <!-- ========================================================== -->
 <!-- DASHBOARD                                                  -->
 <!-- ========================================================== -->
 <div id="painel-dash" class="painel">
-
   <div class="card-apresentacao">
-    <h2>Visão Geral do Programa</h2>
-    <p>Aqui você pode acompanhar o status dos pré-cadastros e visitas domiciliares, além de buscar registros específicos.</p>
+    <h2>Dashboard — Consulta de cadastros</h2>
+    <p>Aqui você pode visualizar um resumo dos pré-cadastros e visitas já registrados. Use a busca para encontrar registros específicos.</p>
   </div>
 
   <div class="card">
@@ -800,52 +794,75 @@
       <span>Total de Visitas Domiciliares:</span>
       <strong id="dash-vis-total">0</strong>
     </div>
-    <div style="text-align: right; margin-top: 15px;">
-      <button class="btn-pdf" onclick="gerarPDFResumo('pre')">Gerar PDF Pré-cadastros</button>
-      <button class="btn-pdf" onclick="gerarPDFResumo('vis')">Gerar PDF Visitas</button>
-    </div>
   </div>
 
   <div class="card">
-    <h2>Buscar Registro Específico</h2>
+    <h2>Buscar por CPF ou ID do domicílio</h2>
     <div class="campo">
-      <label>CPF ou ID do Domicílio</label>
-      <input type="text" id="dash-chaveBusca" placeholder="Digite o CPF ou ID para buscar">
+      <label>Chave de busca</label>
+      <input type="text" id="dash-chaveBusca" placeholder="Digite o CPF (000.000.000-00) ou o ID do domicílio">
     </div>
-    <button class="btn-enviar" onclick="buscarRegistro()">Buscar</button>
-    <div id="msg-dash" class="msg" style="display:none;"></div>
-
-    <div id="dash-resultado" style="display:none; margin-top: 20px; border-top: 1px solid #eee; padding-top: 15px;">
-      <h3>Resultados da Busca: <span id="dash-nome-buscado"></span></h3>
-      <p>CPF: <span id="dash-cpf-buscado"></span></p>
-      <p>ID Domicílio: <span id="dash-id-domicilio-buscado"></span></p>
-
-      <h3 style="margin-top: 20px;">Pré-cadastros encontrados:</h3>
-      <div id="dash-lista-pre">
-        <!-- Itens de pré-cadastro serão inseridos aqui -->
-      </div>
-
-      <h3 style="margin-top: 20px;">Visitas Domiciliares encontradas:</h3>
-      <div id="dash-lista-vis">
-        <!-- Itens de visita serão inseridos aqui -->
-      </div>
-    </div>
+    <button id="dash-buscar-btn" class="btn-enviar" onclick="buscarRegistro()">Buscar cadastros</button>
+    <div id="msg-dash" class="msg"></div>
   </div>
 
+  <div id="dash-resultado" class="card" style="display:none;">
+    <h2>Resultados da Busca</h2>
+    <div class="dash-resumo">
+      <span>Nome/Busca:</span>
+      <strong id="dash-nome-buscado"></strong>
+    </div>
+    <div class="dash-resumo">
+      <span>CPF:</span>
+      <strong id="dash-cpf-buscado"></strong>
+    </div>
+    <div class="dash-resumo">
+      <span>ID Domicílio:</span>
+      <strong id="dash-id-domicilio-buscado"></strong>
+    </div>
+
+    <h3>Pré-cadastros encontrados</h3>
+    <div id="dash-lista-pre">
+      <!-- Itens de pré-cadastro serão inseridos aqui -->
+    </div>
+
+    <h3>Visitas Domiciliares encontradas</h3>
+    <div id="dash-lista-vis">
+      <!-- Itens de visita serão inseridos aqui -->
+    </div>
+  </div>
 </div>
 
 <script>
 // ============================================================
-// CONFIGURAÇÃO — URL do seu Web App (Apps Script)
+// CONFIGURAÇÃO DA URL DO APPS SCRIPT
 // ============================================================
-var URL_SCRIPT = 'https://script.google.com/macros/s/AKfycbzx7rrwybDqsdZ8lFTVpVsy0gm3uvFSzf_qXlzL4Y0KDuEjM6kRukYnnvxnZZDR_aef/exec';
+var URL_SCRIPT = 'https://script.google.com/macros/s/AKfycbzZ8lFTVpVsy0gm3uvFSzf_qXlzL4Y0KDuEjM6kRukYnnvxnZDR_aef/exec';
 
 // ============================================================
-// FUNÇÕES AUXILIARES GERAIS
+// FUNÇÕES GERAIS
 // ============================================================
+function trocarAba(abaId) {
+  var paineis = document.querySelectorAll('.painel');
+  paineis.forEach(function(painel) {
+    painel.classList.remove('ativo');
+  });
+  document.getElementById('painel-' + abaId).classList.add('ativo');
+
+  var botoes = document.querySelectorAll('.aba-btn');
+  botoes.forEach(function(btn) {
+    btn.classList.remove('ativa');
+  });
+  event.currentTarget.classList.add('ativa');
+
+  // Se for para o dashboard, carrega os dados
+  if (abaId === 'dash') {
+    carregarDashboard();
+  }
+}
+
 function getVal(id) {
-  var el = document.getElementById(id);
-  return el ? el.value : '';
+  return document.getElementById(id).value;
 }
 
 function getRadio(name) {
@@ -860,56 +877,20 @@ function getRadio(name) {
 
 function getCheckboxes(name) {
   var checkboxes = document.getElementsByName(name);
-  var checkedValues = [];
+  var selected = [];
   for (var i = 0; i < checkboxes.length; i++) {
     if (checkboxes[i].checked) {
-      checkedValues.push(checkboxes[i].value);
+      selected.push(checkboxes[i].value);
     }
   }
-  return checkedValues.join('; ');
-}
-
-function mostrar(id) {
-  var el = document.getElementById(id);
-  if (el) el.style.display = 'block';
-}
-
-function esconder(id) {
-  var el = document.getElementById(id);
-  if (el) el.style.display = 'none';
+  return selected.join('; ');
 }
 
 function mostrarMsg(id, tipo, texto) {
   var msgDiv = document.getElementById(id);
-  if (msgDiv) {
-    msgDiv.className = 'msg ' + tipo;
-    msgDiv.innerHTML = texto;
-    msgDiv.style.display = 'block';
-  }
-}
-
-function esconderMsg(id) {
-  var msgDiv = document.getElementById(id);
-  if (msgDiv) msgDiv.style.display = 'none';
-}
-
-// ============================================================
-// FUNÇÕES DE NAVEGAÇÃO ENTRE ABAS
-// ============================================================
-function trocarAba(qual) {
-  document.getElementById('painel-pre').classList.toggle('ativo', qual === 'pre');
-  document.getElementById('painel-vis').classList.toggle('ativo', qual === 'vis');
-  document.getElementById('painel-dash').classList.toggle('ativo', qual === 'dash');
-
-  var botoes = document.querySelectorAll('.abas .aba-btn');
-  botoes.forEach(function(b){ b.classList.remove('ativa'); });
-  if (qual === 'pre')  botoes[0].classList.add('ativa');
-  if (qual === 'vis')  botoes[1].classList.add('ativa');
-  if (qual === 'dash') {
-    botoes[2].classList.add('ativa');
-    // Ao abrir o Dashboard, vamos tentar carregar os dados reais
-    carregarDashboard();
-  }
+  msgDiv.className = 'msg ' + tipo;
+  msgDiv.textContent = texto;
+  setTimeout(function(){ msgDiv.textContent = ''; msgDiv.className = 'msg'; }, 5000);
 }
 
 // ============================================================
@@ -917,14 +898,13 @@ function trocarAba(qual) {
 // ============================================================
 function enviarPreCadastro() {
   var lgpd = document.getElementById('pre-lgpd').checked;
-  if (!lgpd) { alert('Por favor, aceite o termo LGPD antes de enviar.'); return; }
+  if (!lgpd) { alert('Por favor, confirme o consentimento LGPD antes de enviar.'); return; }
 
   var nome = getVal('pre-nomeCompleto');
   var cpf  = getVal('pre-cpf');
-  var tel  = getVal('pre-telefone');
-  var end  = getVal('pre-endereco');
-  if (!nome || !cpf || !tel || !end) {
-    alert('Preencha os campos obrigatórios: Nome, CPF, Telefone e Endereço.');
+  var endereco = getVal('pre-endereco');
+  if (!nome || !cpf || !endereco) {
+    alert('Preencha pelo menos: Nome completo, CPF e Endereço.');
     return;
   }
 
@@ -992,19 +972,29 @@ function enviarPreCadastro() {
   form.append('payload', JSON.stringify(payload));
 
   fetch(URL_SCRIPT, { method: 'POST', body: form })
-    .then(function(r){ return r.json(); })
-    .then(function(res){
-      if (res.sucesso) {
-        mostrarMsg('msg-pre', 'ok', 'Pré-cadastro registrado com sucesso! ID: ' + res.id);
-        // Opcional: Limpar o formulário após o envio
-        // document.getElementById('form-pre-cadastro').reset();
-      } else {
-        mostrarMsg('msg-pre', 'err', 'Erro: ' + res.mensagem);
+    .then(function(r){
+      console.log('Status resposta (pré):', r.status, r.statusText);
+      return r.text(); // Pega o texto bruto para logar antes de tentar JSON
+    })
+    .then(function(text){
+      console.log('Corpo bruto (pré):', text);
+      try {
+        var res = JSON.parse(text);
+        if (res.sucesso) {
+          mostrarMsg('msg-pre', 'ok', 'Pré-cadastro registrado com sucesso! ID: ' + res.id);
+          // Opcional: Limpar o formulário após o envio
+          // document.getElementById('form-pre-cadastro').reset();
+        } else {
+          mostrarMsg('msg-pre', 'err', 'Erro: ' + res.mensagem);
+        }
+      } catch (jsonError) {
+        console.error('Erro ao parsear JSON (pré):', jsonError);
+        mostrarMsg('msg-pre', 'err', 'Erro ao processar resposta do servidor. Resposta inválida.');
       }
     })
-    .catch(function(error){
-      console.error('Erro no fetch (Pré-cadastro):', error); // Loga o erro completo
-      mostrarMsg('msg-pre', 'err', 'Falha na conexão. Verifique sua internet ou tente novamente. Erro: ' + error.message);
+    .catch(function(err){
+      console.error('Erro no fetch (pré):', err);
+      mostrarMsg('msg-pre', 'err', 'Falha na conexão. Erro técnico: ' + err.message);
     })
     .finally(function(){
       btn.disabled = false;
@@ -1090,17 +1080,27 @@ function enviarVisita() {
   form.append('payload', JSON.stringify(payload));
 
   fetch(URL_SCRIPT, { method: 'POST', body: form })
-    .then(function(r){ return r.json(); })
-    .then(function(res){
-      if (res.sucesso) {
-        mostrarMsg('msg-vis', 'ok', 'Visita registrada com sucesso! ID: ' + res.id);
-      } else {
-        mostrarMsg('msg-vis', 'err', 'Erro: ' + res.mensagem);
+    .then(function(r){
+      console.log('Status resposta (visita):', r.status, r.statusText);
+      return r.text();
+    })
+    .then(function(text){
+      console.log('Corpo bruto (visita):', text);
+      try {
+        var res = JSON.parse(text);
+        if (res.sucesso) {
+          mostrarMsg('msg-vis', 'ok', 'Visita registrada com sucesso! ID: ' + res.id);
+        } else {
+          mostrarMsg('msg-vis', 'err', 'Erro: ' + res.mensagem);
+        }
+      } catch (jsonError) {
+        console.error('Erro ao parsear JSON (visita):', jsonError);
+        mostrarMsg('msg-vis', 'err', 'Erro ao processar resposta do servidor. Resposta inválida.');
       }
     })
-    .catch(function(error){
-      console.error('Erro no fetch (Visita):', error); // Loga o erro completo
-      mostrarMsg('msg-vis', 'err', 'Falha na conexão. Tente novamente. Erro: ' + error.message);
+    .catch(function(err){
+      console.error('Erro no fetch (visita):', err);
+      mostrarMsg('msg-vis', 'err', 'Falha na conexão. Tente novamente. Erro: ' + err.message);
     })
     .finally(function(){
       btn.disabled = false;
@@ -1114,80 +1114,87 @@ function enviarVisita() {
 
 // Função para carregar os dados do Dashboard do Apps Script
 function carregarDashboard() {
-  var btn = document.getElementById('dash-buscar-btn'); // Se tiver um botão de busca no dashboard
+  var btn = document.getElementById('dash-buscar-btn');
   if (btn) {
     btn.disabled = true;
     btn.textContent = 'Carregando...';
   }
 
   var form = new FormData();
-  form.append('action', 'listarDashboard'); // Ação para o Apps Script
+  form.append('action', 'listarDashboard');
 
   fetch(URL_SCRIPT, { method: 'POST', body: form })
-    .then(function(r){ return r.json(); })
-    .then(function(res){
-      if (res.sucesso) {
-        document.getElementById('dash-pre-total').textContent = res.totalPre;
-        document.getElementById('dash-vis-total').textContent = res.totalVis;
+    .then(function(r){
+      console.log('Status resposta (dashboard):', r.status, r.statusText);
+      return r.text();
+    })
+    .then(function(text){
+      console.log('Corpo bruto (dashboard):', text);
+      try {
+        var res = JSON.parse(text);
+        if (res.sucesso) {
+          document.getElementById('dash-pre-total').textContent = res.totalPre;
+          document.getElementById('dash-vis-total').textContent = res.totalVis;
 
-        // Preencher lista de pré-cadastros
-        var listaPre = document.getElementById('dash-lista-pre');
-        listaPre.innerHTML = '';
-        if (res.preCadastros && res.preCadastros.length > 0) {
-          res.preCadastros.forEach(function(item) {
-            var div = document.createElement('div');
-            div.className = 'dash-lista-item';
-            div.innerHTML = `
-              <div class="dash-lista-item-info">
-                ID da casa: <strong>${item.idCasa}</strong> — CPF: ${item.cpf}
-              </div>
-              <div class="dash-lista-item-botoes">
-                <button class="btn-editar" onclick="editarCasa('${item.idCasa}', '${item.cpf}')">✏️ Editar</button>
-                <button class="btn-pdf" onclick="gerarPDFCasa('${item.idCasa}', '${item.cpf}', 'pre')">PDF</button>
-              </div>
-            `;
-            listaPre.appendChild(div);
-          });
+          // Preencher lista de pré-cadastros
+          var listaPre = document.getElementById('dash-lista-pre');
+          listaPre.innerHTML = '';
+          if (res.preCadastros && res.preCadastros.length > 0) {
+            res.preCadastros.forEach(function(item) {
+              var div = document.createElement('div');
+              div.className = 'dash-lista-item';
+              div.innerHTML = `
+                <div class="dash-lista-item-info">
+                  ID da casa: <strong>${item.idCasa}</strong> — CPF: ${item.cpf}
+                </div>
+                <div class="dash-lista-item-botoes">
+                  <button class="btn-pdf" onclick="gerarPDFCasa('${item.idCasa}', '${item.cpf}', 'pre')">PDF</button>
+                </div>
+              `;
+              listaPre.appendChild(div);
+            });
+          } else {
+            listaPre.innerHTML = '<div class="dash-lista-item">Nenhum pré-cadastro encontrado.</div>';
+          }
+
+          // Preencher lista de visitas
+          var listaVis = document.getElementById('dash-lista-vis');
+          listaVis.innerHTML = '';
+          if (res.visitas && res.visitas.length > 0) {
+            res.visitas.forEach(function(item) {
+              var div = document.createElement('div');
+              div.className = 'dash-lista-item';
+              div.innerHTML = `
+                <div class="dash-lista-item-info">
+                  ID da casa: <strong>${item.idCasa}</strong> — CPF: ${item.cpf}
+                </div>
+                <div class="dash-lista-item-botoes">
+                  <button class="btn-pdf" onclick="gerarPDFCasa('${item.idCasa}', '${item.cpf}', 'vis')">PDF</button>
+                </div>
+              `;
+              listaVis.appendChild(div);
+            });
+          } else {
+            listaVis.innerHTML = '<div class="dash-lista-item">Nenhuma visita encontrada.</div>';
+          }
+
+          // Mostra a seção de resultados (se houver dados ou busca)
+          document.getElementById('dash-resultado').style.display = 'block';
+          document.getElementById('dash-nome-buscado').textContent = 'Todos os registros';
+          document.getElementById('dash-cpf-buscado').textContent = '';
+          document.getElementById('dash-id-domicilio-buscado').textContent = '';
+
         } else {
-          listaPre.innerHTML = '<div class="dash-lista-item">Nenhum pré-cadastro encontrado.</div>';
+          mostrarMsg('msg-dash', 'err', 'Erro ao carregar dashboard: ' + res.mensagem);
         }
-
-
-        // Preencher lista de visitas
-        var listaVis = document.getElementById('dash-lista-vis');
-        listaVis.innerHTML = '';
-        if (res.visitas && res.visitas.length > 0) {
-          res.visitas.forEach(function(item) {
-            var div = document.createElement('div');
-            div.className = 'dash-lista-item';
-            div.innerHTML = `
-              <div class="dash-lista-item-info">
-                ID da casa: <strong>${item.idCasa}</strong> — CPF: ${item.cpf}
-              </div>
-              <div class="dash-lista-item-botoes">
-                <button class="btn-editar" onclick="editarCasa('${item.idCasa}', '${item.cpf}')">✏️ Editar</button>
-                <button class="btn-pdf" onclick="gerarPDFCasa('${item.idCasa}', '${item.cpf}', 'vis')">PDF</button>
-              </div>
-            `;
-            listaVis.appendChild(div);
-          });
-        } else {
-          listaVis.innerHTML = '<div class="dash-lista-item">Nenhuma visita encontrada.</div>';
-        }
-
-        // Mostra a seção de resultados (se houver dados ou busca)
-        document.getElementById('dash-resultado').style.display = 'block';
-        document.getElementById('dash-nome-buscado').textContent = 'Todos os registros'; // Ou o nome da busca
-        document.getElementById('dash-cpf-buscado').textContent = '';
-        document.getElementById('dash-id-domicilio-buscado').textContent = '';
-
-      } else {
-        mostrarMsg('msg-dash', 'err', 'Erro ao carregar dashboard: ' + res.mensagem);
+      } catch (jsonError) {
+        console.error('Erro ao parsear JSON (dashboard):', jsonError);
+        mostrarMsg('msg-dash', 'err', 'Erro ao processar resposta do servidor do dashboard. Resposta inválida.');
       }
     })
-    .catch(function(error){
-      console.error('Erro no fetch (Dashboard):', error); // Loga o erro completo
-      mostrarMsg('msg-dash', 'err', 'Falha na conexão ao carregar dashboard. Erro: ' + error.message);
+    .catch(function(err){
+      console.error('Erro no fetch (dashboard):', err);
+      mostrarMsg('msg-dash', 'err', 'Falha na conexão ao carregar dashboard. Erro: ' + err.message);
     })
     .finally(function(){
       if (btn) {
@@ -1196,7 +1203,6 @@ function carregarDashboard() {
       }
     });
 }
-
 
 // Funções de exemplo para os botões (apenas alertas por enquanto)
 function buscarRegistro() {
@@ -1209,10 +1215,6 @@ function buscarRegistro() {
   // Aqui você chamaria uma função no Apps Script para buscar por chave
   // Por enquanto, vamos recarregar o dashboard completo ou simular
   carregarDashboard(); // Ou uma função específica de busca
-}
-
-function editarCasa(idCasa, cpf) {
-  alert('Aqui vamos carregar o cadastro da casa ' + idCasa + ' (' + cpf + ') para edição.');
 }
 
 function gerarPDFCasa(idCasa, cpf, tipo) {
