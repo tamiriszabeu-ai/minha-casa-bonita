@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Minha Casa + Bonita</title>
   <style>
+    /* Estilos CSS */
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: Arial, sans-serif; font-size: 14px; background: #f0f4f8; color: #222; }
 
@@ -39,10 +40,10 @@
     .card-apresentacao h2 { font-size: 14px; color: #b7700a; margin-bottom: 8px; }
     .card-apresentacao p  { font-size: 13px; line-height: 1.65; color: #333; text-align: justify; }
 
-    .aviso-lgpd {
-      background: #eaf4fb; border-left: 4px solid #1a5276;
-      padding: 12px 14px; font-size: 12px; line-height: 1.6;
-      border-radius: 4px; margin-bottom: 10px;
+    .box-orientacao {
+      border: 1.5px solid #f1c40f; padding: 10px 14px;
+      border-radius: 4px; margin-bottom: 14px; background: #fffdf0;
+      font-size: 13px; line-height: 1.6;
     }
 
     .campo { margin-bottom: 12px; }
@@ -57,13 +58,22 @@
     .campo textarea { min-height: 70px; resize: vertical; }
 
     .opcoes { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
-    .opcoes label {
-      font-weight: normal; display: flex; align-items: center;
-      gap: 4px; font-size: 13px; cursor: pointer;
-    }
+    .opcoes label { font-weight: normal; display: flex; align-items: center; gap: 4px; font-size: 13px; cursor: pointer; }
 
-    .duas-col { display: flex; gap: 12px; }
-    .duas-col .campo { flex: 1; }
+    .grade-avaliacao { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 500px; }
+    .grade-avaliacao thead tr { background: #1a5276; color: #fff; }
+    .grade-avaliacao th { border: 1px solid #154360; padding: 7px 8px; text-align: center; font-size: 11px; font-weight: bold; }
+    .grade-avaliacao th:first-child { text-align: left; width: 36%; }
+    .grade-avaliacao td { border: 1px solid #ddd; padding: 7px 8px; text-align: center; vertical-align: middle; }
+    .grade-avaliacao td:first-child { text-align: left; }
+    .grade-avaliacao tbody tr:nth-child(even) td { background: #f7fafc; }
+    .grade-avaliacao input[type=radio] { width: 16px; height: 16px; cursor: pointer; }
+
+    .aviso-lgpd {
+      background: #eaf4fb; border-left: 4px solid #1a5276;
+      padding: 12px 14px; font-size: 12px; line-height: 1.6;
+      border-radius: 4px; margin-bottom: 10px;
+    }
 
     .btn-enviar {
       width: 100%; padding: 14px; background: #1a5276; color: #fff;
@@ -77,7 +87,10 @@
     .msg.ok  { background: #d4efdf; color: #1e8449; }
     .msg.err { background: #fadbd8; color: #c0392b; }
 
-    /* Dashboard bem simples */
+    .duas-col { display: flex; gap: 12px; }
+    .duas-col .campo { flex: 1; }
+
+    /* Dashboard */
     .dash-info {
       display: flex; justify-content: space-around; gap: 10px;
       margin-bottom: 20px; text-align: center;
@@ -90,216 +103,670 @@
     .dash-info p { font-size: 24px; font-weight: bold; color: #333; }
 
     .dash-lista-item {
-      border-bottom: 1px solid #eee; padding: 6px 0;
-      display: flex; justify-content: space-between; gap: 8px;
+      background: #fff; border: 1px solid #eee; border-radius: 5px;
+      padding: 10px 15px; margin-bottom: 8px;
+      display: flex; justify-content: space-between; align-items: center;
       font-size: 13px;
     }
-    .btn-pdf {
-      padding: 5px 8px; border-radius: 4px; border: none;
-      background: #e67e22; color: #fff; cursor: pointer; font-size: 12px;
+    .dash-lista-item span { flex-grow: 1; }
+    .dash-lista-item .item-botoes button {
+      margin-left: 8px; padding: 6px 10px; border: none; border-radius: 4px;
+      cursor: pointer; font-size: 12px;
     }
+    .dash-lista-item .item-botoes .btn-pdf { background: #28a745; color: #fff; }
+    .dash-lista-item .item-botoes .btn-pdf:hover { background: #218838; }
   </style>
 </head>
 <body>
 
-<header>
-  <h1>Minha Casa + Bonita</h1>
-  <p>Cadastro, visita domiciliar e acompanhamento das famílias</p>
-</header>
+  <header>
+    <h1>Minha Casa + Bonita</h1>
+    <p>Formulários de Pré-cadastro, Visita Domiciliar e Dashboard</p>
+  </header>
 
-<div class="abas">
-  <button class="aba-btn ativa" data-alvo="painel-pre">Pré-cadastro</button>
-  <button class="aba-btn" data-alvo="painel-visita">Visita domiciliar</button>
-  <button class="aba-btn" data-alvo="painel-dashboard">Dashboard</button>
-</div>
-
-<!-- ========================================================== -->
-<!-- FORMULÁRIO 1 — PRÉ-CADASTRO (SEU TEXTO PRESERVADO)        -->
-<!-- ========================================================== -->
-<div id="painel-pre" class="painel ativo">
-
-  <div class="card-apresentacao">
-    <h2>Apresentação do formulário</h2>
-    <p>O Programa Minha Casa + Bonita é um projeto piloto de <strong>melhoria urbana, habitacional e de assistência técnica permanente</strong>, desenvolvido na comunidade do Risca Faca, em Maricá. Este formulário integra o processo de cadastro, diagnóstico e acompanhamento das famílias interessadas, contribuindo para identificar necessidades das moradias, organizar atendimentos, planejar visitas técnicas e definir prioridades para as ações de melhoria habitacional. Não existe resposta certa ou errada: o mais importante é registrar como a família percebe os problemas da casa e quais situações considera mais graves ou urgentes.</p>
+  <div class="abas">
+    <button class="aba-btn ativa" data-alvo="painel-pre">Pré-cadastro</button>
+    <button class="aba-btn" data-alvo="painel-visita">Visita Domiciliar</button>
+    <button class="aba-btn" data-alvo="painel-dashboard">Dashboard</button>
   </div>
 
-  <div class="card">
-    <div class="aviso-lgpd">
-      <strong>Informação sobre tratamento de dados — LGPD</strong><br>
-      Os dados coletados serão utilizados exclusivamente para cadastro, avaliação, planejamento e execução do Programa Minha Casa + Bonita, conforme a Lei nº 13.709/2018. O acesso será restrito à equipe técnica e parceiros envolvidos.
-    </div>
-    <div class="campo">
-      <label style="font-weight:normal;">
-        <input type="checkbox" id="pre-lgpd">
-        Declaro que fui informado(a) sobre a finalidade da coleta e do tratamento dos meus dados pessoais.
-      </label>
-    </div>
-  </div>
+  <!-- ========================================================== -->
+  <!-- FORMULÁRIO 1 — PRÉ-CADASTRO                                -->
+  <!-- ========================================================== -->
+  <div id="painel-pre" class="painel ativo">
 
-  <div class="card">
-    <h2>Seção 1 — Identificação da família</h2>
-    <div class="campo">
-      <label>Nome completo do responsável pela moradia *</label>
-      <input type="text" id="pre-nomeCompleto" placeholder="Nome completo">
+    <div class="card-apresentacao">
+      <h2>Apresentação do formulário</h2>
+      <p>O Programa Minha Casa + Bonita é um projeto piloto de <strong>melhoria urbana, habitacional e de assistência técnica permanente</strong>, desenvolvido na comunidade do Risca Faca, em Maricá. Este formulário integra o processo de cadastro, diagnóstico e acompanhamento das famílias interessadas, contribuindo para identificar necessidades das moradias, organizar atendimentos, planejar visitas técnicas e definir prioridades para as ações de melhoria habitacional. Não existe resposta certa ou errada: o mais importante é registrar como a família percebe os problemas da casa e quais situações considera mais graves ou urgentes.</p>
     </div>
-    <div class="campo">
-      <label>Nome social (se houver)</label>
-      <input type="text" id="pre-nomeSocial" placeholder="Nome social">
-    </div>
-    <div class="duas-col">
-      <div class="campo">
-        <label>Data de nascimento</label>
-        <input type="date" id="pre-dataNascimento">
+
+    <div class="card">
+      <div class="aviso-lgpd">
+        <strong>Informação sobre tratamento de dados — LGPD</strong><br>
+        Os dados coletados serão utilizados exclusivamente para cadastro, avaliação, planejamento e execução do Programa Minha Casa + Bonita, conforme a Lei nº 13.709/2018. O acesso será restrito à equipe técnica e parceiros envolvidos.
       </div>
       <div class="campo">
-        <label>CPF *</label>
-        <input type="text" id="pre-cpf" placeholder="000.000.000-00" maxlength="14">
+        <label style="font-weight:normal;">
+          <input type="checkbox" id="pre-lgpd">
+          Declaro que fui informado(a) sobre a finalidade da coleta e do tratamento dos meus dados pessoais.
+        </label>
       </div>
     </div>
-    <div class="campo">
-      <label>Estado civil</label>
-      <div class="opcoes">
-        <label><input type="radio" name="pre-estadoCivil" value="Solteira/o"> Solteira/o</label>
-        <label><input type="radio" name="pre-estadoCivil" value="Casada/o"> Casada/o</label>
-        <label><input type="radio" name="pre-estadoCivil" value="União estável"> União estável</label>
-        <label><input type="radio" name="pre-estadoCivil" value="Separada/o"> Separada/o</label>
-        <label><input type="radio" name="pre-estadoCivil" value="Divorciada/o"> Divorciada/o</label>
-        <label><input type="radio" name="pre-estadoCivil" value="Viúva/o"> Viúva/o</label>
-      </div>
-    </div>
-    <div class="duas-col">
+
+    <div class="card">
+      <h2>Seção 1 — Identificação da família</h2>
       <div class="campo">
-        <label>Telefone principal *</label>
-        <input type="tel" id="pre-telefone" placeholder="(21) 00000-0000">
+        <label>Nome completo do responsável pela moradia *</label>
+        <input type="text" id="pre-nomeCompleto" placeholder="Nome completo">
       </div>
       <div class="campo">
-        <label>WhatsApp?</label>
+        <label>Nome social (se houver)</label>
+        <input type="text" id="pre-nomeSocial" placeholder="Nome social">
+      </div>
+      <div class="duas-col">
+        <div class="campo">
+          <label>Data de nascimento</label>
+          <input type="date" id="pre-dataNascimento">
+        </div>
+        <div class="campo">
+          <label>CPF *</label>
+          <input type="text" id="pre-cpf" placeholder="000.000.000-00" maxlength="14">
+        </div>
+      </div>
+      <div class="campo">
+        <label>Estado civil</label>
         <div class="opcoes">
-          <label><input type="radio" name="pre-whatsapp" value="Sim"> Sim</label>
-          <label><input type="radio" name="pre-whatsapp" value="Não"> Não</label>
+          <label><input type="radio" name="pre-estadoCivil" value="Solteira/o"> Solteira/o</label>
+          <label><input type="radio" name="pre-estadoCivil" value="Casada/o"> Casada/o</label>
+          <label><input type="radio" name="pre-estadoCivil" value="União estável"> União estável</label>
+          <label><input type="radio" name="pre-estadoCivil" value="Separada/o"> Separada/o</label>
+          <label><input type="radio" name="pre-estadoCivil" value="Divorciada/o"> Divorciada/o</label>
+          <label><input type="radio" name="pre-estadoCivil" value="Viúva/o"> Viúva/o</label>
+        </div>
+      </div>
+      <div class="duas-col">
+        <div class="campo">
+          <label>Telefone principal *</label>
+          <input type="tel" id="pre-telefone" placeholder="(21) 00000-0000">
+        </div>
+        <div class="campo">
+          <label>WhatsApp?</label>
+          <div class="opcoes">
+            <label><input type="radio" name="pre-whatsapp" value="Sim"> Sim</label>
+            <label><input type="radio" name="pre-whatsapp" value="Não"> Não</label>
+          </div>
+        </div>
+      </div>
+      <div class="campo">
+        <label>Endereço / ponto de referência da moradia</label>
+        <input type="text" id="pre-endereco" placeholder="Rua, número, referência">
+      </div>
+      <div class="campo">
+        <label>Tempo de moradia no local</label>
+        <input type="text" id="pre-tempoMoradia" placeholder="Ex: 5 anos, 3 meses">
+      </div>
+      <div class="campo">
+        <label>Tipo de moradia</label>
+        <div class="opcoes">
+          <label><input type="radio" name="pre-tipoMoradia" value="Própria"> Própria</label>
+          <label><input type="radio" name="pre-tipoMoradia" value="Alugada"> Alugada</label>
+          <label><input type="radio" name="pre-tipoMoradia" value="Cedida"> Cedida</label>
+          <label><input type="radio" name="pre-tipoMoradia" value="Outra"> Outra</label>
+        </div>
+      </div>
+      <div class="campo">
+        <label>Renda familiar mensal (aproximada)</label>
+        <input type="text" id="pre-rendaFamiliar" placeholder="Ex: R$ 2.500,00">
+      </div>
+      <div class="campo">
+        <label>Número de pessoas na moradia</label>
+        <input type="number" id="pre-numPessoas" min="1">
+      </div>
+      <div class="campo">
+        <label>Número de crianças (0-12 anos)</label>
+        <input type="number" id="pre-numCriancas" min="0">
+      </div>
+      <div class="campo">
+        <label>Número de adolescentes (13-17 anos)</label>
+        <input type="number" id="pre-numAdolescentes" min="0">
+      </div>
+      <div class="campo">
+        <label>Número de idosos (60+ anos)</label>
+        <input type="number" id="pre-numIdosos" min="0">
+      </div>
+      <div class="campo">
+        <label>Pessoas com deficiência na moradia?</label>
+        <div class="opcoes">
+          <label><input type="radio" name="pre-pcd" value="Sim"> Sim</label>
+          <label><input type="radio" name="pre-pcd" value="Não"> Não</label>
         </div>
       </div>
     </div>
-    <div class="campo">
-      <label>Endereço / ponto de referência da moradia</label>
-      <input type="text" id="pre-endereco" placeholder="Rua, número, referência">
-    </div>
-    <div class="campo">
-      <label>ID do domicílio</label>
-      <input type="text" id="pre-idDomicilio" placeholder="Código do domicílio">
-    </div>
-  </div>
 
-  <div class="card">
-    <h2>Seção X — (Demais perguntas que você trouxe)</h2>
-    <!-- Aqui você pode colar o restante das seções do pré-cadastro
-         exatamente como já estava, se quiser manter TUDO. 
-         Para não explodir a resposta, deixei resumido. -->
-    <!-- Vou incluir só o trecho final que você mandou: -->
-    <div class="campo">
-      <label>Como soube do programa?</label>
-      <div class="opcoes">
-        <label><input type="checkbox" name="pre-comoSoube" value="Vizinha/o"> Vizinha/o</label>
-        <label><input type="checkbox" name="pre-comoSoube" value="Reunião"> Reunião</label>
-        <label><input type="checkbox" name="pre-comoSoube" value="WhatsApp"> WhatsApp</label>
-        <label><input type="checkbox" name="pre-comoSoube" value="Rede social"> Rede social</label>
-        <label><input type="checkbox" name="pre-comoSoube" value="Outro"> Outro</label>
-      </div>
-    </div>
-    <div class="campo">
-      <label>Participou de reunião sobre o programa?</label>
-      <div class="opcoes">
-        <label><input type="radio" name="pre-participouReuniao" value="Sim"> Sim</label>
-        <label><input type="radio" name="pre-participouReuniao" value="Não"> Não</label>
-      </div>
-    </div>
-    <div class="campo">
-      <label>Deseja participar de reuniões?</label>
-      <div class="opcoes">
-        <label><input type="radio" name="pre-desejaParticipar" value="Sim"> Sim</label>
-        <label><input type="radio" name="pre-desejaParticipar" value="Não"> Não</label>
-        <label><input type="radio" name="pre-desejaParticipar" value="Talvez"> Talvez</label>
-      </div>
-    </div>
-    <div class="campo">
-      <label>Principal expectativa com o programa</label>
-      <div class="opcoes">
-        <label><input type="radio" name="pre-expectativaPrincipal" value="Banheiro"> Banheiro</label>
-        <label><input type="radio" name="pre-expectativaPrincipal" value="Fachada"> Fachada</label>
-        <label><input type="radio" name="pre-expectativaPrincipal" value="Saúde"> Saúde</label>
-        <label><input type="radio" name="pre-expectativaPrincipal" value="Segurança"> Segurança</label>
-        <label><input type="radio" name="pre-expectativaPrincipal" value="Valorizar a casa"> Valorizar a casa</label>
-        <label><input type="radio" name="pre-expectativaPrincipal" value="Acessibilidade"> Acessibilidade</label>
-        <label><input type="radio" name="pre-expectativaPrincipal" value="Dignidade/conforto"> Dignidade/conforto</label>
-        <label><input type="radio" name="pre-expectativaPrincipal" value="Outra"> Outra</label>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <h2>Preenchimento pela equipe técnica</h2>
-    <div class="campo">
-      <label>Nome da/o entrevistadora/or</label>
-      <input type="text" id="pre-nomeEntrevistador" placeholder="Nome completo">
-    </div>
-    <div class="duas-col">
-      <div class="campo">
-        <label>Data do preenchimento</label>
-        <input type="date" id="pre-dataPreenchimento">
+    <div class="card">
+      <h2>Seção 2 — Condições da moradia (percepção da família)</h2>
+      <div class="box-orientacao">
+        <strong>Orientação:</strong> Para cada item, marque a opção que melhor representa a situação da moradia. "Não se aplica" pode ser usado para problemas que não existem na casa.
       </div>
       <div class="campo">
-        <label>Horário</label>
-        <input type="text" id="pre-horaPreenchimento" placeholder="HH:MM">
+        <label>A casa possui banheiro adequado?</label>
+        <div class="opcoes">
+          <label><input type="radio" name="pre-banheiroAdequado" value="Sim"> Sim</label>
+          <label><input type="radio" name="pre-banheiroAdequado" value="Não"> Não</label>
+        </div>
+      </div>
+      <div class="campo">
+        <label>A casa possui acesso à água potável?</label>
+        <div class="opcoes">
+          <label><input type="radio" name="pre-aguaPotavel" value="Sim"> Sim</label>
+          <label><input type="radio" name="pre-aguaPotavel" value="Não"> Não</label>
+        </div>
+      </div>
+      <div class="campo">
+        <label>A casa possui esgoto sanitário adequado?</label>
+        <div class="opcoes">
+          <label><input type="radio" name="pre-esgotoAdequado" value="Sim"> Sim</label>
+          <label><input type="radio" name="pre-esgotoAdequado" value="Não"> Não</label>
+        </div>
+      </div>
+      <div class="campo">
+        <label>A casa possui coleta de lixo regular?</label>
+        <div class="opcoes">
+          <label><input type="radio" name="pre-coletaLixo" value="Sim"> Sim</label>
+          <label><input type="radio" name="pre-coletaLixo" value="Não"> Não</label>
+        </div>
+      </div>
+      <div class="campo">
+        <label>A casa possui ventilação e iluminação natural adequadas?</label>
+        <div class="opcoes">
+          <label><input type="radio" name="pre-ventilacaoIluminacao" value="Sim"> Sim</label>
+          <label><input type="radio" name="pre-ventilacaoIluminacao" value="Não"> Não</label>
+        </div>
+      </div>
+      <div class="campo">
+        <label>A casa possui problemas de umidade ou infiltração?</label>
+        <div class="opcoes">
+          <label><input type="radio" name="pre-umidadeInfiltracao" value="Sim"> Sim</label>
+          <label><input type="radio" name="pre-umidadeInfiltracao" value="Não"> Não</label>
+        </div>
+      </div>
+      <div class="campo">
+        <label>A casa possui rachaduras ou trincas nas paredes?</label>
+        <div class="opcoes">
+          <label><input type="radio" name="pre-rachadurasTrincas" value="Sim"> Sim</label>
+          <label><input type="radio" name="pre-rachadurasTrincas" value="Não"> Não</label>
+        </div>
+      </div>
+      <div class="campo">
+        <label>A casa possui problemas na instalação elétrica?</label>
+        <div class="opcoes">
+          <label><input type="radio" name="pre-instalacaoEletrica" value="Sim"> Sim</label>
+          <label><input type="radio" name="pre-instalacaoEletrica" value="Não"> Não</label>
+        </div>
+      </div>
+      <div class="campo">
+        <label>A casa possui telhado com vazamentos ou danificado?</label>
+        <div class="opcoes">
+          <label><input type="radio" name="pre-telhadoVazamentos" value="Sim"> Sim</label>
+          <label><input type="radio" name="pre-telhadoVazamentos" value="Não"> Não</label>
+        </div>
+      </div>
+      <div class="campo">
+        <label>A casa possui piso danificado ou irregular?</label>
+        <div class="opcoes">
+          <label><input type="radio" name="pre-pisoDanificado" value="Sim"> Sim</label>
+          <label><input type="radio" name="pre-pisoDanificado" value="Não"> Não</label>
+        </div>
+      </div>
+      <div class="campo">
+        <label>A casa possui paredes sem acabamento ou reboco?</label>
+        <div class="opcoes">
+          <label><input type="radio" name="pre-paredesAcabamento" value="Sim"> Sim</label>
+          <label><input type="radio" name="pre-paredesAcabamento" value="Não"> Não</label>
+        </div>
+      </div>
+      <div class="campo">
+        <label>A casa possui ferro exposto (vergalhões)?</label>
+        <div class="opcoes">
+          <label><input type="radio" name="pre-ferroExposto" value="Sim"> Sim</label>
+          <label><input type="radio" name="pre-ferroExposto" value="Não"> Não</label>
+        </div>
       </div>
     </div>
-    <div class="campo">
-      <label>Observações da equipe</label>
-      <textarea id="pre-observacoesEquipe" placeholder="Observações internas da equipe técnica"></textarea>
+
+    <div class="card">
+      <h2>Seção 3 — Avaliação da moradia (percepção da família)</h2>
+      <div class="box-orientacao">
+        <strong>Orientação:</strong> Para cada problema, marque a opção que melhor representa a situação da moradia. "Não se aplica" pode ser usado para problemas que não existem na casa.
+      </div>
+      <table class="grade-avaliacao">
+        <thead>
+          <tr>
+            <th>Problema</th>
+            <th>Não se aplica</th>
+            <th>Leve</th>
+            <th>Moderado</th>
+            <th>Grave</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Rachaduras ou trincas nas paredes</td>
+            <td><input type="radio" name="pre-aval-rachaduras" value="Não se aplica"></td>
+            <td><input type="radio" name="pre-aval-rachaduras" value="Leve"></td>
+            <td><input type="radio" name="pre-aval-rachaduras" value="Moderado"></td>
+            <td><input type="radio" name="pre-aval-rachaduras" value="Grave"></td>
+          </tr>
+          <tr>
+            <td>Problemas na instalação elétrica</td>
+            <td><input type="radio" name="pre-aval-eletrica" value="Não se aplica"></td>
+            <td><input type="radio" name="pre-aval-eletrica" value="Leve"></td>
+            <td><input type="radio" name="pre-aval-eletrica" value="Moderado"></td>
+            <td><input type="radio" name="pre-aval-eletrica" value="Grave"></td>
+          </tr>
+          <tr>
+            <td>Infiltrações ou umidade</td>
+            <td><input type="radio" name="pre-aval-infiltracoes" value="Não se aplica"></td>
+            <td><input type="radio" name="pre-aval-infiltracoes" value="Leve"></td>
+            <td><input type="radio" name="pre-aval-infiltracoes" value="Moderado"></td>
+            <td><input type="radio" name="pre-aval-infiltracoes" value="Grave"></td>
+          </tr>
+          <tr>
+            <td>Piso danificado ou irregular</td>
+            <td><input type="radio" name="pre-aval-piso" value="Não se aplica"></td>
+            <td><input type="radio" name="pre-aval-piso" value="Leve"></td>
+            <td><input type="radio" name="pre-aval-piso" value="Moderado"></td>
+            <td><input type="radio" name="pre-aval-piso" value="Grave"></td>
+          </tr>
+          <tr>
+            <td>Paredes sem acabamento ou reboco</td>
+            <td><input type="radio" name="pre-aval-paredes" value="Não se aplica"></td>
+            <td><input type="radio" name="pre-aval-paredes" value="Leve"></td>
+            <td><input type="radio" name="pre-aval-paredes" value="Moderado"></td>
+            <td><input type="radio" name="pre-aval-paredes" value="Grave"></td>
+          </tr>
+          <tr>
+            <td>Ferro exposto (vergalhões)</td>
+            <td><input type="radio" name="pre-aval-ferro" value="Não se aplica"></td>
+            <td><input type="radio" name="pre-aval-ferro" value="Leve"></td>
+            <td><input type="radio" name="pre-aval-ferro" value="Moderado"></td>
+            <td><input type="radio" name="pre-aval-ferro" value="Grave"></td>
+          </tr>
+          <tr>
+            <td>Telhado com vazamentos ou danificado</td>
+            <td><input type="radio" name="pre-aval-telhado" value="Não se aplica"></td>
+            <td><input type="radio" name="pre-aval-telhado" value="Leve"></td>
+            <td><input type="radio" name="pre-aval-telhado" value="Moderado"></td>
+            <td><input type="radio" name="pre-aval-telhado" value="Grave"></td>
+          </tr>
+          <tr>
+            <td>Calor excessivo na casa</td>
+            <td><input type="radio" name="pre-aval-calor" value="Não se aplica"></td>
+            <td><input type="radio" name="pre-aval-calor" value="Leve"></td>
+            <td><input type="radio" name="pre-aval-calor" value="Moderado"></td>
+            <td><input type="radio" name="pre-aval-calor" value="Grave"></td>
+          </tr>
+          <tr>
+            <td>Falta de luminosidade natural</td>
+            <td><input type="radio" name="pre-aval-luminosidade" value="Não se aplica"></td>
+            <td><input type="radio" name="pre-aval-luminosidade" value="Leve"></td>
+            <td><input type="radio" name="pre-aval-luminosidade" value="Moderado"></td>
+            <td><input type="radio" name="pre-aval-luminosidade" value="Grave"></td>
+          </tr>
+          <tr>
+            <td>Espaço insuficiente para a família</td>
+            <td><input type="radio" name="pre-aval-espaco" value="Não se aplica"></td>
+            <td><input type="radio" name="pre-aval-espaco" value="Leve"></td>
+            <td><input type="radio" name="pre-aval-espaco" value="Moderado"></td>
+            <td><input type="radio" name="pre-aval-espaco" value="Grave"></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-    <div class="campo">
-      <label>Data de agendamento da visita técnica</label>
-      <input type="date" id="pre-dataAgendamento">
+
+    <div class="card">
+      <h2>Seção 4 — Informações adicionais</h2>
+      <div class="campo">
+        <label>Como soube do programa?</label>
+        <div class="opcoes">
+          <label><input type="checkbox" name="pre-comoSoube" value="Vizinhos"> Vizinhos</label>
+          <label><input type="checkbox" name="pre-comoSoube" value="Redes sociais"> Redes sociais</label>
+          <label><input type="checkbox" name="pre-comoSoube" value="Agente comunitário"> Agente comunitário</label>
+          <label><input type="checkbox" name="pre-comoSoube" value="Outro"> Outro</label>
+        </div>
+      </div>
+      <div class="campo">
+        <label>Participou de reunião sobre o programa?</label>
+        <div class="opcoes">
+          <label><input type="radio" name="pre-participouReuniao" value="Sim"> Sim</label>
+          <label><input type="radio" name="pre-participouReuniao" value="Não"> Não</label>
+        </div>
+      </div>
+      <div class="campo">
+        <label>Deseja participar de reuniões?</label>
+        <div class="opcoes">
+          <label><input type="radio" name="pre-desejaParticipar" value="Sim"> Sim</label>
+          <label><input type="radio" name="pre-desejaParticipar" value="Não"> Não</label>
+          <label><input type="radio" name="pre-desejaParticipar" value="Talvez"> Talvez</label>
+        </div>
+      </div>
+      <div class="campo">
+        <label>Principal expectativa com o programa</label>
+        <div class="opcoes">
+          <label><input type="radio" name="pre-expectativaPrincipal" value="Banheiro"> Banheiro</label>
+          <label><input type="radio" name="pre-expectativaPrincipal" value="Fachada"> Fachada</label>
+          <label><input type="radio" name="pre-expectativaPrincipal" value="Saúde"> Saúde</label>
+          <label><input type="radio" name="pre-expectativaPrincipal" value="Segurança"> Segurança</label>
+          <label><input type="radio" name="pre-expectativaPrincipal" value="Valorizar a casa"> Valorizar a casa</label>
+          <label><input type="radio" name="pre-expectativaPrincipal" value="Acessibilidade"> Acessibilidade</label>
+          <label><input type="radio" name="pre-expectativaPrincipal" value="Dignidade/conforto"> Dignidade/conforto</label>
+          <label><input type="radio" name="pre-expectativaPrincipal" value="Outra"> Outra</label>
+        </div>
+      </div>
     </div>
+
+    <div class="card">
+      <h2>Preenchimento pela equipe técnica</h2>
+      <div class="campo">
+        <label>Nome da/o entrevistadora/or</label>
+        <input type="text" id="pre-nomeEntrevistador" placeholder="Nome completo">
+      </div>
+      <div class="duas-col">
+        <div class="campo">
+          <label>Data do preenchimento</label>
+          <input type="date" id="pre-dataPreenchimento">
+        </div>
+        <div class="campo">
+          <label>Horário</label>
+          <input type="text" id="pre-horaPreenchimento" placeholder="HH:MM">
+        </div>
+      </div>
+      <div class="campo">
+        <label>Observações da equipe</label>
+        <textarea id="pre-observacoesEquipe" placeholder="Observações internas da equipe técnica"></textarea>
+      </div>
+      <div class="campo">
+        <label>Data de agendamento da visita técnica</label>
+        <input type="date" id="pre-dataAgendamento">
+      </div>
+    </div>
+
+    <button class="btn-enviar" id="btn-pre" onclick="enviarPreCadastro()">Enviar Pré-cadastro</button>
+    <div id="msg-pre" class="msg" style="display:none"></div>
   </div>
 
-  <button class="btn-enviar" onclick="enviarPreCadastro()">Enviar Pré-cadastro</button>
-  <div id="msg-pre" class="msg" style="display:none"></div>
-</div>
+  <!-- ========================================================== -->
+  <!-- FORMULÁRIO 2 — VISITA DOMICILIAR                           -->
+  <!-- ========================================================== -->
+  <div id="painel-visita" class="painel">
 
-<!-- ========================================================== -->
-<!-- FORMULÁRIO 2 — VISITA DOMICILIAR (SIMPLIFICADO)           -->
-<!-- ========================================================== -->
-<div id="painel-visita" class="painel">
-  <div class="card">
-    <h2>Visita domiciliar</h2>
-    <div class="campo">
-      <label>ID do domicílio (mesmo do pré-cadastro)</label>
-      <input type="text" id="vis-idDomicilio" placeholder="Código do domicílio">
+    <div class="card-apresentacao">
+      <h2>Apresentação do formulário de Visita Domiciliar</h2>
+      <p>Este formulário é destinado ao registro detalhado das informações coletadas durante a visita técnica à moradia. Ele complementa o pré-cadastro, aprofundando o diagnóstico das condições habitacionais e sociais da família, e serve como base para o planejamento das intervenções do Programa Minha Casa + Bonita.</p>
     </div>
-    <div class="campo">
-      <label>Data da visita</label>
-      <input type="date" id="vis-dataVisita">
+
+    <div class="card">
+      <h2>1 — Identificação da Visita</h2>
+      <div class="duas-col">
+        <div class="campo">
+          <label>Data da Visita *</label>
+          <input type="date" id="vis-dataVisita">
+        </div>
+        <div class="campo">
+          <label>Horário da Visita</label>
+          <input type="text" id="vis-horaVisita" placeholder="HH:MM">
+        </div>
+      </div>
+      <div class="campo">
+        <label>Nome do/a Visitador/a *</label>
+        <input type="text" id="vis-nomeVisitador" placeholder="Nome completo">
+      </div>
+      <div class="campo">
+        <label>ID do Domicílio (Pré-cadastro) *</label>
+        <input type="text" id="vis-idDomicilio" placeholder="Código do domicílio">
+      </div>
+      <div class="campo">
+        <label>Nome do Responsável Familiar (Pré-cadastro) *</label>
+        <input type="text" id="vis-nomeResponsavel" placeholder="Nome completo">
+      </div>
     </div>
-    <div class="campo">
-      <label>Nome da/o entrevistadora/or</label>
-      <input type="text" id="vis-entrevistador" placeholder="Nome completo">
+
+    <div class="card">
+      <h2>2 — Condições da Moradia (Observação da Equipe)</h2>
+      <div class="box-orientacao">
+        <strong>Orientação:</strong> Avalie as condições da moradia com base na observação da equipe técnica.
+      </div>
+      <div class="campo">
+        <label>Estrutura da edificação</label>
+        <div class="opcoes">
+          <label><input type="radio" name="vis-estrutura" value="Boa"> Boa</label>
+          <label><input type="radio" name="vis-estrutura" value="Regular"> Regular</label>
+          <label><input type="radio" name="vis-estrutura" value="Precária"> Precária</label>
+        </div>
+      </div>
+      <div class="campo">
+        <label>Estado de conservação</label>
+        <div class="opcoes">
+          <label><input type="radio" name="vis-conservacao" value="Bom"> Bom</label>
+          <label><input type="radio" name="vis-conservacao" value="Médio"> Médio</label>
+          <label><input type="radio" name="vis-conservacao" value="Ruim"> Ruim</label>
+        </div>
+      </div>
+      <div class="campo">
+        <label>Acesso à água (qualidade/regularidade)</label>
+        <div class="opcoes">
+          <label><input type="radio" name="vis-aguaAcesso" value="Adequado"> Adequado</label>
+          <label><input type="radio" name="vis-aguaAcesso" value="Parcial"> Parcial</label>
+          <label><input type="radio" name="vis-aguaAcesso" value="Inadequado"> Inadequado</label>
+        </div>
+      </div>
+      <div class="campo">
+        <label>Esgotamento sanitário</label>
+        <div class="opcoes">
+          <label><input type="radio" name="vis-esgoto" value="Rede pública"> Rede pública</label>
+          <label><input type="radio" name="vis-esgoto" value="Fossa séptica"> Fossa séptica</label>
+          <label><input type="radio" name="vis-esgoto" value="Fossa rudimentar"> Fossa rudimentar</label>
+          <label><input type="radio" name="vis-esgoto" value="Céu aberto"> Céu aberto</label>
+        </div>
+      </div>
+      <div class="campo">
+        <label>Coleta de lixo</label>
+        <div class="opcoes">
+          <label><input type="radio" name="vis-lixo" value="Regular"> Regular</label>
+          <label><input type="radio" name="vis-lixo" value="Irregular"> Irregular</label>
+          <label><input type="radio" name="vis-lixo" value="Não há"> Não há</label>
+        </div>
+      </div>
+      <div class="campo">
+        <label>Ventilação e iluminação</label>
+        <div class="opcoes">
+          <label><input type="radio" name="vis-ventilacaoIluminacao" value="Adequadas"> Adequadas</label>
+          <label><input type="radio" name="vis-ventilacaoIluminacao" value="Parciais"> Parciais</label>
+          <label><input type="radio" name="vis-ventilacaoIluminacao" value="Inadequadas"> Inadequadas</label>
+        </div>
+      </div>
+      <div class="campo">
+        <label>Presença de umidade/infiltração</label>
+        <div class="opcoes">
+          <label><input type="radio" name="vis-umidadeInfiltracao" value="Sim"> Sim</label>
+          <label><input type="radio" name="vis-umidadeInfiltracao" value="Não"> Não</label>
+          <label><input type="radio" name="vis-umidadeInfiltracao" value="Leve"> Leve</label>
+          <label><input type="radio" name="vis-umidadeInfiltracao" value="Moderada"> Moderada</label>
+          <label><input type="radio" name="vis-umidadeInfiltracao" value="Grave"> Grave</label>
+        </div>
+      </div>
+      <div class="campo">
+        <label>Presença de rachaduras/trincas</label>
+        <div class="opcoes">
+          <label><input type="radio" name="vis-rachadurasTrincas" value="Sim"> Sim</label>
+          <label><input type="radio" name="vis-rachadurasTrincas" value="Não"> Não</label>
+          <label><input type="radio" name="vis-rachadurasTrincas" value="Leve"> Leve</label>
+          <label><input type="radio" name="vis-rachadurasTrincas" value="Moderada"> Moderada</label>
+          <label><input type="radio" name="vis-rachadurasTrincas" value="Grave"> Grave</label>
+        </div>
+      </div>
+      <div class="campo">
+        <label>Instalação elétrica</label>
+        <div class="opcoes">
+          <label><input type="radio" name="vis-eletrica" value="Adequada"> Adequada</label>
+          <label><input type="radio" name="vis-eletrica" value="Precária"> Precária</label>
+          <label><input type="radio" name="vis-eletrica" value="Exposta"> Exposta</label>
+        </div>
+      </div>
+      <div class="campo">
+        <label>Telhado</label>
+        <div class="opcoes">
+          <label><input type="radio" name="vis-telhado" value="Bom estado"> Bom estado</label>
+          <label><input type="radio" name="vis-telhado" value="Vazamentos"> Vazamentos</label>
+          <label><input type="radio" name="vis-telhado" value="Danificado"> Danificado</label>
+        </div>
+      </div>
+      <div class="campo">
+        <label>Piso</label>
+        <div class="opcoes">
+          <label><input type="radio" name="vis-piso" value="Bom estado"> Bom estado</label>
+          <label><input type="radio" name="vis-piso" value="Danificado"> Danificado</label>
+          <label><input type="radio" name="vis-piso" value="Irregular"> Irregular</label>
+        </div>
+      </div>
+      <div class="campo">
+        <label>Paredes</label>
+        <div class="opcoes">
+          <label><input type="radio" name="vis-paredes" value="Com acabamento"> Com acabamento</label>
+          <label><input type="radio" name="vis-paredes" value="Sem acabamento"> Sem acabamento</label>
+          <label><input type="radio" name="vis-paredes" value="Com reboco"> Com reboco</label>
+          <label><input type="radio" name="vis-paredes" value="Sem reboco"> Sem reboco</label>
+        </div>
+      </div>
+      <div class="campo">
+        <label>Ferro exposto (vergalhões)</label>
+        <div class="opcoes">
+          <label><input type="radio" name="vis-ferroExposto" value="Sim"> Sim</label>
+          <label><input type="radio" name="vis-ferroExposto" value="Não"> Não</label>
+        </div>
+      </div>
     </div>
-    <div class="campo">
-      <label>Observações da visita</label>
-      <textarea id="vis-observacoes" placeholder="Principais pontos observados na casa"></textarea>
+
+    <div class="card">
+      <h2>3 — Condições Sociais e Acesso a Serviços</h2>
+      <div class="campo">
+        <label>Situação de emprego do responsável</label>
+        <div class="opcoes">
+          <label><input type="radio" name="vis-situacaoEmprego" value="Empregado formal"> Empregado formal</label>
+          <label><input type="radio" name="vis-situacaoEmprego" value="Empregado informal"> Empregado informal</label>
+          <label><input type="radio" name="vis-situacaoEmprego" value="Autônomo"> Autônomo</label>
+          <label><input type="radio" name="vis-situacaoEmprego" value="Desempregado"> Desempregado</label>
+          <label><input type="radio" name="vis-situacaoEmprego" value="Aposentado/Pensionista"> Aposentado/Pensionista</label>
+        </div>
+      </div>
+      <div class="campo">
+        <label>Benefícios sociais recebidos</label>
+        <div class="opcoes">
+          <label><input type="checkbox" name="vis-beneficiosSociais" value="Bolsa Família"> Bolsa Família</label>
+          <label><input type="checkbox" name="vis-beneficiosSociais" value="BPC"> BPC</label>
+          <label><input type="checkbox" name="vis-beneficiosSociais" value="Outro"> Outro</label>
+          <label><input type="checkbox" name="vis-beneficiosSociais" value="Nenhum"> Nenhum</label>
+        </div>
+      </div>
+      <div class="campo">
+        <label>Acesso à saúde (posto/hospital)</label>
+        <div class="opcoes">
+          <label><input type="radio" name="vis-acessoSaude" value="Fácil"> Fácil</label>
+          <label><input type="radio" name="vis-acessoSaude" value="Médio"> Médio</label>
+          <label><input type="radio" name="vis-acessoSaude" value="Difícil"> Difícil</label>
+        </div>
+      </div>
+      <div class="campo">
+        <label>Situação escolar das crianças/adolescentes</label>
+        <div class="opcoes">
+          <label><input type="radio" name="vis-situacaoEscolar" value="Na escola"> Na escola</label>
+          <label><input type="radio" name="vis-situacaoEscolar" value="Fora da escola"> Fora da escola</label>
+          <label><input type="radio" name="vis-situacaoEscolar" value="Não se aplica"> Não se aplica</label>
+        </div>
+      </div>
+      <div class="campo">
+        <label>Acesso à creche</label>
+        <div class="opcoes">
+          <label><input type="radio" name="vis-acessoCreche" value="Sim"> Sim</label>
+          <label><input type="radio" name="vis-acessoCreche" value="Não"> Não</label>
+          <label><input type="radio" name="vis-acessoCreche" value="Não se aplica"> Não se aplica</label>
+        </div>
+      </div>
+      <div class="campo">
+        <label>Demanda por creche</label>
+        <div class="opcoes">
+          <label><input type="radio" name="vis-demandaCreche" value="Sim"> Sim</label>
+          <label><input type="radio" name="vis-demandaCreche" value="Não"> Não</label>
+          <label><input type="radio" name="vis-demandaCreche" value="Não se aplica"> Não se aplica</label>
+        </div>
+      </div>
+      <div class="duas-col">
+        <div class="campo">
+          <label>Acesso ao CRAS</label>
+          <div class="opcoes">
+            <label><input type="radio" name="vis-acessoCRAS" value="Sim"> Sim</label>
+            <label><input type="radio" name="vis-acessoCRAS" value="Não"> Não</label>
+          </div>
+        </div>
+        <div class="campo">
+          <label>Acesso ao CREAS</label>
+          <div class="opcoes">
+            <label><input type="radio" name="vis-acessoCREAS" value="Sim"> Sim</label>
+            <label><input type="radio" name="vis-acessoCREAS" value="Não"> Não</label>
+          </div>
+        </div>
+      </div>
+      <div class="campo">
+        <label>Participa de alguma associação/coletivo?</label>
+        <div class="opcoes">
+          <label><input type="radio" name="vis-participaAssociacao" value="Sim" onclick="mostrar('vis-qualAssociacao-div')"> Sim</label>
+          <label><input type="radio" name="vis-participaAssociacao" value="Não" onclick="esconder('vis-qualAssociacao-div')"> Não</label>
+        </div>
+      </div>
+      <div id="vis-qualAssociacao-div" class="campo" style="display:none">
+        <label>Qual?</label>
+        <input type="text" id="vis-qualAssociacao" placeholder="Nome da associação/coletivo">
+      </div>
     </div>
+
+    <div class="card">
+      <h2>4 — Observações e Fechamento</h2>
+      <div class="campo">
+        <label>Observações qualitativas</label>
+        <textarea id="vis-observacoesQualitativas" placeholder="Detalhes adicionais, impressões da equipe, etc."></textarea>
+      </div>
+      <div class="campo">
+        <label>Nome do responsável familiar (fechamento)</label>
+        <input type="text" id="vis-nomeResponsavelFechamento" placeholder="Nome completo">
+      </div>
+      <div class="campo">
+        <label>Nome do entrevistador (fechamento)</label>
+        <input type="text" id="vis-nomeEntrevistadorFechamento" placeholder="Nome completo">
+      </div>
+      <div class="campo">
+        <label>Assinatura da equipe (se aplicável)</label>
+        <input type="text" id="vis-assinaturaEquipe" placeholder="Assinatura digital ou nome da equipe">
+      </div>
+      <div class="campo">
+        <label>Data de fechamento</label>
+        <input type="date" id="vis-dataFechamento">
+      </div>
+    </div>
+
+    <button class="btn-enviar" id="btn-vis" onclick="enviarVisita()">Enviar Visita Domiciliar</button>
+    <div id="msg-vis" class="msg" style="display:none"></div>
+
   </div>
 
-  <button class="btn-enviar" onclick="enviarVisita()">Enviar Visita</button>
-  <div id="msg-vis" class="msg" style="display:none"></div>
-</div>
+  <!-- ========================================================== -->
+  <!-- DASHBOARD                                                  -->
+  <!-- ========================================================== -->
+  <div id="painel-dashboard" class="painel">
+    <div class="card-apresentacao">
+      <h2>Dashboard de Registros</h2>
+      <p>Visualize rapidamente o total de pré-cadastros e visitas realizadas. Os registros abaixo são uma simulação e serão preenchidos com dados reais da sua planilha quando o Apps Script for configurado.</p>
+    </div>
 
-<!-- ========================================================== -->
-<!-- DASHBOARD SIMPLES                                         -->
-<!-- ========================================================== -->
-<div id="painel-dashboard" class="painel">
-  <div class="card">
-    <h2>Dashboard</h2>
     <div class="dash-info">
       <div>
         <h3>Pré-cadastros</h3>
@@ -315,7 +782,22 @@
       <h2>Últimos registros</h2>
       <div id="dash-lista-pre">
         <!-- Aqui, depois, vamos preencher via JavaScript com dados do Apps Script -->
-        <div class="dash-lista-item">Integração com planilha ainda não configurada.</div>
+        <div class="dash-lista-item">Nenhum pré-cadastro encontrado (simulação).</div>
+        <div class="dash-lista-item">
+          <span>CPF: 123.456.789-00 | ID: 12345 (Pré)</span>
+          <div class="item-botoes">
+            <button class="btn-pdf" onclick="alert('Simulação: Gerar PDF do Pré-cadastro ID 12345')">PDF</button>
+          </div>
+        </div>
+      </div>
+      <div id="dash-lista-vis" style="margin-top: 15px;">
+        <div class="dash-lista-item">Nenhuma visita encontrada (simulação).</div>
+        <div class="dash-lista-item">
+          <span>CPF: 987.654.321-00 | ID: 67890 (Visita)</span>
+          <div class="item-botoes">
+            <button class="btn-pdf" onclick="alert('Simulação: Gerar PDF da Visita ID 67890')">PDF</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -335,10 +817,24 @@
       paineis.forEach(p => p.classList.remove('ativo'));
       btn.classList.add('ativa');
       document.getElementById(btn.dataset.alvo).classList.add('ativo');
+
+      // Se for o dashboard, "carrega" os dados simulados
+      if (btn.dataset.alvo === 'painel-dashboard') {
+        document.getElementById('dash-total-pre').textContent = '5'; // Simulação
+        document.getElementById('dash-total-vis').textContent = '2'; // Simulação
+      }
     });
   });
 
-  // Helpers
+  // Helpers para pegar valores de formulário
+  function getVal(id) {
+    const el = document.getElementById(id);
+    if (el) {
+      if (el.type === 'checkbox') return el.checked ? 'Sim' : 'Não';
+      return el.value;
+    }
+    return '';
+  }
   function getRadio(name) {
     const el = document.querySelector('input[name="'+name+'"]:checked');
     return el ? el.value : '';
@@ -346,22 +842,40 @@
   function getChecks(name) {
     return Array.from(document.querySelectorAll('input[name="'+name+'"]:checked')).map(i => i.value).join(', ');
   }
-  function msg(id, tipo, texto) {
+  function mostrarMsg(id, tipo, texto) {
     const d = document.getElementById(id);
     d.className = 'msg ' + tipo;
     d.textContent = texto;
     d.style.display = 'block';
   }
-
-  // Enviar pré-cadastro (por enquanto só mostra mensagem)
-  function enviarPreCadastro() {
-    // Aqui depois ligamos no Apps Script.
-    msg('msg-pre', 'ok', 'Pré-cadastro enviado (simulação). Depois conectamos à planilha.');
+  function esconderMsg(id) {
+    document.getElementById(id).style.display = 'none';
   }
 
-  // Enviar visita (por enquanto só mostra mensagem)
+  // Funções para mostrar/esconder campos (usadas na Visita)
+  function mostrar(id) { document.getElementById(id).style.display = 'block'; }
+  function esconder(id) { document.getElementById(id).style.display = 'none'; }
+
+
+  // Enviar pré-cadastro (por enquanto só mostra mensagem de simulação)
+  function enviarPreCadastro() {
+    mostrarMsg('msg-pre', 'ok', 'Pré-cadastro enviado (SIMULAÇÃO). Depois conectaremos à planilha.');
+    console.log('Dados do Pré-cadastro (simulação):', {
+      lgpd: getVal('pre-lgpd'),
+      nomeCompleto: getVal('pre-nomeCompleto'),
+      cpf: getVal('pre-cpf'),
+      // ... e assim por diante para todos os campos do pré-cadastro
+    });
+  }
+
+  // Enviar visita (por enquanto só mostra mensagem de simulação)
   function enviarVisita() {
-    msg('msg-vis', 'ok', 'Visita enviada (simulação). Depois conectamos à planilha.');
+    mostrarMsg('msg-vis', 'ok', 'Visita Domiciliar enviada (SIMULAÇÃO). Depois conectaremos à planilha.');
+    console.log('Dados da Visita (simulação):', {
+      dataVisita: getVal('vis-dataVisita'),
+      nomeVisitador: getVal('vis-nomeVisitador'),
+      // ... e assim por diante para todos os campos da visita
+    });
   }
 </script>
 
