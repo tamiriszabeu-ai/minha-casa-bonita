@@ -17,43 +17,45 @@
   header h1 { font-size: 20px; }
   header p  { font-size: 13px; margin-top: 4px; opacity: .85; }
 
-  .abas {
-    display: flex;
-    background: #154360;
-  }
+  .abas { display: flex; background: #154360; }
   .aba-btn {
-    flex: 1;
-    padding: 12px;
-    background: none;
-    border: none;
-    color: #aad4f5;
-    font-size: 13px;
-    cursor: pointer;
-    border-bottom: 3px solid transparent;
-    transition: .2s;
+    flex: 1; padding: 12px; background: none; border: none;
+    color: #aad4f5; font-size: 13px; cursor: pointer;
+    border-bottom: 3px solid transparent; transition: .2s;
   }
-  .aba-btn.ativa {
-    color: #fff;
-    border-bottom-color: #f39c12;
-    background: #1a5276;
-  }
+  .aba-btn.ativa { color: #fff; border-bottom-color: #f39c12; background: #1a5276; }
 
   .painel { display: none; padding: 20px; max-width: 760px; margin: 0 auto; }
   .painel.ativo { display: block; }
 
+  /* Card padrão */
   .card {
-    background: #fff;
-    border-radius: 8px;
-    padding: 18px 20px;
-    margin-bottom: 16px;
-    box-shadow: 0 1px 4px rgba(0,0,0,.08);
+    background: #fff; border-radius: 8px; padding: 18px 20px;
+    margin-bottom: 16px; box-shadow: 0 1px 4px rgba(0,0,0,.08);
   }
   .card h2 {
-    font-size: 14px;
-    color: #1a5276;
-    margin-bottom: 14px;
-    padding-bottom: 6px;
-    border-bottom: 1px solid #d5e8f5;
+    font-size: 14px; color: #1a5276; margin-bottom: 14px;
+    padding-bottom: 6px; border-bottom: 1px solid #d5e8f5;
+  }
+
+  /* Card Apresentação */
+  .card-apresentacao {
+    background: #fdf6e3; border: 1.5px solid #c8a84b;
+    border-radius: 6px; padding: 16px 20px; margin-bottom: 16px;
+  }
+  .card-apresentacao h2 {
+    font-size: 14px; color: #b7700a; margin-bottom: 8px;
+    padding-bottom: 0; border-bottom: none;
+  }
+  .card-apresentacao p {
+    font-size: 13px; line-height: 1.65; color: #333; text-align: justify;
+  }
+
+  /* Orientação seção 2 */
+  .box-orientacao {
+    border: 1.5px solid #f1c40f; padding: 10px 14px;
+    border-radius: 4px; margin-bottom: 14px; background: #fffdf0;
+    font-size: 13px; line-height: 1.6;
   }
 
   .campo { margin-bottom: 12px; }
@@ -63,52 +65,48 @@
   .campo input[type=tel],
   .campo select,
   .campo textarea {
-    width: 100%;
-    padding: 8px 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 13px;
+    width: 100%; padding: 8px 10px; border: 1px solid #ccc;
+    border-radius: 5px; font-size: 13px;
   }
   .campo textarea { min-height: 70px; resize: vertical; }
 
   .opcoes { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
   .opcoes label {
-    font-weight: normal;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 13px;
-    cursor: pointer;
+    font-weight: normal; display: flex; align-items: center;
+    gap: 4px; font-size: 13px; cursor: pointer;
   }
 
-  .grade-avaliacao { width: 100%; border-collapse: collapse; font-size: 12px; }
-  .grade-avaliacao th, .grade-avaliacao td { border: 1px solid #ddd; padding: 6px 8px; text-align: center; }
-  .grade-avaliacao th { background: #eaf4fb; font-size: 11px; }
-  .grade-avaliacao td:first-child { text-align: left; }
+  /* Grade de avaliação */
+  .grade-avaliacao {
+    width: 100%; border-collapse: collapse; font-size: 12px; min-width: 480px;
+  }
+  .grade-avaliacao thead tr { background: #1a5276; color: #fff; }
+  .grade-avaliacao th {
+    border: 1px solid #154360; padding: 7px 8px;
+    text-align: center; font-size: 11px; font-weight: bold;
+  }
+  .grade-avaliacao th:first-child { text-align: left; width: 34%; }
+  .grade-avaliacao td {
+    border: 1px solid #ddd; padding: 6px 8px;
+    text-align: center; vertical-align: middle;
+  }
+  .grade-avaliacao td:first-child { text-align: left; background: #fff; font-weight: normal; }
+  .grade-avaliacao tbody tr:nth-child(even) td { background: #f7fafc; }
+  .grade-avaliacao tbody tr:nth-child(even) td:first-child { background: #f7fafc; }
+  .grade-avaliacao input[type=radio] { width: 16px; height: 16px; cursor: pointer; }
 
   .btn-enviar {
-    width: 100%;
-    padding: 14px;
-    background: #1a5276;
-    color: #fff;
-    border: none;
-    border-radius: 6px;
-    font-size: 15px;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 8px;
+    width: 100%; padding: 14px; background: #1a5276; color: #fff;
+    border: none; border-radius: 6px; font-size: 15px;
+    font-weight: bold; cursor: pointer; margin-top: 8px;
   }
   .btn-enviar:hover { background: #154360; }
   .btn-enviar:disabled { background: #aaa; cursor: not-allowed; }
 
   .aviso-lgpd {
-    background: #eaf4fb;
-    border-left: 4px solid #1a5276;
-    padding: 12px 14px;
-    font-size: 12px;
-    line-height: 1.6;
-    border-radius: 4px;
-    margin-bottom: 6px;
+    background: #eaf4fb; border-left: 4px solid #1a5276;
+    padding: 12px 14px; font-size: 12px; line-height: 1.6;
+    border-radius: 4px; margin-bottom: 10px;
   }
 
   .msg { padding: 12px; border-radius: 6px; margin-top: 12px; font-size: 13px; text-align: center; }
@@ -137,10 +135,19 @@
 </div>
 
 <!-- ============================================================ -->
-<!-- FORMULÁRIO 1 — PRÉ-CADASTRO (Autoavaliação da Moradia)       -->
+<!-- FORMULÁRIO 1 — PRÉ-CADASTRO                                  -->
 <!-- ============================================================ -->
 <div id="painel-pre" class="painel ativo">
 
+  <!-- Apresentação do formulário -->
+  <div class="card-apresentacao">
+    <h2>Apresentação do formulário</h2>
+    <p>
+      O Programa Minha Casa + Bonita é um projeto piloto de <strong>melhoria urbana, habitacional e de assistência técnica permanente</strong>, desenvolvido na comunidade do Risca Faca, em Maricá. Este formulário integra o processo de cadastro, diagnóstico e acompanhamento das famílias interessadas, contribuindo para identificar necessidades das moradias, organizar atendimentos, planejar visitas técnicas e definir prioridades para as ações de melhoria habitacional. Não existe resposta certa ou errada: o mais importante é registrar como a família percebe os problemas da casa e quais situações considera mais graves ou urgentes.
+    </p>
+  </div>
+
+  <!-- LGPD -->
   <div class="card">
     <div class="aviso-lgpd">
       <strong>Informação sobre tratamento de dados — LGPD</strong><br>
@@ -207,15 +214,13 @@
       <label>Endereço / ponto de referência da moradia</label>
       <input type="text" id="pre-endereco" placeholder="Rua, número, referência">
     </div>
-
     <div class="campo">
       <label>ID do domicílio</label>
       <input type="text" id="pre-idDomicilio" placeholder="Código do domicílio">
     </div>
-
     <div class="duas-col">
       <div class="campo">
-        <label>Tempo de residência no município — anos</label>
+        <label>Tempo de residência — anos</label>
         <input type="text" id="pre-tempoResidAnos" placeholder="Ex: 5">
       </div>
       <div class="campo">
@@ -230,7 +235,7 @@
         <label><input type="radio" name="pre-rendaFamiliar" value="Sem renda"> Sem renda</label>
         <label><input type="radio" name="pre-rendaFamiliar" value="Abaixo de 1 SM"> Abaixo de 1 SM</label>
         <label><input type="radio" name="pre-rendaFamiliar" value="De 1 a 3 SM"> De 1 a 3 SM</label>
-        <label><input type="radio" name="pre-rendaFamiliar" value="Acima de 3 a 5 SM"> Acima de 3 a 5 SM</label>
+        <label><input type="radio" name="pre-rendaFamiliar" value="Acima de 3 a 5 SM"> De 3 a 5 SM</label>
         <label><input type="radio" name="pre-rendaFamiliar" value="Acima de 5 SM"> Acima de 5 SM</label>
         <label><input type="radio" name="pre-rendaFamiliar" value="Prefere não responder"> Prefere não responder</label>
       </div>
@@ -262,7 +267,7 @@
       </div>
     </div>
     <div id="pre-tipos-cri" class="campo" style="display:none; margin-left:12px;">
-      <label>Quais? (marque todos que se aplicam)</label>
+      <label>Quais?</label>
       <div class="opcoes">
         <label><input type="checkbox" name="pre-tipoCri" value="Crianças"> Crianças</label>
         <label><input type="checkbox" name="pre-tipoCri" value="Idosos"> Idosos</label>
@@ -279,7 +284,7 @@
       </div>
     </div>
     <div id="pre-tipos-doenca" class="campo" style="display:none; margin-left:12px;">
-      <label>Quais? (marque todos que se aplicam)</label>
+      <label>Quais?</label>
       <div class="opcoes">
         <label><input type="checkbox" name="pre-tipoDoenca" value="Doenças respiratórias"> Respiratórias</label>
         <label><input type="checkbox" name="pre-tipoDoenca" value="Doenças gastrointestinais"> Gastrointestinais</label>
@@ -294,18 +299,33 @@
   <!-- Seção 2 — Avaliação da moradia -->
   <div class="card">
     <h2>Seção 2 — Como você avalia a sua moradia?</h2>
-    <table class="grade-avaliacao">
-      <thead>
-        <tr>
-          <th style="text-align:left; width:34%">Problema</th>
-          <th>Não existe</th>
-          <th>Incomoda pouco</th>
-          <th>Incomoda muito</th>
-          <th>Risco grave</th>
-        </tr>
-      </thead>
-      <tbody id="grade-problemas"></tbody>
-    </table>
+
+    <div class="box-orientacao">
+      <strong>Orientação para a família:</strong> As casas podem apresentar problemas que afetam a saúde, a segurança e o conforto. Muitas vezes, as pessoas acabam se acostumando com essas situações, mas elas continuam impactando a qualidade de vida. Nesta etapa, queremos entender quais problemas existem na casa e quais são considerados mais graves pela família.
+    </div>
+
+    <div style="font-weight:bold; font-size:13px; margin-bottom:6px;">
+      SEÇÃO 2.1 – IDENTIFICAÇÃO DOS PROBLEMAS
+    </div>
+    <div style="font-size:13px; margin-bottom:10px;">
+      <strong>Como a sua família avalia os problemas abaixo na moradia?</strong><br>
+      <span style="font-size:12px; color:#666;">Marque apenas uma opção em cada linha.</span>
+    </div>
+
+    <div style="overflow-x:auto;">
+      <table class="grade-avaliacao">
+        <thead>
+          <tr>
+            <th>Problema observado</th>
+            <th>Não existe</th>
+            <th>Existe, mas incomoda pouco</th>
+            <th>Existe e incomoda muito</th>
+            <th>Existe e representa risco grave</th>
+          </tr>
+        </thead>
+        <tbody id="grade-problemas"></tbody>
+      </table>
+    </div>
   </div>
 
   <!-- Seção 3 — Priorização -->
@@ -336,7 +356,7 @@
       </div>
     </div>
     <div class="campo">
-      <label>De que forma? (marque todos que se aplicam)</label>
+      <label>De que forma?</label>
       <div class="opcoes">
         <label><input type="checkbox" name="pre-impacto" value="Problemas respiratórios"> Problemas respiratórios</label>
         <label><input type="checkbox" name="pre-impacto" value="Muito calor dentro da casa"> Muito calor</label>
@@ -468,94 +488,93 @@
 </div>
 
 <!-- ============================================================ -->
-<!-- FORMULÁRIO 2 — VISITA TÉCNICA E SOCIOECONÔMICA               -->
+<!-- FORMULÁRIO 2 — VISITA DOMICILIAR                             -->
 <!-- ============================================================ -->
 <div id="painel-vis" class="painel">
 
+  <!-- LGPD -->
   <div class="card">
     <div class="aviso-lgpd">
-      <strong>Declaração — LGPD</strong><br>
-      Durante a visita, serão coletadas informações pessoais, familiares, socioeconômicas e habitacionais para avaliação técnica e social. Os dados serão utilizados apenas para execução, acompanhamento e prestação de contas do Programa, conforme a Lei nº 13.709/2018.
+      <strong>Informação sobre tratamento de dados — LGPD</strong><br>
+      Os dados coletados serão utilizados exclusivamente para os fins do Programa Minha Casa + Bonita, conforme a Lei nº 13.709/2018.
     </div>
     <div class="campo">
       <label>
         <input type="checkbox" id="vis-lgpd">
-        Declaro que fui informado(a) sobre a finalidade da coleta e do tratamento dos dados e dos registros fotográficos do imóvel.
+        A família está ciente e consente com o uso dos dados para os fins do programa.
       </label>
-    </div>
-    <div class="campo">
-      <label>Situação da visita</label>
-      <div class="opcoes">
-        <label><input type="radio" name="vis-situacaoVisita" value="Realizada"> Realizada</label>
-        <label><input type="radio" name="vis-situacaoVisita" value="Morador/a ausente"> Morador/a ausente</label>
-        <label><input type="radio" name="vis-situacaoVisita" value="Recusou participação"> Recusou</label>
-        <label><input type="radio" name="vis-situacaoVisita" value="Endereço não localizado"> End. não localizado</label>
-        <label><input type="radio" name="vis-situacaoVisita" value="Retornar depois"> Retornar depois</label>
-      </div>
     </div>
   </div>
 
   <!-- Seção 1 — Identificação -->
   <div class="card">
-    <h2>1 — Identificação do responsável e controle da visita</h2>
+    <h2>1 — Identificação da visita</h2>
     <div class="campo">
-      <label>Nome completo *</label>
-      <input type="text" id="vis-nomeCompleto" placeholder="Nome completo do responsável familiar">
+      <label>Nome completo do responsável *</label>
+      <input type="text" id="vis-nomeCompleto" placeholder="Nome completo">
     </div>
     <div class="campo">
       <label>Nome social (se houver)</label>
-      <input type="text" id="vis-nomeSocial">
+      <input type="text" id="vis-nomeSocial" placeholder="Nome social">
     </div>
     <div class="duas-col">
       <div class="campo">
         <label>CPF *</label>
-        <input type="text" id="vis-cpf" placeholder="000.000.000-00">
+        <input type="text" id="vis-cpf" placeholder="000.000.000-00" maxlength="14">
       </div>
       <div class="campo">
         <label>ID do domicílio</label>
-        <input type="text" id="vis-idDomicilio">
+        <input type="text" id="vis-idDomicilio" placeholder="Código">
       </div>
     </div>
     <div class="duas-col">
       <div class="campo">
-        <label>Data da visita</label>
+        <label>Data da visita *</label>
         <input type="date" id="vis-dataVisita">
       </div>
       <div class="campo">
         <label>Equipe responsável</label>
         <div class="opcoes">
-          <label><input type="radio" name="vis-equipeResponsavel" value="01"> 01</label>
-          <label><input type="radio" name="vis-equipeResponsavel" value="02"> 02</label>
+          <label><input type="radio" name="vis-equipeResponsavel" value="Equipe 01"> Equipe 01</label>
+          <label><input type="radio" name="vis-equipeResponsavel" value="Equipe 02"> Equipe 02</label>
         </div>
       </div>
     </div>
     <div class="campo">
-      <label>Nome da/o entrevistadora/or</label>
+      <label>Nome da/o entrevistadora/or *</label>
       <input type="text" id="vis-nomeEntrevistador" placeholder="Nome completo">
+    </div>
+    <div class="campo">
+      <label>Situação da visita</label>
+      <div class="opcoes">
+        <label><input type="radio" name="vis-situacaoVisita" value="Realizada"> Realizada</label>
+        <label><input type="radio" name="vis-situacaoVisita" value="Reagendada"> Reagendada</label>
+        <label><input type="radio" name="vis-situacaoVisita" value="Recusada"> Recusada</label>
+        <label><input type="radio" name="vis-situacaoVisita" value="Ausente"> Ausente</label>
+      </div>
     </div>
   </div>
 
   <!-- Seção 2 — Perfil social -->
   <div class="card">
-    <h2>2 — Perfil social do responsável familiar</h2>
+    <h2>2 — Perfil social do/a responsável</h2>
     <div class="campo">
       <label>Identidade de gênero</label>
       <div class="opcoes">
-        <label><input type="radio" name="vis-genero" value="Mulher cis"> Mulher cis</label>
-        <label><input type="radio" name="vis-genero" value="Homem cis"> Homem cis</label>
-        <label><input type="radio" name="vis-genero" value="Mulher trans"> Mulher trans</label>
-        <label><input type="radio" name="vis-genero" value="Homem trans"> Homem trans</label>
-        <label><input type="radio" name="vis-genero" value="Não binária"> Não binária</label>
-        <label><input type="radio" name="vis-genero" value="Outra"> Outra</label>
+        <label><input type="radio" name="vis-genero" value="Mulher cisgênero"> Mulher cisgênero</label>
+        <label><input type="radio" name="vis-genero" value="Homem cisgênero"> Homem cisgênero</label>
+        <label><input type="radio" name="vis-genero" value="Mulher transgênero"> Mulher transgênero</label>
+        <label><input type="radio" name="vis-genero" value="Homem transgênero"> Homem transgênero</label>
+        <label><input type="radio" name="vis-genero" value="Não-binário"> Não-binário</label>
         <label><input type="radio" name="vis-genero" value="Prefere não responder"> Prefere não responder</label>
       </div>
     </div>
     <div class="campo">
       <label>Raça/cor</label>
       <div class="opcoes">
-        <label><input type="radio" name="vis-racaCor" value="Branca"> Branca</label>
         <label><input type="radio" name="vis-racaCor" value="Preta"> Preta</label>
         <label><input type="radio" name="vis-racaCor" value="Parda"> Parda</label>
+        <label><input type="radio" name="vis-racaCor" value="Branca"> Branca</label>
         <label><input type="radio" name="vis-racaCor" value="Amarela"> Amarela</label>
         <label><input type="radio" name="vis-racaCor" value="Indígena"> Indígena</label>
         <label><input type="radio" name="vis-racaCor" value="Prefere não responder"> Prefere não responder</label>
@@ -564,48 +583,45 @@
     <div class="campo">
       <label>Escolaridade</label>
       <div class="opcoes">
-        <label><input type="radio" name="vis-escolaridade" value="Sem escolarização"> Sem escolarização</label>
-        <label><input type="radio" name="vis-escolaridade" value="Fund. incompleto"> Fund. incompleto</label>
-        <label><input type="radio" name="vis-escolaridade" value="Fund. completo"> Fund. completo</label>
+        <label><input type="radio" name="vis-escolaridade" value="Sem escolaridade"> Sem escolaridade</label>
+        <label><input type="radio" name="vis-escolaridade" value="Fundamental incompleto"> Fundamental incompleto</label>
+        <label><input type="radio" name="vis-escolaridade" value="Fundamental completo"> Fundamental completo</label>
         <label><input type="radio" name="vis-escolaridade" value="Médio incompleto"> Médio incompleto</label>
         <label><input type="radio" name="vis-escolaridade" value="Médio completo"> Médio completo</label>
-        <label><input type="radio" name="vis-escolaridade" value="Superior incompleto"> Superior incompleto</label>
-        <label><input type="radio" name="vis-escolaridade" value="Superior completo"> Superior completo</label>
-        <label><input type="radio" name="vis-escolaridade" value="Pós-graduação"> Pós-graduação</label>
+        <label><input type="radio" name="vis-escolaridade" value="Superior"> Superior</label>
       </div>
     </div>
     <div class="campo">
       <label>Ocupação</label>
       <div class="opcoes">
-        <label><input type="radio" name="vis-ocupacao" value="Estudante"> Estudante</label>
-        <label><input type="radio" name="vis-ocupacao" value="Formal"> Formal</label>
-        <label><input type="radio" name="vis-ocupacao" value="Informal"> Informal</label>
+        <label><input type="radio" name="vis-ocupacao" value="Empregada/o formal"> Empregada/o formal</label>
+        <label><input type="radio" name="vis-ocupacao" value="Empregada/o informal"> Empregada/o informal</label>
         <label><input type="radio" name="vis-ocupacao" value="Autônoma/o"> Autônoma/o</label>
         <label><input type="radio" name="vis-ocupacao" value="Desempregada/o"> Desempregada/o</label>
         <label><input type="radio" name="vis-ocupacao" value="Aposentada/o"> Aposentada/o</label>
-        <label><input type="radio" name="vis-ocupacao" value="Cuidados domésticos"> Cuidados domésticos</label>
+        <label><input type="radio" name="vis-ocupacao" value="Do lar"> Do lar</label>
+        <label><input type="radio" name="vis-ocupacao" value="Estudante"> Estudante</label>
+        <label><input type="radio" name="vis-ocupacao" value="Outra"> Outra</label>
       </div>
     </div>
   </div>
 
   <!-- Seção 3 — Socioeconômica -->
   <div class="card">
-    <h2>3 — Situação socioeconômica da família</h2>
+    <h2>3 — Situação socioeconômica</h2>
     <div class="campo">
       <label>Principal fonte de renda</label>
       <div class="opcoes">
         <label><input type="radio" name="vis-principalFonteRenda" value="Trabalho formal"> Trabalho formal</label>
         <label><input type="radio" name="vis-principalFonteRenda" value="Trabalho informal"> Trabalho informal</label>
         <label><input type="radio" name="vis-principalFonteRenda" value="Autônoma/o"> Autônoma/o</label>
-        <label><input type="radio" name="vis-principalFonteRenda" value="MEI"> MEI</label>
         <label><input type="radio" name="vis-principalFonteRenda" value="Aposentadoria"> Aposentadoria</label>
-        <label><input type="radio" name="vis-principalFonteRenda" value="Pensão"> Pensão</label>
         <label><input type="radio" name="vis-principalFonteRenda" value="Benefício social"> Benefício social</label>
         <label><input type="radio" name="vis-principalFonteRenda" value="Sem renda"> Sem renda</label>
       </div>
     </div>
     <div class="campo">
-      <label>A família realiza alguma atividade remunerada em casa?</label>
+      <label>A família realiza atividade remunerada em casa?</label>
       <div class="opcoes">
         <label><input type="radio" name="vis-atividadeRemunerada" value="Sim" onclick="mostrar('vis-tipoAtividade-div')"> Sim</label>
         <label><input type="radio" name="vis-atividadeRemunerada" value="Não" onclick="esconder('vis-tipoAtividade-div')"> Não</label>
@@ -631,7 +647,7 @@
       </div>
     </div>
     <div class="campo">
-      <label>Recebem algum benefício?</label>
+      <label>Benefícios recebidos</label>
       <div class="opcoes">
         <label><input type="checkbox" name="vis-beneficios" value="Bolsa Família"> Bolsa Família</label>
         <label><input type="checkbox" name="vis-beneficios" value="BPC"> BPC</label>
@@ -654,7 +670,7 @@
       </div>
     </div>
     <div class="campo">
-      <label>Principal responsável pela renda da casa</label>
+      <label>Principal responsável pela renda</label>
       <div class="opcoes">
         <label><input type="radio" name="vis-responsavelRenda" value="Mulher"> Mulher</label>
         <label><input type="radio" name="vis-responsavelRenda" value="Homem"> Homem</label>
@@ -668,39 +684,40 @@
   <!-- Seção 4 — Composição familiar -->
   <div class="card">
     <h2>4 — Composição familiar e domiciliar</h2>
-    <p style="font-size:12px; color:#666; margin-bottom:10px;">Preencher com números exatos. Quando não houver, registrar 0.</p>
     <div class="duas-col">
       <div class="campo"><label>Total de pessoas na moradia</label><input type="text" id="vis-totalPessoas" placeholder="0"></div>
       <div class="campo"><label>Total de núcleos familiares</label><input type="text" id="vis-totalNucleos" placeholder="0"></div>
     </div>
     <div class="duas-col">
-      <div class="campo"><label>Crianças de 0 a 6 anos</label><input type="text" id="vis-qtdCriancas0a6" placeholder="0"></div>
-      <div class="campo"><label>Crianças de 7 a 11 anos</label><input type="text" id="vis-qtdCriancas7a11" placeholder="0"></div>
+      <div class="campo"><label>Crianças 0–6 anos</label><input type="text" id="vis-qtdCriancas0a6" placeholder="0"></div>
+      <div class="campo"><label>Crianças 7–11 anos</label><input type="text" id="vis-qtdCriancas7a11" placeholder="0"></div>
     </div>
     <div class="duas-col">
-      <div class="campo"><label>Adolescentes de 12 a 17 anos</label><input type="text" id="vis-qtdAdolescentes12a17" placeholder="0"></div>
-      <div class="campo"><label>Jovens de 18 a 29 anos</label><input type="text" id="vis-qtdJovens18a29" placeholder="0"></div>
+      <div class="campo"><label>Adolescentes 12–17 anos</label><input type="text" id="vis-qtdAdolescentes12a17" placeholder="0"></div>
+      <div class="campo"><label>Jovens 18–29 anos</label><input type="text" id="vis-qtdJovens18a29" placeholder="0"></div>
     </div>
     <div class="duas-col">
-      <div class="campo"><label>Adultos de 30 a 59 anos</label><input type="text" id="vis-qtdAdultos30a59" placeholder="0"></div>
-      <div class="campo"><label>Idosos com 60 anos ou mais</label><input type="text" id="vis-qtdIdosos60mais" placeholder="0"></div>
+      <div class="campo"><label>Adultos 30–59 anos</label><input type="text" id="vis-qtdAdultos30a59" placeholder="0"></div>
+      <div class="campo"><label>Idosos 60+ anos</label><input type="text" id="vis-qtdIdosos60mais" placeholder="0"></div>
     </div>
     <div class="duas-col">
       <div class="campo"><label>Pessoas com deficiência (qtd.)</label><input type="text" id="vis-qtdPcD" placeholder="0"></div>
-      <div class="campo"><label>Tipo de deficiência</label>
-        <div class="opcoes">
-          <label><input type="checkbox" name="vis-tipoDeficiencia" value="Física"> Física</label>
-          <label><input type="checkbox" name="vis-tipoDeficiencia" value="Auditiva"> Auditiva</label>
-          <label><input type="checkbox" name="vis-tipoDeficiencia" value="Visual"> Visual</label>
-          <label><input type="checkbox" name="vis-tipoDeficiencia" value="Intelectual"> Intelectual</label>
-          <label><input type="checkbox" name="vis-tipoDeficiencia" value="Psicossocial"> Psicossocial</label>
-          <label><input type="checkbox" name="vis-tipoDeficiencia" value="Múltipla"> Múltipla</label>
-        </div>
+      <div class="campo"><label>Mobilidade reduzida / acamadas</label><input type="text" id="vis-qtdMobilidadeReduzida" placeholder="0"></div>
+    </div>
+    <div class="campo">
+      <label>Tipo de deficiência</label>
+      <div class="opcoes">
+        <label><input type="checkbox" name="vis-tipoDeficiencia" value="Física"> Física</label>
+        <label><input type="checkbox" name="vis-tipoDeficiencia" value="Auditiva"> Auditiva</label>
+        <label><input type="checkbox" name="vis-tipoDeficiencia" value="Visual"> Visual</label>
+        <label><input type="checkbox" name="vis-tipoDeficiencia" value="Intelectual"> Intelectual</label>
+        <label><input type="checkbox" name="vis-tipoDeficiencia" value="Psicossocial"> Psicossocial</label>
+        <label><input type="checkbox" name="vis-tipoDeficiencia" value="Múltipla"> Múltipla</label>
       </div>
     </div>
     <div class="duas-col">
-      <div class="campo"><label>Pessoas acamadas ou com mobilidade reduzida</label><input type="text" id="vis-qtdMobilidadeReduzida" placeholder="0"></div>
-      <div class="campo"><label>Pessoas com doença recorrente (qtd.)</label><input type="text" id="vis-qtdDoencaRecorrente" placeholder="0"></div>
+      <div class="campo"><label>Doença recorrente (qtd.)</label><input type="text" id="vis-qtdDoencaRecorrente" placeholder="0"></div>
+      <div class="campo"><label>Gestantes (qtd.)</label><input type="text" id="vis-qtdGestantes" placeholder="0"></div>
     </div>
     <div class="campo">
       <label>Tipo de doença recorrente</label>
@@ -715,10 +732,9 @@
       </div>
     </div>
     <div class="duas-col">
-      <div class="campo"><label>Pessoas gestantes (qtd.)</label><input type="text" id="vis-qtdGestantes" placeholder="0"></div>
-      <div class="campo"><label>Crianças/adolescentes fora da escola (qtd.)</label><input type="text" id="vis-qtdForaEscola" placeholder="0"></div>
+      <div class="campo"><label>Fora da escola (qtd.)</label><input type="text" id="vis-qtdForaEscola" placeholder="0"></div>
+      <div class="campo"><label>Busca emprego/capacitação (qtd.)</label><input type="text" id="vis-qtdBuscaEmprego" placeholder="0"></div>
     </div>
-    <div class="campo"><label>Pessoas em busca de emprego ou capacitação (qtd.)</label><input type="text" id="vis-qtdBuscaEmprego" placeholder="0"></div>
   </div>
 
   <!-- Seção 5 — Condições da moradia -->
@@ -758,7 +774,7 @@
   <div class="card">
     <h2>8 — Acesso a serviços públicos</h2>
     <div class="campo">
-      <label>Serviço de saúde de referência (UBS/serviço)</label>
+      <label>Serviço de saúde de referência</label>
       <input type="text" id="vis-servicoSaudeRef" placeholder="Nome da UBS ou serviço">
     </div>
     <div class="campo">
@@ -777,7 +793,6 @@
         <label><input type="checkbox" name="vis-dificuldadesSaude" value="Transporte"> Transporte</label>
         <label><input type="checkbox" name="vis-dificuldadesSaude" value="Documentação"> Documentação</label>
         <label><input type="checkbox" name="vis-dificuldadesSaude" value="Horário"> Horário</label>
-        <label><input type="checkbox" name="vis-dificuldadesSaude" value="Atendimento"> Atendimento</label>
         <label><input type="checkbox" name="vis-dificuldadesSaude" value="Nenhuma"> Nenhuma</label>
         <label><input type="checkbox" name="vis-dificuldadesSaude" value="Outra"> Outra</label>
       </div>
@@ -801,7 +816,7 @@
         </div>
       </div>
       <div class="campo">
-        <label>Há demanda por creche?</label>
+        <label>Demanda por creche?</label>
         <div class="opcoes">
           <label><input type="radio" name="vis-demandaCreche" value="Sim"> Sim</label>
           <label><input type="radio" name="vis-demandaCreche" value="Não"> Não</label>
@@ -835,27 +850,27 @@
     </div>
     <div id="vis-qualAssociacao-div" class="campo" style="display:none">
       <label>Qual associação/coletivo?</label>
-      <input type="text" id="vis-qualAssociacao" placeholder="Nome da associação ou coletivo">
+      <input type="text" id="vis-qualAssociacao" placeholder="Nome da associação">
     </div>
   </div>
 
-  <!-- Seção 12 — Observações -->
+  <!-- Observações -->
   <div class="card">
     <h2>12 — Observações qualitativas</h2>
     <div class="campo">
-      <textarea id="vis-observacoesQualitativas" placeholder="Registre informações relevantes sobre a família e a situação habitacional sem expor desnecessariamente a intimidade das pessoas." style="min-height:100px;"></textarea>
+      <textarea id="vis-observacoesQualitativas" placeholder="Registre informações relevantes sobre a família e a situação habitacional." style="min-height:100px;"></textarea>
     </div>
   </div>
 
-  <!-- Seção 13 — Fechamento -->
+  <!-- Fechamento -->
   <div class="card">
     <h2>13 — Fechamento da visita</h2>
     <div class="campo">
-      <label>Nome da/o responsável familiar (fechamento)</label>
+      <label>Nome do/a responsável familiar (fechamento)</label>
       <input type="text" id="vis-nomeResponsavelFechamento" placeholder="Nome completo">
     </div>
     <div class="campo">
-      <label>Nome da/o entrevistadora/or (fechamento)</label>
+      <label>Nome do/a entrevistador/a (fechamento)</label>
       <input type="text" id="vis-nomeEntrevistadorFechamento" placeholder="Nome completo">
     </div>
     <div class="campo">
@@ -869,35 +884,28 @@
 </div>
 
 <script>
-// ============================================================
-// URL do Apps Script (Web App)
-// ============================================================
 var URL_SCRIPT = 'https://script.google.com/macros/s/AKfycbzx7rrwybDqsdZ8lFTVpVsy0gm3uvFSzf_qXlzL4Y0KDuEjM6kRukYnnvxnZZDR_aef/exec';
 
-// ============================================================
-// Problemas da grade de avaliação (Seção 2)
-// ============================================================
 var PROBLEMAS = [
-  { id: 'rachaduras',       label: 'Rachaduras' },
-  { id: 'eletrica',         label: 'Instalações elétricas expostas' },
-  { id: 'infiltracao',      label: 'Infiltrações, umidade e mofo' },
-  { id: 'piso',             label: 'Falta de revestimento no piso' },
-  { id: 'paredes',          label: 'Paredes sem revestimento' },
-  { id: 'vergalhoes',       label: 'Estrutura com vergalhões expostos' },
-  { id: 'telhado',          label: 'Telhado ou laje com goteira' },
-  { id: 'calor',            label: 'Calor excessivo dentro da casa' },
-  { id: 'luminosidade',     label: 'Falta de luminosidade natural' },
-  { id: 'espaco',           label: 'Falta de espaço para toda a família' }
+  { id: 'rachaduras',   label: 'Rachaduras' },
+  { id: 'eletrica',     label: 'Instalações elétricas expostas' },
+  { id: 'infiltracao',  label: 'Infiltrações, umidade e mofo' },
+  { id: 'piso',         label: 'Falta de revestimento no piso' },
+  { id: 'paredes',      label: 'Paredes sem revestimento' },
+  { id: 'vergalhoes',   label: 'Estrutura com vergalhões expostos' },
+  { id: 'telhado',      label: 'Telhado ou laje com goteira' },
+  { id: 'calor',        label: 'Calor excessivo dentro da casa' },
+  { id: 'luminosidade', label: 'Falta de luminosidade natural' },
+  { id: 'espaco',       label: 'Falta de espaço para toda a família' }
 ];
 
 var OPCOES_AVALIACAO = [
-  { val: 'Não existe',             label: 'Não existe' },
-  { val: 'Existe, mas incomoda pouco', label: 'Incomoda pouco' },
-  { val: 'Existe e incomoda muito',    label: 'Incomoda muito' },
-  { val: 'Existe e representa risco grave', label: 'Risco grave' }
+  { val: 'Não existe',                        label: 'Não existe' },
+  { val: 'Existe, mas incomoda pouco',        label: 'Incomoda pouco' },
+  { val: 'Existe e incomoda muito',           label: 'Incomoda muito' },
+  { val: 'Existe e representa risco grave',   label: 'Risco grave' }
 ];
 
-// Monta a grade de avaliação dinamicamente
 (function() {
   var tbody = document.getElementById('grade-problemas');
   PROBLEMAS.forEach(function(prob) {
@@ -914,50 +922,9 @@ var OPCOES_AVALIACAO = [
   });
 })();
 
-// ============================================================
-// Helpers
-// ============================================================
 function trocarAba(qual) {
   document.getElementById('painel-pre').classList.toggle('ativo', qual === 'pre');
   document.getElementById('painel-vis').classList.toggle('ativo', qual === 'vis');
   document.querySelectorAll('.aba-btn').forEach(function(b, i) {
-    b.classList.toggle('ativa', (qual === 'pre' && i === 0) || (qual === 'vis' && i === 1));
-  });
-}
-
-function mostrar(id) { document.getElementById(id).style.display = 'block'; }
-function esconder(id) { document.getElementById(id).style.display = 'none'; }
-
-function getRadio(name) {
-  var el = document.querySelector('input[name="' + name + '"]:checked');
-  return el ? el.value : '';
-}
-
-function getCheckboxes(name) {
-  var vals = [];
-  document.querySelectorAll('input[name="' + name + '"]:checked').forEach(function(el) {
-    vals.push(el.value);
-  });
-  return vals.join(', ');
-}
-
-function getVal(id) {
-  var el = document.getElementById(id);
-  return el ? el.value.trim() : '';
-}
-
-function getGradeAvaliacao() {
-  var resultado = [];
-  PROBLEMAS.forEach(function(prob) {
-    var val = getRadio('grade-' + prob.id);
-    if (val) resultado.push(prob.label + ': ' + val);
-  });
-  return resultado.join(' | ');
-}
-
-function mostrarMsg(idMsg, tipo, texto) {
-  var el = document.getElementById(idMsg);
-  el.className = 'msg ' + tipo;
-  el.textContent = texto;
-  el.style.display = '
+    b.classList.toggle('ativa', (qual === 
 
