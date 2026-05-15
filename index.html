@@ -1,625 +1,406 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Minha Casa + Bonita</title>
-<style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: Arial, sans-serif; font-size: 14px; background: #f0f4f8; color: #222; }
+// ============================================================
+// CONFIGURAÇÃO — ID da sua planilha
+// ============================================================
+var SPREADSHEET_ID = '1Hrb4-aD2-orOSkaIlk8D_6U8oNCUl2d8IjUyn4lAm1k';
 
-  header { background: #1a5276; color: #fff; padding: 18px 24px; text-align: center; }
-  header h1 { font-size: 20px; }
-  header p  { font-size: 13px; margin-top: 4px; opacity: .85; }
+// ============================================================
+// ENTRADA PRINCIPAL — doPost
+// ============================================================
+function doPost(e) {
+  try {
+    var action  = e.parameter.action  || '';
+    var payload = e.parameter.payload || '{}';
+    var p       = JSON.parse(payload);
 
-  .abas { display: flex; background: #154360; }
-  .aba-btn {
-    flex: 1; padding: 12px; background: none; border: none;
-    color: #aad4f5; font-size: 13px; cursor: pointer;
-    border-bottom: 3px solid transparent; transition: .2s;
+    var resultado;
+
+    if      (action === 'salvarPreCadastro')   resultado = salvarPreCadastro(p);
+    else if (action === 'salvarVisita')        resultado = salvarVisita(p);
+    else if (action === 'getDashboardData')    resultado = getDashboardData();
+    else if (action === 'gerarPdfPreCadastro') resultado = gerarPdfPreCadastro(e.parameter.id);
+    else if (action === 'gerarPdfVisita')      resultado = gerarPdfVisita(e.parameter.id);
+    // uploadFotoBase64 REMOVIDO por enquanto
+    else resultado = { sucesso: false, mensagem: 'Action desconhecida: ' + action };
+
+    return ContentService
+      .createTextOutput(JSON.stringify(resultado))
+      .setMimeType(ContentService.MimeType.JSON);
+
+  } catch (err) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ sucesso: false, mensagem: err.message }))
+      .setMimeType(ContentService.MimeType.JSON);
   }
-  .aba-btn.ativa { color: #fff; border-bottom-color: #f39c12; background: #1a5276; }
+}
 
-  .painel { display: none; padding: 20px; max-width: 760px; margin: 0 auto; }
-  .painel.ativo { display: block; }
+// ============================================================
+// 1. SALVAR PRÉ-CADASTRO (Autoavaliação da Moradia)
+// Aba: PreCadastros
+// ============================================================
+function salvarPreCadastro(p) {
+  var ss  = SpreadsheetApp.openById(SPREADSHEET_ID);
+  var aba = ss.getSheetByName('PreCadastros');
+  if (!aba) throw new Error('Aba PreCadastros não encontrada.');
 
-  .card {
-    background: #fff; border-radius: 8px; padding: 18px 20px;
-    margin-bottom: 16px; box-shadow: 0 1px 4px rgba(0,0,0,.08);
+  var novaLinha = aba.getLastRow() + 1;
+  var id        = 'PC-' + Utilities.formatDate(new Date(), 'America/Sao_Paulo', 'yyyyMMdd') + '-' + (novaLinha - 1);
+  var dataAgora = Utilities.formatDate(new Date(), 'America/Sao_Paulo', 'dd/MM/yyyy HH:mm');
+
+  var linha = [
+    id,                            // 0  ID
+    dataAgora,                     // 1  DATA/HORA
+    p.nomeCompleto      || '',     // 2  NOME COMPLETO DO RESPONSÁVEL
+    p.nomeSocial        || '',     // 3  NOME SOCIAL
+    p.dataNascimento    || '',     // 4  DATA DE NASCIMENTO
+    p.cpf               || '',     // 5  CPF
+    p.estadoCivil       || '',     // 6  ESTADO CIVIL
+    p.telefone          || '',     // 7  TELEFONE
+    p.whatsapp          || '',     // 8  WHATSAPP ( SIM / NÃO)
+    p.endereco          || '',     // 9  ENDEREÇO / PONTO DE REFERENCIA
+    p.idDomicilio       || '',     // 10 ID DO DOMICILIO
+    p.tempoResidAnos    || '',     // 11 TEMPO DE RESIDENCIA ( ANOS)
+    p.tempoResidMeses   || '',     // 12 TEMPO DE RESIDENCIA (MESES)
+    p.rendaFamiliar     || '',     // 13 RENDA FAMILIAR
+    p.poligonal         || '',     // 14 POLIGONAL ATENDIMENTO ( SIM / NÃO)
+    p.qtdPessoas        || '',     // 15 QUANTIDADE DE PESSOAS
+    p.temCriIdoPcd      || '',     // 16 TEM CRIANÇAS / IDOSOS / PCD (SIM / NÃO)
+    p.tipoCriIdoPcd     || '',     // 17 TIPO ( CRIANÇAS , IDOSOS, PCD , MOBILIDADE)
+    p.temDoencaCron     || '',     // 18 TEM DOENÇAS CRÔNICAS ( SIM / NÃO)
+    p.tipoDoenca        || '',     // 19 TIPO DE DOENÇA
+    p.probMaisGrave     || '',     // 20 PROBLEMA MAIS GRAVE
+    p.probSegundo       || '',     // 21 SEGUNDO PROBLEMA MAIS GRAVE
+    p.probTerceiro      || '',     // 22 TERCEIRO PROBLEMA MAIS GRAVE
+    p.probAfetaSaude    || '',     // 23 PROBLEMAS AFETM A SAUDE ( SIM / NÃO)
+    p.impactos          || '',     // 24 IMPACTOS SELECIONADOS
+    p.qualComodoPorQue  || '',     // 25 QUAL COMODO E POR QUE
+    p.melhoriaPrior     || '',     // 26 MELHORIA PRIORITÁRIA
+    p.jaTentou          || '',     // 27 JÁ TENTOU RESOLVER ( SIM/ NÃO)
+    p.oQueFoiFeito      || '',     // 28 O que foi feito
+    p.infoAdicional     || '',     // 29 Info adicional sobre moradia
+    p.jaConhecia        || '',     // 30 Já conhecia o programa (Sim/Não)
+    p.comoSoube         || '',     // 31 Como soube
+    p.participouReuniao || '',     // 32 Participou de reunião (Sim/Não)
+    p.desejaParticipar  || '',     // 33 Deseja participar (Sim/Não/Talvez)
+    p.expectativaPrincipal || '',  // 34 Expectativa principal
+    p.nomeEntrevistador || '',     // 35 Nome entrevistador
+    p.dataPreenchimento || '',     // 36 Data preenchimento equipe
+    p.horaPreenchimento || '',     // 37 Hora preenchimento
+    p.observacoesEquipe || '',     // 38 Observações equipe
+    p.dataAgendamento   || ''      // 39 Data agendamento visita
+  ];
+
+  aba.getRange(novaLinha, 1, 1, linha.length).setValues([linha]);
+  return { sucesso: true, id: id, mensagem: 'Pré-cadastro salvo com sucesso.' };
+}
+
+// ============================================================
+// 2. SALVAR VISITA DOMICILIAR (Formulário Visita Técnica/Socioeconômica)
+// Aba: Visitas
+// ============================================================
+function salvarVisita(p) {
+  var ss  = SpreadsheetApp.openById(SPREADSHEET_ID);
+  var aba = ss.getSheetByName('Visitas');
+  if (!aba) throw new Error('Aba Visitas não encontrada.');
+
+  var novaLinha = aba.getLastRow() + 1;
+  var id        = 'VIS-' + Utilities.formatDate(new Date(), 'America/Sao_Paulo', 'yyyyMMdd') + '-' + (novaLinha - 1);
+  var dataAgora = Utilities.formatDate(new Date(), 'America/Sao_Paulo', 'dd/MM/yyyy HH:mm');
+
+  var linha = [
+    id,                             // 0  ID
+    dataAgora,                      // 1  DATA/HORA REGISTRO
+    p.nomeCompleto              || '', // 2  NOME COMPLETO
+    p.nomeSocial                || '', // 3  NOME SOCIAL
+    p.cpf                       || '', // 4  CPF
+    p.idDomicilio               || '', // 5  ID DO DOMICILIO
+    p.dataVisita                || '', // 6  DATA DA VISITA
+    p.nomeEntrevistador         || '', // 7  NOME ENTREVISTADOR
+    p.equipeResponsavel         || '', // 8  EQUIPE RESPONSÁVEL
+    p.situacaoVisita            || '', // 9  SITUAÇÃO DA VISITA
+    p.declaracaoLGPD            || '', // 10 LGPD - CIENTE
+    p.genero                    || '', // 11 GENERO
+    p.racaCor                   || '', // 12 RACA_COR
+    p.escolaridade              || '', // 13 ESCOLARIDADE
+    p.ocupacao                  || '', // 14 OCUPACAO
+    p.principalFonteRenda       || '', // 15 PRINCIPAL FONTE DE RENDA
+    p.atividadeRemunerada       || '', // 16 ATIVIDADE REMUNERADA EM CASA
+    p.tipoAtividade             || '', // 17 TIPO ATIVIDADE EM CASA
+    p.possuiCadUnico            || '', // 18 POSSUI CADASTRO UNICO
+    p.beneficiosRecebidos       || '', // 19 BENEFICIOS RECEBIDOS
+    p.rendaFaixa                || '', // 20 RENDA FAMILIAR TOTAL
+    p.responsavelRenda          || '', // 21 PRINCIPAL RESPONSAVEL RENDA
+    p.totalPessoas              || '', // 22 TOTAL PESSOAS MORADIA
+    p.totalNucleos              || '', // 23 TOTAL NUCLEOS FAMILIARES
+    p.qtdCriancas0a6            || '', // 24 CRIANCAS 0 A 6
+    p.qtdCriancas7a11           || '', // 25 CRIANCAS 7 A 11
+    p.qtdAdolescentes12a17      || '', // 26 ADOLESCENTES 12 A 17
+    p.qtdJovens18a29            || '', // 27 JOVENS 18 A 29
+    p.qtdAdultos30a59           || '', // 28 ADULTOS 30 A 59
+    p.qtdIdosos60mais           || '', // 29 IDOSOS 60+
+    p.qtdPcD                    || '', // 30 QTD PESSOAS PCD
+    p.tipoDeficiencia           || '', // 31 TIPO DEFICIENCIA
+    p.qtdMobilidadeReduzida     || '', // 32 QTD MOBILIDADE REDUZIDA
+    p.qtdDoencaRecorrente       || '', // 33 QTD DOENCA RECORRENTE
+    p.tipoDoenca                || '', // 34 TIPO DOENCA
+    p.qtdGestantes              || '', // 35 QTD GESTANTES
+    p.qtdForaEscola             || '', // 36 QTD FORA DA ESCOLA
+    p.qtdBuscaEmprego           || '', // 37 QTD BUSCA EMPREGO
+    p.tipoOcupacao              || '', // 38 TIPO OCUPACAO MORADIA
+    p.possuiDocumento           || '', // 39 POSSUI DOCUMENTO MORADIA
+    p.tipoDocumento             || '', // 40 TIPO DOCUMENTO
+    p.servicoSaudeRef           || '', // 41 SERVICO SAUDE REFERENCIA
+    p.acessoSaude               || '', // 42 ACESSO SAUDE
+    p.dificuldadesSaude         || '', // 43 DIFICULDADES SAUDE
+    p.criancasNaEscola          || '', // 44 SITUACAO ESCOLAR
+    p.acessoCreche              || '', // 45 ACESSO CRECHE
+    p.demandaCreche             || '', // 46 DEMANDA CRECHE
+    p.acessoCRAS                || '', // 47 ACESSO CRAS
+    p.acessoCREAS               || '', // 48 ACESSO CREAS
+    p.participaAssociacao       || '', // 49 PARTICIPA ASSOCIACAO
+    p.qualAssociacao            || '', // 50 QUAL ASSOCIACAO
+    p.observacoesQualitativas   || '', // 51 OBSERVACOES QUALITATIVAS
+    p.nomeResponsavelFechamento || '', // 52 NOME RESPONSAVEL FAMILIAR FECHAMENTO
+    p.nomeEntrevistadorFechamento || '', // 53 NOME ENTREVISTADOR FECHAMENTO
+    p.dataFechamento            || ''  // 54 DATA FECHAMENTO
+  ];
+
+  aba.getRange(novaLinha, 1, 1, linha.length).setValues([linha]);
+  return { sucesso: true, id: id, mensagem: 'Visita salva com sucesso.' };
+}
+
+// ============================================================
+// 3. DASHBOARD – resumo básico
+// ============================================================
+function getDashboardData() {
+  var ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+
+  var abaPre  = ss.getSheetByName('PreCadastros');
+  var dadosPre = abaPre && abaPre.getLastRow() > 1
+    ? abaPre.getRange(2, 1, abaPre.getLastRow() - 1, abaPre.getLastColumn()).getValues()
+    : [];
+
+  var registrosPre = dadosPre.map(function(r) {
+    return {
+      id:            r[0]  || '',
+      dataHora:      r[1]  || '',
+      nomeCompleto:  r[2]  || '',
+      idDomicilio:   r[10] || '',
+      rendaFamiliar: r[13] || '',
+      poligonal:     r[14] || ''
+    };
+  });
+
+  var abaVis  = ss.getSheetByName('Visitas');
+  var dadosVis = abaVis && abaVis.getLastRow() > 1
+    ? abaVis.getRange(2, 1, abaVis.getLastRow() - 1, abaVis.getLastColumn()).getValues()
+    : [];
+
+  var registrosVis = dadosVis.map(function(r) {
+    return {
+      id:             r[0]  || '',
+      dataHora:       r[1]  || '',
+      nomeCompleto:   r[2]  || '',
+      idDomicilio:    r[5]  || '',
+      situacaoVisita: r[9]  || '',
+      rendaFaixa:     r[20] || '',
+      tipoOcupacao:   r[38] || ''
+    };
+  });
+
+  return {
+    sucesso: true,
+    preCadastros: { total: registrosPre.length, registros: registrosPre },
+    visitas:      { total: registrosVis.length, registros: registrosVis }
+  };
+}
+
+// ============================================================
+// 4. PDFs – Pré-cadastro e Visita
+// ============================================================
+function gerarPdfPreCadastro(id) {
+  var ss  = SpreadsheetApp.openById(SPREADSHEET_ID);
+  var aba = ss.getSheetByName('PreCadastros');
+  if (!aba) return { sucesso: false, mensagem: 'Aba PreCadastros não encontrada.' };
+
+  var dados = aba.getDataRange().getValues();
+  var linha = null;
+  for (var i = 1; i < dados.length; i++) {
+    if (String(dados[i][0]) === String(id)) { linha = dados[i]; break; }
   }
-  .card h2 {
-    font-size: 14px; color: #1a5276; margin-bottom: 14px;
-    padding-bottom: 6px; border-bottom: 1px solid #d5e8f5;
+  if (!linha) return { sucesso: false, mensagem: 'Registro não encontrado: ' + id };
+
+  var html =
+    '<html><head><meta charset="UTF-8"><style>' +
+    'body{font-family:Arial,sans-serif;font-size:11px;padding:20px;color:#222;}' +
+    'h1{background:#1a5276;color:#fff;padding:10px;border-radius:6px;font-size:16px;}' +
+    'h2{color:#1a5276;font-size:13px;margin-top:16px;border-bottom:1px solid #ccc;padding-bottom:4px;}' +
+    'table{width:100%;border-collapse:collapse;margin-top:8px;}' +
+    'td{padding:4px 6px;border:1px solid #ddd;vertical-align:top;}' +
+    'td:first-child{font-weight:bold;background:#f4f6f7;width:40%;}' +
+    '</style></head><body>' +
+    '<h1>Minha Casa + Bonita – Pré-cadastro (Autoavaliação)</h1>' +
+    '<h2>Identificação</h2><table>' +
+    linhaTR('ID', linha[0]) +
+    linhaTR('Data/Hora', linha[1]) +
+    linhaTR('Nome completo', linha[2]) +
+    linhaTR('Nome social', linha[3]) +
+    linhaTR('Data de nascimento', linha[4]) +
+    linhaTR('CPF', linha[5]) +
+    linhaTR('Estado civil', linha[6]) +
+    linhaTR('Telefone', linha[7]) +
+    linhaTR('WhatsApp', linha[8]) +
+    linhaTR('Endereço / referência', linha[9]) +
+    linhaTR('ID domicílio', linha[10]) +
+    linhaTR('Tempo residência (anos)', linha[11]) +
+    linhaTR('Tempo residência (meses)', linha[12]) +
+    linhaTR('Renda familiar', linha[13]) +
+    linhaTR('Poligonal de atendimento', linha[14]) +
+    linhaTR('Quantidade de pessoas', linha[15]) +
+    linhaTR('Tem crianças/idosos/PCD', linha[16]) +
+    linhaTR('Tipos (crianças/idosos/PCD/mobilidade)', linha[17]) +
+    linhaTR('Tem doenças crônicas', linha[18]) +
+    linhaTR('Tipo de doença', linha[19]) +
+    '</table>' +
+    '<h2>Priorização e impactos</h2><table>' +
+    linhaTR('Problema mais grave', linha[20]) +
+    linhaTR('Segundo problema mais grave', linha[21]) +
+    linhaTR('Terceiro problema mais grave', linha[22]) +
+    linhaTR('Afeta a saúde', linha[23]) +
+    linhaTR('Impactos selecionados', linha[24]) +
+    linhaTR('Cômodo evitado e motivo', linha[25]) +
+    linhaTR('Melhoria prioritária', linha[26]) +
+    linhaTR('Já tentou resolver', linha[27]) +
+    linhaTR('O que foi feito', linha[28]) +
+    linhaTR('Informações adicionais sobre moradia', linha[29]) +
+    '</table>' +
+    '<h2>Participação e expectativas</h2><table>' +
+    linhaTR('Já conhecia o programa', linha[30]) +
+    linhaTR('Como soube', linha[31]) +
+    linhaTR('Participou de reunião', linha[32]) +
+    linhaTR('Deseja participar', linha[33]) +
+    linhaTR('Expectativa principal', linha[34]) +
+    '</table>' +
+    '<h2>Dados da equipe</h2><table>' +
+    linhaTR('Nome entrevistador', linha[35]) +
+    linhaTR('Data preenchimento', linha[36]) +
+    linhaTR('Hora preenchimento', linha[37]) +
+    linhaTR('Observações equipe', linha[38]) +
+    linhaTR('Data agendamento visita', linha[39]) +
+    '</table></body></html>';
+
+  var pdfBlob = Utilities.newBlob(html, 'text/html', 'precadastro_' + id + '.html');
+  var pasta   = obterOuCriarPasta('Minha Casa + Bonita – PDFs', null);
+  var arquivo = pasta.createFile(pdfBlob);
+  arquivo.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+  return { sucesso: true, urlPdf: arquivo.getUrl() };
+}
+
+function gerarPdfVisita(id) {
+  var ss  = SpreadsheetApp.openById(SPREADSHEET_ID);
+  var aba = ss.getSheetByName('Visitas');
+  if (!aba) return { sucesso: false, mensagem: 'Aba Visitas não encontrada.' };
+
+  var dados = aba.getDataRange().getValues();
+  var linha = null;
+  for (var i = 1; i < dados.length; i++) {
+    if (String(dados[i][0]) === String(id)) { linha = dados[i]; break; }
   }
+  if (!linha) return { sucesso: false, mensagem: 'Registro não encontrado: ' + id };
 
-  .card-apresentacao {
-    background: #fdf6e3; border: 1.5px solid #c8a84b;
-    border-radius: 6px; padding: 16px 20px; margin-bottom: 16px;
-  }
-  .card-apresentacao h2 { font-size: 14px; color: #b7700a; margin-bottom: 8px; }
-  .card-apresentacao p  { font-size: 13px; line-height: 1.65; color: #333; text-align: justify; }
+  var html =
+    '<html><head><meta charset="UTF-8"><style>' +
+    'body{font-family:Arial,sans-serif;font-size:11px;padding:20px;color:#222;}' +
+    'h1{background:#1a5276;color:#fff;padding:10px;border-radius:6px;font-size:16px;}' +
+    'h2{color:#1a5276;font-size:13px;margin-top:16px;border-bottom:1px solid #ccc;padding-bottom:4px;}' +
+    'table{width:100%;border-collapse:collapse;margin-top:8px;}' +
+    'td{padding:4px 6px;border:1px solid #ddd;vertical-align:top;}' +
+    'td:first-child{font-weight:bold;background:#f4f6f7;width:40%;}' +
+    '</style></head><body>' +
+    '<h1>Minha Casa + Bonita – Visita técnica e socioeconômica</h1>' +
+    '<h2>Identificação</h2><table>' +
+    linhaTR('ID', linha[0]) +
+    linhaTR('Data/Hora registro', linha[1]) +
+    linhaTR('Nome completo', linha[2]) +
+    linhaTR('Nome social', linha[3]) +
+    linhaTR('CPF', linha[4]) +
+    linhaTR('ID domicílio', linha[5]) +
+    linhaTR('Data da visita', linha[6]) +
+    linhaTR('Entrevistador', linha[7]) +
+    linhaTR('Equipe responsável', linha[8]) +
+    linhaTR('Situação da visita', linha[9]) +
+    linhaTR('LGPD – ciente', linha[10]) +
+    '</table>' +
+    '<h2>Perfil social</h2><table>' +
+    linhaTR('Identidade de gênero', linha[11]) +
+    linhaTR('Raça/cor', linha[12]) +
+    linhaTR('Escolaridade', linha[13]) +
+    linhaTR('Ocupação', linha[14]) +
+    '</table>' +
+    '<h2>Situação socioeconômica</h2><table>' +
+    linhaTR('Principal fonte de renda', linha[15]) +
+    linhaTR('Atividade remunerada em casa', (linha[16] || '') + ' / ' + (linha[17] || '')) +
+    linhaTR('Possui CadÚnico', linha[18]) +
+    linhaTR('Benefícios recebidos', linha[19]) +
+    linhaTR('Renda familiar', linha[20]) +
+    linhaTR('Responsável pela renda', linha[21]) +
+    '</table>' +
+    '<h2>Composição familiar</h2><table>' +
+    linhaTR('Total de pessoas', linha[22]) +
+    linhaTR('Total de núcleos', linha[23]) +
+    linhaTR('Crianças 0–6', linha[24]) +
+    linhaTR('Crianças 7–11', linha[25]) +
+    linhaTR('Adolescentes 12–17', linha[26]) +
+    linhaTR('Jovens 18–29', linha[27]) +
+    linhaTR('Adultos 30–59', linha[28]) +
+    linhaTR('Idosos 60+', linha[29]) +
+    linhaTR('Pessoas com deficiência', linha[30]) +
+    linhaTR('Tipo de deficiência', linha[31]) +
+    linhaTR('Mobilidade reduzida / acamadas', linha[32]) +
+    linhaTR('Doença recorrente (qtd.)', linha[33]) +
+    linhaTR('Tipo de doença', linha[34]) +
+    linhaTR('Gestantes', linha[35]) +
+    linhaTR('Fora da escola', linha[36]) +
+    linhaTR('Busca emprego/capacitação', linha[37]) +
+    '</table>' +
+    '<h2>Condições da moradia</h2><table>' +
+    linhaTR('Tipo de ocupação', linha[38]) +
+    linhaTR('Possui documento da moradia', linha[39]) +
+    linhaTR('Tipo de documento', linha[40]) +
+    '</table>' +
+    '<h2>Acesso a serviços públicos</h2><table>' +
+    linhaTR('Serviço de saúde de referência', linha[41]) +
+    linhaTR('Acesso à saúde', linha[42]) +
+    linhaTR('Dificuldades na saúde', linha[43]) +
+    linhaTR('Situação escolar', linha[44]) +
+    linhaTR('Acesso à creche', linha[45]) +
+    linhaTR('Demanda por creche', linha[46]) +
+    linhaTR('Acesso ao CRAS', linha[47]) +
+    linhaTR('Acesso ao CREAS', linha[48]) +
+    linhaTR('Participa de associação/coletivo', linha[49]) +
+    linhaTR('Qual associação/coletivo', linha[50]) +
+    '</table>' +
+    '<h2>Observações e fechamento</h2><table>' +
+    linhaTR('Observações qualitativas', linha[51]) +
+    linhaTR('Nome responsável familiar (fechamento)', linha[52]) +
+    linhaTR('Nome entrevistador (fechamento)', linha[53]) +
+    linhaTR('Data de fechamento', linha[54]) +
+    '</table></body></html>';
 
-  .box-orientacao {
-    border: 1.5px solid #f1c40f; padding: 10px 14px;
-    border-radius: 4px; margin-bottom: 14px; background: #fffdf0;
-    font-size: 13px; line-height: 1.6;
-  }
+  var pdfBlob = Utilities.newBlob(html, 'text/html', 'visita_' + id + '.html');
+  var pasta   = obterOuCriarPasta('Minha Casa + Bonita – PDFs', null);
+  var arquivo = pasta.createFile(pdfBlob);
+  arquivo.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+  return { sucesso: true, urlPdf: arquivo.getUrl() };
+}
 
-  .campo { margin-bottom: 12px; }
-  .campo label { display: block; font-weight: bold; margin-bottom: 4px; font-size: 13px; }
-  .campo input[type=text],
-  .campo input[type=date],
-  .campo input[type=tel],
-  .campo textarea {
-    width: 100%; padding: 8px 10px; border: 1px solid #ccc;
-    border-radius: 5px; font-size: 13px;
-  }
-  .campo textarea { min-height: 70px; resize: vertical; }
+// helper para pasta dos PDFs
+function obterOuCriarPasta(nome, pastaPaiId) {
+  var pai = pastaPaiId ? DriveApp.getFolderById(pastaPaiId) : DriveApp.getRootFolder();
+  var it  = pai.getFoldersByName(nome);
+  return it.hasNext() ? it.next() : pai.createFolder(nome);
+}
 
-  .opcoes { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
-  .opcoes label { font-weight: normal; display: flex; align-items: center; gap: 4px; font-size: 13px; cursor: pointer; }
-
-  .grade-avaliacao { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 500px; }
-  .grade-avaliacao thead tr { background: #1a5276; color: #fff; }
-  .grade-avaliacao th { border: 1px solid #154360; padding: 7px 8px; text-align: center; font-size: 11px; font-weight: bold; }
-  .grade-avaliacao th:first-child { text-align: left; width: 36%; }
-  .grade-avaliacao td { border: 1px solid #ddd; padding: 7px 8px; text-align: center; vertical-align: middle; }
-  .grade-avaliacao td:first-child { text-align: left; }
-  .grade-avaliacao tbody tr:nth-child(even) td { background: #f7fafc; }
-  .grade-avaliacao input[type=radio] { width: 16px; height: 16px; cursor: pointer; }
-
-  .aviso-lgpd {
-    background: #eaf4fb; border-left: 4px solid #1a5276;
-    padding: 12px 14px; font-size: 12px; line-height: 1.6;
-    border-radius: 4px; margin-bottom: 10px;
-  }
-
-  .btn-enviar {
-    width: 100%; padding: 14px; background: #1a5276; color: #fff;
-    border: none; border-radius: 6px; font-size: 15px;
-    font-weight: bold; cursor: pointer; margin-top: 8px;
-  }
-  .btn-enviar:hover { background: #154360; }
-  .btn-enviar:disabled { background: #aaa; cursor: not-allowed; }
-
-  .msg { padding: 12px; border-radius: 6px; margin-top: 12px; font-size: 13px; text-align: center; }
-  .msg.ok  { background: #d4efdf; color: #1e8449; }
-  .msg.err { background: #fadbd8; color: #c0392b; }
-
-  .duas-col { display: flex; gap: 12px; }
-  .duas-col .campo { flex: 1; }
-
-  /* Dashboard */
-  .dash-resumo {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 8px 0; border-bottom: 1px solid #eee;
-    font-size: 13px;
-  }
-  .dash-lista-item {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 8px 0; border-bottom: 1px solid #eee;
-    font-size: 13px;
-  }
-  .dash-lista-item:last-child { border-bottom: none; }
-  .dash-lista-item-info { flex-grow: 1; }
-  .dash-lista-item-botoes { display: flex; gap: 5px; }
-  .dash-lista-item-botoes button {
-    padding: 6px 10px; font-size: 12px; border-radius: 4px;
-    border: 1px solid #ccc; background: #f0f0f0; cursor: pointer;
-  }
-  .dash-lista-item-botoes button:hover { background: #e0e0e0; }
-  .dash-lista-item-botoes .btn-pdf { background: #e74c3c; color: #fff; border-color: #c0392b; }
-  .dash-lista-item-botoes .btn-pdf:hover { background: #c0392b; }
-
-  @media(max-width:520px) {
-    .duas-col { flex-direction: column; }
-    .grade-avaliacao { font-size: 10px; }
-    .dash-lista-item { flex-direction: column; align-items: flex-start; gap: 5px; }
-    .dash-lista-item-botoes { width: 100%; justify-content: flex-end; }
-  }
-</style>
-</head>
-<body>
-
-<header>
-  <h1>Minha Casa + Bonita</h1>
-  <p>Território Risca Faca — Maricá</p>
-</header>
-
-<div class="abas">
-  <button class="aba-btn ativa" onclick="trocarAba('pre')">📋 Pré-cadastro</button>
-  <button class="aba-btn"       onclick="trocarAba('vis')">🏠 Visita Domiciliar</button>
-  <button class="aba-btn"       onclick="trocarAba('dash')">📊 Dashboard</button>
-</div>
-
-<!-- ========================================================== -->
-<!-- FORMULÁRIO 1 — PRÉ-CADASTRO                                -->
-<!-- ========================================================== -->
-<div id="painel-pre" class="painel ativo">
-
-  <div class="card-apresentacao">
-    <h2>Apresentação do formulário</h2>
-    <p>O Programa Minha Casa + Bonita é um projeto piloto de <strong>melhoria urbana, habitacional e de assistência técnica permanente</strong>, desenvolvido na comunidade do Risca Faca, em Maricá. Este formulário integra o processo de cadastro, diagnóstico e acompanhamento das famílias interessadas, contribuindo para identificar necessidades das moradias, organizar atendimentos, planejar visitas técnicas e definir prioridades para as ações de melhoria habitacional. Não existe resposta certa ou errada: o mais importante é registrar como a família percebe os problemas da casa e quais situações considera mais graves ou urgentes.</p>
-  </div>
-
-  <div class="card">
-    <div class="aviso-lgpd">
-      <strong>Informação sobre tratamento de dados — LGPD</strong><br>
-      Os dados coletados serão utilizados exclusivamente para cadastro, avaliação, planejamento e execução do Programa Minha Casa + Bonita, conforme a Lei nº 13.709/2018. O acesso será restrito à equipe técnica e parceiros envolvidos.
-    </div>
-    <div class="campo">
-      <label style="font-weight:normal;">
-        <input type="checkbox" id="pre-lgpd">
-        Declaro que fui informado(a) sobre a finalidade da coleta e do tratamento dos meus dados pessoais.
-      </label>
-    </div>
-  </div>
-
-  <div class="card">
-    <h2>Seção 1 — Identificação da família</h2>
-    <div class="campo">
-      <label>Nome completo do responsável pela moradia *</label>
-      <input type="text" id="pre-nomeCompleto" placeholder="Nome completo">
-    </div>
-    <div class="campo">
-      <label>Nome social (se houver)</label>
-      <input type="text" id="pre-nomeSocial" placeholder="Nome social">
-    </div>
-    <div class="duas-col">
-      <div class="campo">
-        <label>Data de nascimento</label>
-        <input type="date" id="pre-dataNascimento">
-      </div>
-      <div class="campo">
-        <label>CPF *</label>
-        <input type="text" id="pre-cpf" placeholder="000.000.000-00" maxlength="14">
-      </div>
-    </div>
-    <div class="campo">
-      <label>Estado civil</label>
-      <div class="opcoes">
-        <label><input type="radio" name="pre-estadoCivil" value="Solteira/o"> Solteira/o</label>
-        <label><input type="radio" name="pre-estadoCivil" value="Casada/o"> Casada/o</label>
-        <label><input type="radio" name="pre-estadoCivil" value="União estável"> União estável</label>
-        <label><input type="radio" name="pre-estadoCivil" value="Separada/o"> Separada/o</label>
-        <label><input type="radio" name="pre-estadoCivil" value="Divorciada/o"> Divorciada/o</label>
-        <label><input type="radio" name="pre-estadoCivil" value="Viúva/o"> Viúva/o</label>
-      </div>
-    </div>
-    <div class="duas-col">
-      <div class="campo">
-        <label>Telefone principal *</label>
-        <input type="tel" id="pre-telefone" placeholder="(21) 00000-0000">
-      </div>
-      <div class="campo">
-        <label>Possui WhatsApp?</label>
-        <div class="opcoes">
-          <label><input type="radio" name="pre-whatsapp" value="Sim"> Sim</label>
-          <label><input type="radio" name="pre-whatsapp" value="Não"> Não</label>
-        </div>
-      </div>
-    </div>
-    <div class="campo">
-      <label>Endereço completo *</label>
-      <input type="text" id="pre-endereco" placeholder="Rua, número, bairro, complemento">
-    </div>
-    <div class="campo">
-      <label>ID do domicílio (se houver)</label>
-      <input type="text" id="pre-idDomicilio" placeholder="Código de identificação do domicílio">
-    </div>
-    <div class="duas-col">
-      <div class="campo">
-        <label>Tempo de residência (anos)</label>
-        <input type="text" id="pre-tempoResidAnos" placeholder="Ex: 5">
-      </div>
-      <div class="campo">
-        <label>Tempo de residência (meses)</label>
-        <input type="text" id="pre-tempoResidMeses" placeholder="Ex: 6">
-      </div>
-    </div>
-    <div class="campo">
-      <label>Renda familiar mensal</label>
-      <div class="opcoes">
-        <label><input type="radio" name="pre-rendaFamiliar" value="Até 1 salário mínimo"> Até 1 salário mínimo</label>
-        <label><input type="radio" name="pre-rendaFamiliar" value="De 1 a 3 salários mínimos"> De 1 a 3 salários mínimos</label>
-        <label><input type="radio" name="pre-rendaFamiliar" value="Acima de 3 salários mínimos"> Acima de 3 salários mínimos</label>
-      </div>
-    </div>
-    <div class="campo">
-      <label>A moradia está dentro da poligonal do projeto?</label>
-      <div class="opcoes">
-        <label><input type="radio" name="pre-poligonal" value="Sim"> Sim</label>
-        <label><input type="radio" name="pre-poligonal" value="Não"> Não</label>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <h2>Seção 2 — Composição familiar e vulnerabilidades</h2>
-    <div class="campo">
-      <label>Quantas pessoas moram na casa? *</label>
-      <div class="opcoes">
-        <label><input type="radio" name="pre-qtdPessoas" value="1 a 2"> 1 a 2</label>
-        <label><input type="radio" name="pre-qtdPessoas" value="3 a 4"> 3 a 4</label>
-        <label><input type="radio" name="pre-qtdPessoas" value="5 a 6"> 5 a 6</label>
-        <label><input type="radio" name="pre-qtdPessoas" value="7 ou mais"> 7 ou mais</label>
-      </div>
-    </div>
-
-    <div class="campo">
-      <label>Quantos núcleos familiares?</label>
-      <div class="opcoes">
-        <label><input type="radio" name="pre-qtdNucleos" value="1"> 1</label>
-        <label><input type="radio" name="pre-qtdNucleos" value="2"> 2</label>
-        <label><input type="radio" name="pre-qtdNucleos" value="3"> 3</label>
-        <label><input type="radio" name="pre-qtdNucleos" value="4 ou mais"> 4 ou mais</label>
-      </div>
-    </div>
-
-    <div class="campo">
-      <label>Idade das crianças (0‑6)</label>
-      <input type="text" id="pre-qtdCriancas0a6" placeholder="Quantidade">
-    </div>
-    <div class="campo">
-      <label>Idade das crianças (7‑11)</label>
-      <input type="text" id="pre-qtdCriancas7a11" placeholder="Quantidade">
-    </div>
-    <div class="campo">
-      <label>Adolescentes (12‑17)</label>
-      <input type="text" id="pre-qtdAdol12a17" placeholder="Quantidade">
-    </div>
-    <div class="campo">
-      <label>Jovens (18‑29)</label>
-      <input type="text" id="pre-qtdJovens18a29" placeholder="Quantidade">
-    </div>
-    <div class="campo">
-      <label>Adultos (30‑59)</label>
-      <input type="text" id="pre-qtdAdultos30a59" placeholder="Quantidade">
-    </div>
-    <div class="campo">
-      <label>Idosos (60+)</label>
-      <input type="text" id="pre-qtdIdosos60mais" placeholder="Quantidade">
-    </div>
-
-    <div class="campo">
-      <label>Quantas pessoas com deficiência (PcD)?</label>
-      <input type="text" id="pre-qtdPcD" placeholder="Quantidade">
-    </div>
-
-    <div class="campo">
-      <label>Tipo de deficiência (marque tudo que se aplica)</label>
-      <div class="opcoes">
-        <label><input type="checkbox" name="pre-tipoDeficiencia" value="Física"> Física</label>
-        <label><input type="checkbox" name="pre-tipoDeficiencia" value="Visual"> Visual</label>
-        <label><input type="checkbox" name="pre-tipoDeficiencia" value="Auditiva"> Auditiva</label>
-        <label><input type="checkbox" name="pre-tipoDeficiencia" value="Intelectual"> Intelectual</label>
-        <label><input type="checkbox" name="pre-tipoDeficiencia" value="Múltipla"> Múltipla</label>
-      </div>
-    </div>
-
-    <div class="campo">
-      <label>Quantas pessoas acamadas?</label>
-      <input type="text" id="pre-qtdAcamados" placeholder="Quantidade">
-    </div>
-
-    <div class="campo">
-      <label>Doenças recorrentes (marque tudo que se aplica)</label>
-      <div class="opcoes">
-        <label><input type="checkbox" name="pre-tipoDoenca" value="Diabetes"> Diabetes</label>
-        <label><input type="checkbox" name="pre-tipoDoenca" value="Hipertensão"> Hipertensão</label>
-        <label><input type="checkbox" name="pre-tipoDoenca" value="Asma"> Asma</label>
-        <label><input type="checkbox" name="pre-tipoDoenca" value="Outra"> Outra</label>
-      </div>
-    </div>
-
-    <div class="campo">
-      <label>Gestantes</label>
-      <input type="text" id="pre-qtdGestantes" placeholder="Quantidade">
-    </div>
-
-    <div class="campo">
-      <label>Fora da escola</label>
-      <input type="text" id="pre-qtdForaEscola" placeholder="Quantidade">
-    </div>
-
-    <div class="campo">
-      <label>Busca emprego/capacitação</label>
-      <input type="text" id="pre-qtdBuscaEmprego" placeholder="Quantidade">
-    </div>
-
-    <div class="campo">
-      <label>Tipo de ocupação</label>
-      <div class="opcoes">
-        <label><input type="radio" name="pre-tipoOcupacao" value="Formal"> Formal</label>
-        <label><input type="radio" name="pre-tipoOcupacao" value="Informal"> Informal</label>
-        <label><input type="radio" name="pre-tipoOcupacao" value="Desempregado"> Desempregado</label>
-        <label><input type="radio" name="pre-tipoOcupacao" value="Outros"> Outros</label>
-      </div>
-    </div>
-
-    <div class="campo">
-      <label>Possui documento da moradia?</label>
-      <div class="opcoes">
-        <label><input type="radio" name="pre-possuiDocumento" value="Sim"> Sim</label>
-        <label><input type="radio" name="pre-possuiDocumento" value="Não"> Não</label>
-      </div>
-    </div>
-
-    <div class="campo">
-      <label>Tipo de documento (se houver)</label>
-      <div class="opcoes">
-        <label><input type="radio" name="pre-tipoDocumento" value="Escritura"> Escritura</label>
-        <label><input type="radio" name="pre-tipoDocumento" value="Contrato"> Contrato</label>
-        <label><input type="radio" name="pre-tipoDocumento" value="Outro"> Outro</label>
-      </div>
-    </div>
-
-    <div class="campo">
-      <label>Serviço de saúde de referência</label>
-      <input type="text" id="pre-servicoSaudeRef" placeholder="Nome do posto ou unidade">
-    </div>
-
-    <div class="campo">
-      <label>Acesso à saúde</label>
-      <div class="opcoes">
-        <label><input type="radio" name="pre-acessoSaude" value="Sim"> Sim</label>
-        <label><input type="radio" name="pre-acessoSaude" value="Não"> Não</label>
-      </div>
-    </div>
-
-    <div class="campo">
-      <label>Dificuldades na saúde (marque tudo que se aplica)</label>
-      <div class="opcoes">
-        <label><input type="checkbox" name="pre-dificuldadesSaude" value="Distância"> Distância</label>
-        <label><input type="checkbox" name="pre-dificuldadesSaude" value="Fila"> Fila</label>
-        <label><input type="checkbox" name="pre-dificuldadesSaude" value="Horário"> Horário</label>
-        <label><input type="checkbox" name="pre-dificuldadesSaude" value="Outro"> Outro</label>
-      </div>
-    </div>
-
-    <div class="campo">
-      <label>Situação escolar</label>
-      <div class="opcoes">
-        <label><input type="radio" name="pre-situacaoEscolar" value="Regular"> Regular</label>
-        <label><input type="radio" name="pre-situacaoEscolar" value="Irregular"> Irregular</label>
-        <label><input type="radio" name="pre-situacaoEscolar" value="Nenhuma"> Nenhuma</label>
-      </div>
-    </div>
-
-    <div class="campo">
-      <label>Acesso à creche</label>
-      <div class="opcoes">
-        <label><input type="radio" name="pre-acessoCreche" value="Sim"> Sim</label>
-        <label><input type="radio" name="pre-acessoCreche" value="Não"> Não</label>
-      </div>
-    </div>
-
-    <div class="campo">
-      <label>Demanda por creche</label>
-      <div class="opcoes">
-        <label><input type="radio" name="pre-demandaCreche" value="Alta"> Alta</label>
-        <label><input type="radio" name="pre-demandaCreche" value="Média"> Média</label>
-        <label><input type="radio" name="pre-demandaCreche" value="Baixa"> Baixa</label>
-      </div>
-    </div>
-
-    <div class="campo">
-      <label>Acesso ao CRAS</label>
-      <div class="opcoes">
-        <label><input type="radio" name="pre-acessoCRAS" value="Sim"> Sim</label>
-        <label><input type="radio" name="pre-acessoCRAS" value="Não"> Não</label>
-      </div>
-    </div>
-
-    <div class="campo">
-      <label>Acesso ao CREAS</label>
-      <div class="opcoes">
-        <label><input type="radio" name="pre-acessoCREAS" value="Sim"> Sim</label>
-        <label><input type="radio" name="pre-acessoCREAS" value="Não"> Não</label>
-      </div>
-    </div>
-
-    <div class="campo">
-      <label>Participa de associação/coletivo?</label>
-      <div class="opcoes">
-        <label><input type="radio" name="pre-participaAssociacao" value="Sim"> Sim</label>
-        <label><input type="radio" name="pre-participaAssociacao" value="Não"> Não</label>
-      </div>
-    </div>
-
-    <div class="campo">
-      <label>Qual associação/coletivo?</label>
-      <input type="text" id="pre-qualAssociacao" placeholder="Nome da associação">
-    </div>
-
-    <div class="campo">
-      <label>Observações qualitativas</label>
-      <textarea id="pre-observacoesQualitativas" placeholder="Descreva detalhes relevantes..."></textarea>
-    </div>
-
-    <div class="campo">
-      <label>Nome responsável familiar (fechamento)</label>
-      <input type="text" id="pre-nomeResponsavelFechamento" placeholder="Nome">
-    </div>
-
-    <div class="campo">
-      <label>Nome entrevistador (fechamento)</label>
-      <input type="text" id="pre-nomeEntrevistadorFechamento" placeholder="Nome">
-    </div>
-
-    <div class="campo">
-      <label>Data de fechamento</label>
-      <input type="date" id="pre-dataFechamento">
-    </div>
-  </div>
-
-  <button id="btn-pre" class="btn-enviar" onclick="enviarPreCadastro()">Enviar Pré-cadastro</button>
-  <div id="msg-pre" class="msg"></div>
-</div>
-
-<!-- ========================================================== -->
-<!-- FORMULÁRIO 2 — VISITA DOMICILIAR                           -->
-<!-- ========================================================== -->
-<div id="painel-vis" class="painel">
-
-  <div class="card-apresentacao">
-    <h2>Apresentação da visita</h2>
-    <p>Esta aba coleta informações da visita técnica ao domicílio, permitindo registrar observações de campo, condições da moradia e encaminhamentos. Preencha todos os campos obrigatórios e clique em “Enviar Visita Domiciliar”.</p>
-  </div>
-
-  <div class="card">
-    <div class="aviso-lgpd">
-      <strong>Informação sobre tratamento de dados — LGPD</strong><br>
-      Os dados coletados serão utilizados exclusivamente para cadastro, avaliação, planejamento e execução do Programa Minha Casa + Bonita, conforme a Lei nº 13.709/2018. O acesso será restrito à equipe técnica e parceiros envolvidos.
-    </div>
-    <div class="campo">
-      <label style="font-weight:normal;">
-        <input type="checkbox" id="vis-lgpd">
-        Declaro que fui informado(a) sobre a finalidade da coleta e do tratamento dos meus dados pessoais.
-      </label>
-    </div>
-  </div>
-
-  <div class="card">
-    <h2>Identificação da visita</h2>
-    <div class="campo">
-      <label>Nome completo do responsável pela moradia *</label>
-      <input type="text" id="vis-nomeCompleto" placeholder="Nome completo">
-    </div>
-    <div class="campo">
-      <label>Nome social (se houver)</label>
-      <input type="text" id="vis-nomeSocial" placeholder="Nome social">
-    </div>
-    <div class="duas-col">
-      <div class="campo">
-        <label>CPF *</label>
-        <input type="text" id="vis-cpf" placeholder="000.000.000-00" maxlength="14">
-      </div>
-      <div class="campo">
-        <label>ID do domicílio (se houver)</label>
-        <input type="text" id="vis-idDomicilio" placeholder="Código de identificação">
-      </div>
-    </div>
-    <div class="campo">
-      <label>Data da visita *</label>
-      <input type="date" id="vis-dataVisita">
-    </div>
-    <div class="campo">
-      <label>Nome do entrevistador *</label>
-      <input type="text" id="vis-nomeEntrevistador" placeholder="Nome do entrevistador">
-    </div>
-  </div>
-
-  <div class="card">
-    <h2>Condições da visita</h2>
-    <div class="campo">
-      <label>Equipe responsável</label>
-      <div class="opcoes">
-        <label><input type="radio" name="vis-equipeResponsavel" value="Equipe A"> Equipe A</label>
-        <label><input type="radio" name="vis-equipeResponsavel" value="Equipe B"> Equipe B</label>
-        <label><input type="radio" name="vis-equipeResponsavel" value="Equipe C"> Equipe C</label>
-      </div>
-    </div>
-
-    <div class="campo">
-      <label>Situação da visita</label>
-      <div class="opcoes">
-        <label><input type="radio" name="vis-situacaoVisita" value="Concluída"> Concluída</label>
-        <label><input type="radio" name="vis-situacaoVisita" value="Em andamento"> Em andamento</label>
-        <label><input type="radio" name="vis-situacaoVisita" value="Cancelada"> Cancelada</label>
-      </div>
-    </div>
-
-    <div class="campo">
-      <label>Gênero</label>
-      <div class="opcoes">
-        <label><input type="radio" name="vis-genero" value="Masculino"> Masculino</label>
-        <label><input type="radio" name="vis-genero" value="Feminino"> Feminino</label>
-        <label><input type="radio" name="vis-genero" value="Outro"> Outro</label>
-      </div>
-    </div>
-
-    <div class="campo">
-      <label>Raça/Cor</label>
-      <div class="opcoes">
-        <label><input type="radio" name="vis-racaCor" value="Branca"> Branca</label>
-        <label><input type="radio" name="vis-racaCor" value="Preta"> Preta</label>
-        <label><input type="radio" name="vis-racaCor" value="Parda"> Parda</label>
-        <label><input type="radio" name="vis-racaCor" value="Amarela"> Amarela</label>
-        <label><input type="radio" name="vis-racaCor" value="Indígena"> Indígena</label>
-      </div>
-    </div>
-
-    <div class="campo">
-      <label>Escolaridade</label>
-      <div class="opcoes">
-        <label><input type="radio" name="vis-escolaridade" value="Analfabeto"> Analfabeto</label>
-        <label><input type="radio" name="vis-escolaridade" value="Fundamental incompleto"> Fundamental incompleto</label>
-        <label><input type="radio" name="vis-escolaridade" value="Fundamental completo"> Fundamental completo</label>
-        <label><input type="radio" name="vis-escolaridade" value="Médio incompleto"> Médio incompleto</label>
-        <label><input type="radio" name="vis-escolaridade" value="Médio completo"> Médio completo</label>
-        <label><input type="radio" name="vis-escolaridade" value="Superior"> Superior</label>
-      </div>
-    </div>
-
-    <div class="campo">
-      <label>Ocupação</label>
-      <div class="opcoes">
-        <label><input type="radio" name="vis-ocupacao" value="Empregado"> Empregado</label>
-        <label><input type="radio" name="vis-ocupacao" value="Desempregado"> Desempregado</label>
-        <label><input type="radio" name="vis-ocupacao" value="Autônomo"> Autônomo</label>
-        <label><input type="radio" name="vis-ocupacao" value="Aposentado"> Aposentado</label>
-        <label><input type="radio" name="vis-ocupacao" value="Outros"> Outros</label>
-      </div>
-    </div>
-
-    <div class="campo">
-      <label>Fonte de renda</label>
-      <div class="opcoes">
-        <label><input type="radio" name="vis-fonteRenda" value="Salário"> Salário</label>
-        <label><input type="radio" name="vis-fonteRenda" value="Benefício"> Benefício</label>
-        <label><input type="radio" name="vis-fonteRenda" value="Renda própria"> Renda própria</label>
-        <label><input type="radio" name="vis-fonteRenda" value="Outros"> Outros</label>
-      </div>
-    </div>
-
-    <div class="campo">
-      <label>Atividade na casa</label>
-      <div class="opcoes">
-        <label><input type="radio" name="vis-atividadeCasa" value="Trabalho doméstico"> Trabalho doméstico</label>
-        <label><input type="radio" name="vis-atividadeCasa" value="Cuidado de crianças"> Cuidado de crianças</label>
-        <label><input type="radio" name="vis-atividadeCasa" value="Nenhuma"> Nenhuma</label>
-        <label><input type="radio" name="vis-atividadeCasa" value="Outros"> Outros</label>
-      </div>
-    </div>
-
-    <div class="campo" id="campo-tipoAtividadeCasa" style="display:none;">
-      <label>Qual atividade?</label>
-      <input type="text" id="vis-tipoAtividadeCasa" placeholder="Descreva a atividade">
-    </div>
-
-    <script>
-      // Mostrar/ocultar campo “Qual atividade?” quando necessário
-      document.querySelectorAll('input[name="vis-atividadeCasa"]').forEach(function(r){
-        r.addEventListener('change', function(){
-          document.getElementById('campo-tipoAtividadeCasa').style.display = (this.value === 'Outros') ? 'block' : 'none';
-        });
-      });
-    </script>
-
-    <div class="campo">
-      <label>Cadastro Único?</label>
-      <div class="opcoes">
-        <label><input type="radio" name="vis-cadUnico" value="Sim"> Sim</label>
-        <label><input type="radio" name="vis-cadUnico" value="Não"> Não</label>
-      </div>
-    </div>
-
-    <div class="campo">
-      <label>Benefícios (marque tudo que se aplica)</label>
-      <div class="opcoes">
-        <label><input type="checkbox" name="vis-beneficios" value="Bolsa Família"> Bolsa Família</label>
-        <label><input type="checkbox" name="vis-beneficios" value="BPC"> BPC</label>
-        <label><input type="checkbox" name="vis-beneficios" value="Auxílio Emergencial"> Auxílio Emergencial</label>
-        <label>
-
+// helper para montar uma linha de tabela no HTML
+function linhaTR(label, valor) {
+  return '<tr><td>' + (label || '') + '</td><td>' + (valor || '') + '</td></tr>';
+}
