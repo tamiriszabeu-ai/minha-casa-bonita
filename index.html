@@ -36,12 +36,8 @@
     background: #fdf6e3; border: 1.5px solid #c8a84b;
     border-radius: 6px; padding: 16px 20px; margin-bottom: 16px;
   }
-  .card-apresentacao h2 {
-    font-size: 14px; color: #b7700a; margin-bottom: 8px;
-  }
-  .card-apresentacao p {
-    font-size: 13px; line-height: 1.65; color: #333; text-align: justify;
-  }
+  .card-apresentacao h2 { font-size: 14px; color: #b7700a; margin-bottom: 8px; }
+  .card-apresentacao p  { font-size: 13px; line-height: 1.65; color: #333; text-align: justify; }
 
   .box-orientacao {
     border: 1.5px solid #f1c40f; padding: 10px 14px;
@@ -54,7 +50,6 @@
   .campo input[type=text],
   .campo input[type=date],
   .campo input[type=tel],
-  .campo select,
   .campo textarea {
     width: 100%; padding: 8px 10px; border: 1px solid #ccc;
     border-radius: 5px; font-size: 13px;
@@ -62,28 +57,22 @@
   .campo textarea { min-height: 70px; resize: vertical; }
 
   .opcoes { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
-  .opcoes label {
-    font-weight: normal; display: flex; align-items: center;
-    gap: 4px; font-size: 13px; cursor: pointer;
-  }
+  .opcoes label { font-weight: normal; display: flex; align-items: center; gap: 4px; font-size: 13px; cursor: pointer; }
 
-  .grade-avaliacao {
-    width: 100%; border-collapse: collapse; font-size: 12px; min-width: 480px;
-  }
+  .grade-avaliacao { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 500px; }
   .grade-avaliacao thead tr { background: #1a5276; color: #fff; }
-  .grade-avaliacao th {
-    border: 1px solid #154360; padding: 7px 8px;
-    text-align: center; font-size: 11px; font-weight: bold;
-  }
-  .grade-avaliacao th:first-child { text-align: left; width: 34%; }
-  .grade-avaliacao td {
-    border: 1px solid #ddd; padding: 6px 8px;
-    text-align: center; vertical-align: middle;
-  }
-  .grade-avaliacao td:first-child { text-align: left; background: #fff; }
+  .grade-avaliacao th { border: 1px solid #154360; padding: 7px 8px; text-align: center; font-size: 11px; font-weight: bold; }
+  .grade-avaliacao th:first-child { text-align: left; width: 36%; }
+  .grade-avaliacao td { border: 1px solid #ddd; padding: 7px 8px; text-align: center; vertical-align: middle; }
+  .grade-avaliacao td:first-child { text-align: left; }
   .grade-avaliacao tbody tr:nth-child(even) td { background: #f7fafc; }
-  .grade-avaliacao tbody tr:nth-child(even) td:first-child { background: #f7fafc; }
   .grade-avaliacao input[type=radio] { width: 16px; height: 16px; cursor: pointer; }
+
+  .aviso-lgpd {
+    background: #eaf4fb; border-left: 4px solid #1a5276;
+    padding: 12px 14px; font-size: 12px; line-height: 1.6;
+    border-radius: 4px; margin-bottom: 10px;
+  }
 
   .btn-enviar {
     width: 100%; padding: 14px; background: #1a5276; color: #fff;
@@ -93,12 +82,6 @@
   .btn-enviar:hover { background: #154360; }
   .btn-enviar:disabled { background: #aaa; cursor: not-allowed; }
 
-  .aviso-lgpd {
-    background: #eaf4fb; border-left: 4px solid #1a5276;
-    padding: 12px 14px; font-size: 12px; line-height: 1.6;
-    border-radius: 4px; margin-bottom: 10px;
-  }
-
   .msg { padding: 12px; border-radius: 6px; margin-top: 12px; font-size: 13px; text-align: center; }
   .msg.ok  { background: #d4efdf; color: #1e8449; }
   .msg.err { background: #fadbd8; color: #c0392b; }
@@ -106,9 +89,9 @@
   .duas-col { display: flex; gap: 12px; }
   .duas-col .campo { flex: 1; }
 
-  @media(max-width:500px) {
+  @media(max-width:520px) {
     .duas-col { flex-direction: column; }
-    .grade-avaliacao { font-size: 11px; }
+    .grade-avaliacao { font-size: 10px; }
   }
 </style>
 </head>
@@ -124,20 +107,16 @@
   <button class="aba-btn"       onclick="trocarAba('vis')">🏠 Visita Domiciliar</button>
 </div>
 
-<!-- ============================================================ -->
-<!-- FORMULÁRIO 1 — PRÉ-CADASTRO                                  -->
-<!-- ============================================================ -->
+<!-- ========================================================== -->
+<!-- FORMULÁRIO 1 — PRÉ-CADASTRO                                -->
+<!-- ========================================================== -->
 <div id="painel-pre" class="painel ativo">
 
-  <!-- Apresentação -->
   <div class="card-apresentacao">
     <h2>Apresentação do formulário</h2>
-    <p>
-      O Programa Minha Casa + Bonita é um projeto piloto de <strong>melhoria urbana, habitacional e de assistência técnica permanente</strong>, desenvolvido na comunidade do Risca Faca, em Maricá. Este formulário integra o processo de cadastro, diagnóstico e acompanhamento das famílias interessadas, contribuindo para identificar necessidades das moradias, organizar atendimentos, planejar visitas técnicas e definir prioridades para as ações de melhoria habitacional. Não existe resposta certa ou errada: o mais importante é registrar como a família percebe os problemas da casa e quais situações considera mais graves ou urgentes.
-    </p>
+    <p>O Programa Minha Casa + Bonita é um projeto piloto de <strong>melhoria urbana, habitacional e de assistência técnica permanente</strong>, desenvolvido na comunidade do Risca Faca, em Maricá. Este formulário integra o processo de cadastro, diagnóstico e acompanhamento das famílias interessadas, contribuindo para identificar necessidades das moradias, organizar atendimentos, planejar visitas técnicas e definir prioridades para as ações de melhoria habitacional. Não existe resposta certa ou errada: o mais importante é registrar como a família percebe os problemas da casa e quais situações considera mais graves ou urgentes.</p>
   </div>
 
-  <!-- LGPD -->
   <div class="card">
     <div class="aviso-lgpd">
       <strong>Informação sobre tratamento de dados — LGPD</strong><br>
@@ -151,10 +130,8 @@
     </div>
   </div>
 
-  <!-- Seção 1 -->
   <div class="card">
     <h2>Seção 1 — Identificação da família</h2>
-
     <div class="campo">
       <label>Nome completo do responsável pela moradia *</label>
       <input type="text" id="pre-nomeCompleto" placeholder="Nome completo">
@@ -173,7 +150,6 @@
         <input type="text" id="pre-cpf" placeholder="000.000.000-00" maxlength="14">
       </div>
     </div>
-
     <div class="campo">
       <label>Estado civil</label>
       <div class="opcoes">
@@ -185,7 +161,6 @@
         <label><input type="radio" name="pre-estadoCivil" value="Viúva/o"> Viúva/o</label>
       </div>
     </div>
-
     <div class="duas-col">
       <div class="campo">
         <label>Telefone principal *</label>
@@ -199,7 +174,6 @@
         </div>
       </div>
     </div>
-
     <div class="campo">
       <label>Endereço / ponto de referência da moradia</label>
       <input type="text" id="pre-endereco" placeholder="Rua, número, referência">
@@ -208,7 +182,6 @@
       <label>ID do domicílio</label>
       <input type="text" id="pre-idDomicilio" placeholder="Código do domicílio">
     </div>
-
     <div class="duas-col">
       <div class="campo">
         <label>Tempo de residência — anos</label>
@@ -219,7 +192,6 @@
         <input type="text" id="pre-tempoResidMeses" placeholder="Ex: 3">
       </div>
     </div>
-
     <div class="campo">
       <label>Renda familiar total mensal</label>
       <div class="opcoes">
@@ -231,7 +203,6 @@
         <label><input type="radio" name="pre-rendaFamiliar" value="Prefere não responder"> Prefere não responder</label>
       </div>
     </div>
-
     <div class="campo">
       <label>A residência está dentro da poligonal de atendimento?</label>
       <div class="opcoes">
@@ -239,7 +210,6 @@
         <label><input type="radio" name="pre-poligonal" value="Não"> Não</label>
       </div>
     </div>
-
     <div class="campo">
       <label>Quantas pessoas moram na casa?</label>
       <div class="opcoes">
@@ -249,7 +219,6 @@
         <label><input type="radio" name="pre-qtdPessoas" value="Mais de 6 pessoas"> Mais de 6</label>
       </div>
     </div>
-
     <div class="campo">
       <label>Existem crianças, idosos ou pessoas com deficiência na moradia?</label>
       <div class="opcoes">
@@ -266,7 +235,6 @@
         <label><input type="checkbox" name="pre-tipoCri" value="Mobilidade reduzida"> Mobilidade reduzida</label>
       </div>
     </div>
-
     <div class="campo">
       <label>Existem pessoas com doenças crônicas ou recorrentes na moradia?</label>
       <div class="opcoes">
@@ -287,22 +255,16 @@
     </div>
   </div>
 
-  <!-- Seção 2 -->
   <div class="card">
     <h2>Seção 2 — Como você avalia a sua moradia?</h2>
-
     <div class="box-orientacao">
       <strong>Orientação para a família:</strong> As casas podem apresentar problemas que afetam a saúde, a segurança e o conforto. Muitas vezes, as pessoas acabam se acostumando com essas situações, mas elas continuam impactando a qualidade de vida. Nesta etapa, queremos entender quais problemas existem na casa e quais são considerados mais graves pela família.
     </div>
-
-    <div style="font-weight:bold; font-size:13px; margin-bottom:6px;">
-      SEÇÃO 2.1 – IDENTIFICAÇÃO DOS PROBLEMAS
-    </div>
+    <div style="font-weight:bold; font-size:13px; margin-bottom:6px;">SEÇÃO 2.1 – IDENTIFICAÇÃO DOS PROBLEMAS</div>
     <div style="font-size:13px; margin-bottom:10px;">
       <strong>Como a sua família avalia os problemas abaixo na moradia?</strong><br>
       <span style="font-size:12px; color:#666;">Marque apenas uma opção em cada linha.</span>
     </div>
-
     <div style="overflow-x:auto;">
       <table class="grade-avaliacao">
         <thead>
@@ -314,12 +276,82 @@
             <th>Existe e representa risco grave</th>
           </tr>
         </thead>
-        <tbody id="grade-problemas"></tbody>
+        <tbody>
+          <tr>
+            <td>Rachaduras</td>
+            <td><input type="radio" name="grade-rachaduras" value="Não existe"></td>
+            <td><input type="radio" name="grade-rachaduras" value="Existe, mas incomoda pouco"></td>
+            <td><input type="radio" name="grade-rachaduras" value="Existe e incomoda muito"></td>
+            <td><input type="radio" name="grade-rachaduras" value="Existe e representa risco grave"></td>
+          </tr>
+          <tr>
+            <td>Instalações elétricas expostas</td>
+            <td><input type="radio" name="grade-eletrica" value="Não existe"></td>
+            <td><input type="radio" name="grade-eletrica" value="Existe, mas incomoda pouco"></td>
+            <td><input type="radio" name="grade-eletrica" value="Existe e incomoda muito"></td>
+            <td><input type="radio" name="grade-eletrica" value="Existe e representa risco grave"></td>
+          </tr>
+          <tr>
+            <td>Infiltrações, umidade e mofo</td>
+            <td><input type="radio" name="grade-infiltracao" value="Não existe"></td>
+            <td><input type="radio" name="grade-infiltracao" value="Existe, mas incomoda pouco"></td>
+            <td><input type="radio" name="grade-infiltracao" value="Existe e incomoda muito"></td>
+            <td><input type="radio" name="grade-infiltracao" value="Existe e representa risco grave"></td>
+          </tr>
+          <tr>
+            <td>Falta de revestimento no piso</td>
+            <td><input type="radio" name="grade-piso" value="Não existe"></td>
+            <td><input type="radio" name="grade-piso" value="Existe, mas incomoda pouco"></td>
+            <td><input type="radio" name="grade-piso" value="Existe e incomoda muito"></td>
+            <td><input type="radio" name="grade-piso" value="Existe e representa risco grave"></td>
+          </tr>
+          <tr>
+            <td>Paredes sem revestimento</td>
+            <td><input type="radio" name="grade-paredes" value="Não existe"></td>
+            <td><input type="radio" name="grade-paredes" value="Existe, mas incomoda pouco"></td>
+            <td><input type="radio" name="grade-paredes" value="Existe e incomoda muito"></td>
+            <td><input type="radio" name="grade-paredes" value="Existe e representa risco grave"></td>
+          </tr>
+          <tr>
+            <td>Estrutura com vergalhões expostos</td>
+            <td><input type="radio" name="grade-vergalhoes" value="Não existe"></td>
+            <td><input type="radio" name="grade-vergalhoes" value="Existe, mas incomoda pouco"></td>
+            <td><input type="radio" name="grade-vergalhoes" value="Existe e incomoda muito"></td>
+            <td><input type="radio" name="grade-vergalhoes" value="Existe e representa risco grave"></td>
+          </tr>
+          <tr>
+            <td>Telhado ou laje com goteira</td>
+            <td><input type="radio" name="grade-telhado" value="Não existe"></td>
+            <td><input type="radio" name="grade-telhado" value="Existe, mas incomoda pouco"></td>
+            <td><input type="radio" name="grade-telhado" value="Existe e incomoda muito"></td>
+            <td><input type="radio" name="grade-telhado" value="Existe e representa risco grave"></td>
+          </tr>
+          <tr>
+            <td>Calor excessivo dentro da casa</td>
+            <td><input type="radio" name="grade-calor" value="Não existe"></td>
+            <td><input type="radio" name="grade-calor" value="Existe, mas incomoda pouco"></td>
+            <td><input type="radio" name="grade-calor" value="Existe e incomoda muito"></td>
+            <td><input type="radio" name="grade-calor" value="Existe e representa risco grave"></td>
+          </tr>
+          <tr>
+            <td>Falta de luminosidade natural</td>
+            <td><input type="radio" name="grade-luminosidade" value="Não existe"></td>
+            <td><input type="radio" name="grade-luminosidade" value="Existe, mas incomoda pouco"></td>
+            <td><input type="radio" name="grade-luminosidade" value="Existe e incomoda muito"></td>
+            <td><input type="radio" name="grade-luminosidade" value="Existe e representa risco grave"></td>
+          </tr>
+          <tr>
+            <td>Falta de espaço para toda a família</td>
+            <td><input type="radio" name="grade-espaco" value="Não existe"></td>
+            <td><input type="radio" name="grade-espaco" value="Existe, mas incomoda pouco"></td>
+            <td><input type="radio" name="grade-espaco" value="Existe e incomoda muito"></td>
+            <td><input type="radio" name="grade-espaco" value="Existe e representa risco grave"></td>
+          </tr>
+        </tbody>
       </table>
     </div>
   </div>
 
-  <!-- Seção 3 -->
   <div class="card">
     <h2>Seção 3 — Priorização dos problemas</h2>
     <div class="campo">
@@ -336,7 +368,6 @@
     </div>
   </div>
 
-  <!-- Seção 5 -->
   <div class="card">
     <h2>Seção 5 — Impactos na vida da família</h2>
     <div class="campo">
@@ -366,7 +397,6 @@
     </div>
   </div>
 
-  <!-- Seção 6 -->
   <div class="card">
     <h2>Seção 6 — Percepção da família sobre prioridades</h2>
     <div class="campo">
@@ -386,7 +416,6 @@
     </div>
   </div>
 
-  <!-- Seção 7 -->
   <div class="card">
     <h2>Seção 7 — Registro final</h2>
     <div class="campo">
@@ -395,7 +424,6 @@
     </div>
   </div>
 
-  <!-- Seção 8 -->
   <div class="card">
     <h2>Seção 8 — Participação social e expectativas</h2>
     <div class="campo">
@@ -447,7 +475,6 @@
     </div>
   </div>
 
-  <!-- Equipe -->
   <div class="card">
     <h2>Preenchimento pela equipe técnica</h2>
     <div class="campo">
@@ -466,10 +493,10 @@
     </div>
     <div class="campo">
       <label>Observações da equipe</label>
-      <textarea id="pre-observacoesEquipe" placeholder="Observações relevantes da equipe técnica"></textarea>
+      <textarea id="pre-observacoesEquipe" placeholder="Observações internas da equipe técnica"></textarea>
     </div>
     <div class="campo">
-      <label>Data do agendamento da visita domiciliar</label>
+      <label>Data de agendamento da visita técnica</label>
       <input type="date" id="pre-dataAgendamento">
     </div>
   </div>
@@ -478,15 +505,15 @@
   <div id="msg-pre" class="msg" style="display:none"></div>
 </div>
 
-<!-- ============================================================ -->
-<!-- FORMULÁRIO 2 — VISITA DOMICILIAR                             -->
-<!-- ============================================================ -->
+<!-- ========================================================== -->
+<!-- FORMULÁRIO 2 — VISITA DOMICILIAR                           -->
+<!-- ========================================================== -->
 <div id="painel-vis" class="painel">
 
   <div class="card">
     <div class="aviso-lgpd">
-      <strong>Informação sobre tratamento de dados — LGPD</strong><br>
-      Os dados coletados serão utilizados exclusivamente para os fins do Programa Minha Casa + Bonita, conforme a Lei nº 13.709/2018.
+      <strong>Termo de consentimento — LGPD</strong><br>
+      Os dados coletados nesta visita serão utilizados exclusivamente para fins do Programa Minha Casa + Bonita, conforme a Lei nº 13.709/2018.
     </div>
     <div class="campo">
       <label style="font-weight:normal;">
@@ -848,294 +875,5 @@
   <div class="card">
     <h2>13 — Fechamento da visita</h2>
     <div class="campo">
-      <label>Nome do/a responsável familiar (fechamento)</label>
-      <input type="text" id="vis-nomeResponsavelFechamento" placeholder="Nome completo">
-    </div>
-    <div class="campo">
-      <label>Nome do/a entrevistador/a (fechamento)</label>
-      <input type="text" id="vis-nomeEntrevistadorFechamento" placeholder="Nome completo">
-    </div>
-    <div class="campo">
-      <label>Data de fechamento</label>
-      <input type="date" id="vis-dataFechamento">
-    </div>
-  </div>
+      <label>Nome do/a responsável familiar</label>
 
-  <button class="btn-enviar" onclick="enviarVisita()">Enviar Visita Domiciliar</button>
-  <div id="msg-vis" class="msg" style="display:none"></div>
-</div>
-
-<!-- ============================================================ -->
-<!-- JAVASCRIPT                                                    -->
-<!-- ============================================================ -->
-<script>
-var URL_SCRIPT = 'https://script.google.com/macros/s/AKfycbzx7rrwybDqsdZ8lFTVpVsy0gm3uvFSzf_qXlzL4Y0KDuEjM6kRukYnnvxnZZDR_aef/exec';
-
-var PROBLEMAS = [
-  { id: 'rachaduras',   label: 'Rachaduras' },
-  { id: 'eletrica',     label: 'Instalações elétricas expostas' },
-  { id: 'infiltracao',  label: 'Infiltrações, umidade e mofo' },
-  { id: 'piso',         label: 'Falta de revestimento no piso' },
-  { id: 'paredes',      label: 'Paredes sem revestimento' },
-  { id: 'vergalhoes',   label: 'Estrutura com vergalhões expostos' },
-  { id: 'telhado',      label: 'Telhado ou laje com goteira' },
-  { id: 'calor',        label: 'Calor excessivo dentro da casa' },
-  { id: 'luminosidade', label: 'Falta de luminosidade natural' },
-  { id: 'espaco',       label: 'Falta de espaço para toda a família' }
-];
-
-var OPCOES_AVALIACAO = [
-  { val: 'Não existe',                      label: 'Não existe' },
-  { val: 'Existe, mas incomoda pouco',      label: 'Existe, mas incomoda pouco' },
-  { val: 'Existe e incomoda muito',         label: 'Existe e incomoda muito' },
-  { val: 'Existe e representa risco grave', label: 'Existe e representa risco grave' }
-];
-
-document.addEventListener('DOMContentLoaded', function() {
-  var tbody = document.getElementById('grade-problemas');
-  if (!tbody) return;
-  PROBLEMAS.forEach(function(prob) {
-    var tr = document.createElement('tr');
-    var tdLabel = document.createElement('td');
-    tdLabel.textContent = prob.label;
-    tr.appendChild(tdLabel);
-    OPCOES_AVALIACAO.forEach(function(op) {
-      var td = document.createElement('td');
-      var input = document.createElement('input');
-      input.type = 'radio';
-      input.name = 'grade-' + prob.id;
-      input.value = op.val;
-      td.appendChild(input);
-      tr.appendChild(td);
-    });
-    tbody.appendChild(tr);
-  });
-});
-
-function trocarAba(qual) {
-  document.getElementById('painel-pre').classList.toggle('ativo', qual === 'pre');
-  document.getElementById('painel-vis').classList.toggle('ativo', qual === 'vis');
-  document.querySelectorAll('.aba-btn').forEach(function(b, i) {
-    b.classList.toggle('ativa', (qual === 'pre' && i === 0) || (qual === 'vis' && i === 1));
-  });
-}
-
-function mostrar(id) {
-  var el = document.getElementById(id);
-  if (el) el.style.display = 'block';
-}
-
-function esconder(id) {
-  var el = document.getElementById(id);
-  if (el) el.style.display = 'none';
-}
-
-function getRadio(name) {
-  var el = document.querySelector('input[name="' + name + '"]:checked');
-  return el ? el.value : '';
-}
-
-function getCheckboxes(name) {
-  var vals = [];
-  document.querySelectorAll('input[name="' + name + '"]:checked').forEach(function(el) {
-    vals.push(el.value);
-  });
-  return vals.join(', ');
-}
-
-function getVal(id) {
-  var el = document.getElementById(id);
-  return el ? el.value.trim() : '';
-}
-
-function getGradeAvaliacao() {
-  var resultado = [];
-  PROBLEMAS.forEach(function(prob) {
-    var val = getRadio('grade-' + prob.id);
-    resultado.push(prob.label + ': ' + (val || 'Não respondido'));
-  });
-  return resultado.join(' | ');
-}
-
-function mostrarMsg(idMsg, tipo, texto) {
-  var el = document.getElementById(idMsg);
-  el.className = 'msg ' + tipo;
-  el.textContent = texto;
-  el.style.display = 'block';
-}
-
-function enviarPreCadastro() {
-  var lgpd = document.getElementById('pre-lgpd');
-  if (!lgpd || !lgpd.checked) {
-    mostrarMsg('msg-pre', 'err', 'Por favor, aceite o termo de consentimento antes de enviar.');
-    return;
-  }
-  var nome = getVal('pre-nomeCompleto');
-  var cpf  = getVal('pre-cpf');
-  if (!nome || !cpf) {
-    mostrarMsg('msg-pre', 'err', 'Nome completo e CPF são obrigatórios.');
-    return;
-  }
-
-  var btn = document.querySelector('#painel-pre .btn-enviar');
-  btn.disabled = true;
-  btn.textContent = 'Enviando...';
-
-  var payload = {
-    nomeCompleto:         nome,
-    nomeSocial:           getVal('pre-nomeSocial'),
-    dataNascimento:       getVal('pre-dataNascimento'),
-    cpf:                  cpf,
-    estadoCivil:          getRadio('pre-estadoCivil'),
-    telefone:             getVal('pre-telefone'),
-    whatsapp:             getRadio('pre-whatsapp'),
-    endereco:             getVal('pre-endereco'),
-    idDomicilio:          getVal('pre-idDomicilio'),
-    tempoResidAnos:       getVal('pre-tempoResidAnos'),
-    tempoResidMeses:      getVal('pre-tempoResidMeses'),
-    rendaFamiliar:        getRadio('pre-rendaFamiliar'),
-    poligonal:            getRadio('pre-poligonal'),
-    qtdPessoas:           getRadio('pre-qtdPessoas'),
-    temCriIdoPcd:         getRadio('pre-temCriIdoPcd'),
-    tipoCriIdoPcd:        getCheckboxes('pre-tipoCri'),
-    temDoencaCron:        getRadio('pre-temDoencaCron'),
-    tipoDoenca:           getCheckboxes('pre-tipoDoenca'),
-    gradeAvaliacao:       getGradeAvaliacao(),
-    probMaisGrave:        getVal('pre-probMaisGrave'),
-    probSegundo:          getVal('pre-probSegundo'),
-    probTerceiro:         getVal('pre-probTerceiro'),
-    probAfetaSaude:       getRadio('pre-probAfetaSaude'),
-    impactos:             getCheckboxes('pre-impacto'),
-    qualComodoPorQue:     getVal('pre-qualComodoPorQue'),
-    melhoriaPrior:        getVal('pre-melhoriaPrior'),
-    jaTentou:             getRadio('pre-jaTentou'),
-    oQueFoiFeito:         getVal('pre-oQueFoiFeito'),
-    infoAdicional:        getVal('pre-infoAdicional'),
-    jaConhecia:           getRadio('pre-jaConhecia'),
-    comoSoube:            getCheckboxes('pre-comoSoube'),
-    participouReuniao:    getRadio('pre-participouReuniao'),
-    desejaParticipar:     getRadio('pre-desejaParticipar'),
-    expectativaPrincipal: getRadio('pre-expectativaPrincipal'),
-    nomeEntrevistador:    getVal('pre-nomeEntrevistador'),
-    dataPreenchimento:    getVal('pre-dataPreenchimento'),
-    horaPreenchimento:    getVal('pre-horaPreenchimento'),
-    observacoesEquipe:    getVal('pre-observacoesEquipe'),
-    dataAgendamento:      getVal('pre-dataAgendamento')
-  };
-
-  var form = new FormData();
-  form.append('action', 'salvarPreCadastro');
-  form.append('payload', JSON.stringify(payload));
-
-  fetch(URL_SCRIPT, { method: 'POST', body: form })
-    .then(function(r) { return r.json(); })
-    .then(function(res) {
-      if (res.sucesso) {
-        mostrarMsg('msg-pre', 'ok', 'Pré-cadastro enviado com sucesso! ID: ' + res.id);
-      } else {
-        mostrarMsg('msg-pre', 'err', 'Erro: ' + res.mensagem);
-      }
-    })
-    .catch(function(err) {
-      mostrarMsg('msg-pre', 'err', 'Falha na conexão. Tente novamente.');
-    })
-    .finally(function() {
-      btn.disabled = false;
-      btn.textContent = 'Enviar Pré-cadastro';
-    });
-}
-
-function enviarVisita() {
-  var lgpd = document.getElementById('vis-lgpd');
-  if (!lgpd || !lgpd.checked) {
-    mostrarMsg('msg-vis', 'err', 'Por favor, registre o consentimento LGPD antes de enviar.');
-    return;
-  }
-  var nome = getVal('vis-nomeCompleto');
-  var cpf  = getVal('vis-cpf');
-  if (!nome || !cpf) {
-    mostrarMsg('msg-vis', 'err', 'Nome completo e CPF são obrigatórios.');
-    return;
-  }
-
-  var btn = document.querySelector('#painel-vis .btn-enviar');
-  btn.disabled = true;
-  btn.textContent = 'Enviando...';
-
-  var payload = {
-    nomeCompleto:               nome,
-    nomeSocial:                 getVal('vis-nomeSocial'),
-    cpf:                        cpf,
-    idDomicilio:                getVal('vis-idDomicilio'),
-    dataVisita:                 getVal('vis-dataVisita'),
-    nomeEntrevistador:          getVal('vis-nomeEntrevistador'),
-    equipeResponsavel:          getRadio('vis-equipeResponsavel'),
-    situacaoVisita:             getRadio('vis-situacaoVisita'),
-    genero:                     getRadio('vis-genero'),
-    racaCor:                    getRadio('vis-racaCor'),
-    escolaridade:               getRadio('vis-escolaridade'),
-    ocupacao:                   getRadio('vis-ocupacao'),
-    principalFonteRenda:        getRadio('vis-principalFonteRenda'),
-    atividadeRemunerada:        getRadio('vis-atividadeRemunerada'),
-    tipoAtividade:              getCheckboxes('vis-tipoAtividade'),
-    possuiCadUnico:             getRadio('vis-possuiCadUnico'),
-    beneficios:                 getCheckboxes('vis-beneficios'),
-    rendaFaixa:                 getRadio('vis-rendaFaixa'),
-    responsavelRenda:           getRadio('vis-responsavelRenda'),
-    totalPessoas:               getVal('vis-totalPessoas'),
-    totalNucleos:               getVal('vis-totalNucleos'),
-    qtdCriancas0a6:             getVal('vis-qtdCriancas0a6'),
-    qtdCriancas7a11:            getVal('vis-qtdCriancas7a11'),
-    qtdAdolescentes12a17:       getVal('vis-qtdAdolescentes12a17'),
-    qtdJovens18a29:             getVal('vis-qtdJovens18a29'),
-    qtdAdultos30a59:            getVal('vis-qtdAdultos30a59'),
-    qtdIdosos60mais:            getVal('vis-qtdIdosos60mais'),
-    qtdPcD:                     getVal('vis-qtdPcD'),
-    tipoDeficiencia:            getCheckboxes('vis-tipoDeficiencia'),
-    qtdMobilidadeReduzida:      getVal('vis-qtdMobilidadeReduzida'),
-    qtdDoencaRecorrente:        getVal('vis-qtdDoencaRecorrente'),
-    tipoDoenca:                 getCheckboxes('vis-tipoDoenca'),
-    qtdGestantes:               getVal('vis-qtdGestantes'),
-    qtdForaEscola:              getVal('vis-qtdForaEscola'),
-    qtdBuscaEmprego:            getVal('vis-qtdBuscaEmprego'),
-    tipoOcupacao:               getRadio('vis-tipoOcupacao'),
-    possuiDocumento:            getRadio('vis-possuiDocumento'),
-    tipoDocumento:              getRadio('vis-tipoDocumento'),
-    servicoSaudeRef:            getVal('vis-servicoSaudeRef'),
-    acessoSaude:                getRadio('vis-acessoSaude'),
-    dificuldadesSaude:          getCheckboxes('vis-dificuldadesSaude'),
-    criancasNaEscola:           getRadio('vis-criancasNaEscola'),
-    acessoCreche:               getRadio('vis-acessoCreche'),
-    demandaCreche:              getRadio('vis-demandaCreche'),
-    acessoCRAS:                 getRadio('vis-acessoCRAS'),
-    acessoCREAS:                getRadio('vis-acessoCREAS'),
-    participaAssociacao:        getRadio('vis-participaAssociacao'),
-    qualAssociacao:             getVal('vis-qualAssociacao'),
-    observacoesQualitativas:    getVal('vis-observacoesQualitativas'),
-    nomeResponsavelFechamento:  getVal('vis-nomeResponsavelFechamento'),
-    nomeEntrevistadorFechamento:getVal('vis-nomeEntrevistadorFechamento'),
-    dataFechamento:             getVal('vis-dataFechamento')
-  };
-
-  var form = new FormData();
-  form.append('action', 'salvarVisita');
-  form.append('payload', JSON.stringify(payload));
-
-  fetch(URL_SCRIPT, { method: 'POST', body: form })
-    .then(function(r) { return r.json(); })
-    .then(function(res) {
-      if (res.sucesso) {
-        mostrarMsg('msg-vis', 'ok', 'Visita enviada com sucesso! ID: ' + res.id);
-      } else {
-        mostrarMsg('msg-vis', 'err', 'Erro: ' + res.mensagem);
-      }
-    })
-    .catch(function(err) {
-      mostrarMsg('msg-vis', 'err', 'Falha na conexão. Tente novamente.');
-    })
-    .finally(function() {
-      btn.disabled = false;
-      btn.textContent = 'Enviar Visita Domiciliar';
-    });
-}
-</script>
