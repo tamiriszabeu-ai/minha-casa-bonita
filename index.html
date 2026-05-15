@@ -8,12 +8,7 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: Arial, sans-serif; font-size: 14px; background: #f0f4f8; color: #222; }
 
-  header {
-    background: #1a5276;
-    color: #fff;
-    padding: 18px 24px;
-    text-align: center;
-  }
+  header { background: #1a5276; color: #fff; padding: 18px 24px; text-align: center; }
   header h1 { font-size: 20px; }
   header p  { font-size: 13px; margin-top: 4px; opacity: .85; }
 
@@ -28,7 +23,6 @@
   .painel { display: none; padding: 20px; max-width: 760px; margin: 0 auto; }
   .painel.ativo { display: block; }
 
-  /* Card padrão */
   .card {
     background: #fff; border-radius: 8px; padding: 18px 20px;
     margin-bottom: 16px; box-shadow: 0 1px 4px rgba(0,0,0,.08);
@@ -38,20 +32,17 @@
     padding-bottom: 6px; border-bottom: 1px solid #d5e8f5;
   }
 
-  /* Card Apresentação */
   .card-apresentacao {
     background: #fdf6e3; border: 1.5px solid #c8a84b;
     border-radius: 6px; padding: 16px 20px; margin-bottom: 16px;
   }
   .card-apresentacao h2 {
     font-size: 14px; color: #b7700a; margin-bottom: 8px;
-    padding-bottom: 0; border-bottom: none;
   }
   .card-apresentacao p {
     font-size: 13px; line-height: 1.65; color: #333; text-align: justify;
   }
 
-  /* Orientação seção 2 */
   .box-orientacao {
     border: 1.5px solid #f1c40f; padding: 10px 14px;
     border-radius: 4px; margin-bottom: 14px; background: #fffdf0;
@@ -76,7 +67,6 @@
     gap: 4px; font-size: 13px; cursor: pointer;
   }
 
-  /* Grade de avaliação */
   .grade-avaliacao {
     width: 100%; border-collapse: collapse; font-size: 12px; min-width: 480px;
   }
@@ -90,7 +80,7 @@
     border: 1px solid #ddd; padding: 6px 8px;
     text-align: center; vertical-align: middle;
   }
-  .grade-avaliacao td:first-child { text-align: left; background: #fff; font-weight: normal; }
+  .grade-avaliacao td:first-child { text-align: left; background: #fff; }
   .grade-avaliacao tbody tr:nth-child(even) td { background: #f7fafc; }
   .grade-avaliacao tbody tr:nth-child(even) td:first-child { background: #f7fafc; }
   .grade-avaliacao input[type=radio] { width: 16px; height: 16px; cursor: pointer; }
@@ -139,7 +129,7 @@
 <!-- ============================================================ -->
 <div id="painel-pre" class="painel ativo">
 
-  <!-- Apresentação do formulário -->
+  <!-- Apresentação -->
   <div class="card-apresentacao">
     <h2>Apresentação do formulário</h2>
     <p>
@@ -154,14 +144,14 @@
       Os dados coletados serão utilizados exclusivamente para cadastro, avaliação, planejamento e execução do Programa Minha Casa + Bonita, conforme a Lei nº 13.709/2018. O acesso será restrito à equipe técnica e parceiros envolvidos.
     </div>
     <div class="campo">
-      <label>
+      <label style="font-weight:normal;">
         <input type="checkbox" id="pre-lgpd">
         Declaro que fui informado(a) sobre a finalidade da coleta e do tratamento dos meus dados pessoais.
       </label>
     </div>
   </div>
 
-  <!-- Seção 1 — Identificação -->
+  <!-- Seção 1 -->
   <div class="card">
     <h2>Seção 1 — Identificação da família</h2>
 
@@ -218,6 +208,7 @@
       <label>ID do domicílio</label>
       <input type="text" id="pre-idDomicilio" placeholder="Código do domicílio">
     </div>
+
     <div class="duas-col">
       <div class="campo">
         <label>Tempo de residência — anos</label>
@@ -235,7 +226,7 @@
         <label><input type="radio" name="pre-rendaFamiliar" value="Sem renda"> Sem renda</label>
         <label><input type="radio" name="pre-rendaFamiliar" value="Abaixo de 1 SM"> Abaixo de 1 SM</label>
         <label><input type="radio" name="pre-rendaFamiliar" value="De 1 a 3 SM"> De 1 a 3 SM</label>
-        <label><input type="radio" name="pre-rendaFamiliar" value="Acima de 3 a 5 SM"> De 3 a 5 SM</label>
+        <label><input type="radio" name="pre-rendaFamiliar" value="De 3 a 5 SM"> De 3 a 5 SM</label>
         <label><input type="radio" name="pre-rendaFamiliar" value="Acima de 5 SM"> Acima de 5 SM</label>
         <label><input type="radio" name="pre-rendaFamiliar" value="Prefere não responder"> Prefere não responder</label>
       </div>
@@ -272,7 +263,7 @@
         <label><input type="checkbox" name="pre-tipoCri" value="Crianças"> Crianças</label>
         <label><input type="checkbox" name="pre-tipoCri" value="Idosos"> Idosos</label>
         <label><input type="checkbox" name="pre-tipoCri" value="Pessoa com deficiência"> Pessoa com deficiência</label>
-        <label><input type="checkbox" name="pre-tipoCri" value="Pessoa com mobilidade reduzida"> Mobilidade reduzida</label>
+        <label><input type="checkbox" name="pre-tipoCri" value="Mobilidade reduzida"> Mobilidade reduzida</label>
       </div>
     </div>
 
@@ -296,7 +287,7 @@
     </div>
   </div>
 
-  <!-- Seção 2 — Avaliação da moradia -->
+  <!-- Seção 2 -->
   <div class="card">
     <h2>Seção 2 — Como você avalia a sua moradia?</h2>
 
@@ -328,7 +319,7 @@
     </div>
   </div>
 
-  <!-- Seção 3 — Priorização -->
+  <!-- Seção 3 -->
   <div class="card">
     <h2>Seção 3 — Priorização dos problemas</h2>
     <div class="campo">
@@ -345,7 +336,7 @@
     </div>
   </div>
 
-  <!-- Seção 5 — Impactos -->
+  <!-- Seção 5 -->
   <div class="card">
     <h2>Seção 5 — Impactos na vida da família</h2>
     <div class="campo">
@@ -375,7 +366,7 @@
     </div>
   </div>
 
-  <!-- Seção 6 — Percepção -->
+  <!-- Seção 6 -->
   <div class="card">
     <h2>Seção 6 — Percepção da família sobre prioridades</h2>
     <div class="campo">
@@ -395,7 +386,7 @@
     </div>
   </div>
 
-  <!-- Seção 7 — Registro final -->
+  <!-- Seção 7 -->
   <div class="card">
     <h2>Seção 7 — Registro final</h2>
     <div class="campo">
@@ -404,7 +395,7 @@
     </div>
   </div>
 
-  <!-- Seção 8 — Participação -->
+  <!-- Seção 8 -->
   <div class="card">
     <h2>Seção 8 — Participação social e expectativas</h2>
     <div class="campo">
@@ -456,7 +447,7 @@
     </div>
   </div>
 
-  <!-- Preenchimento pela equipe -->
+  <!-- Equipe -->
   <div class="card">
     <h2>Preenchimento pela equipe técnica</h2>
     <div class="campo">
@@ -492,21 +483,19 @@
 <!-- ============================================================ -->
 <div id="painel-vis" class="painel">
 
-  <!-- LGPD -->
   <div class="card">
     <div class="aviso-lgpd">
       <strong>Informação sobre tratamento de dados — LGPD</strong><br>
       Os dados coletados serão utilizados exclusivamente para os fins do Programa Minha Casa + Bonita, conforme a Lei nº 13.709/2018.
     </div>
     <div class="campo">
-      <label>
+      <label style="font-weight:normal;">
         <input type="checkbox" id="vis-lgpd">
         A família está ciente e consente com o uso dos dados para os fins do programa.
       </label>
     </div>
   </div>
 
-  <!-- Seção 1 — Identificação -->
   <div class="card">
     <h2>1 — Identificação da visita</h2>
     <div class="campo">
@@ -555,7 +544,6 @@
     </div>
   </div>
 
-  <!-- Seção 2 — Perfil social -->
   <div class="card">
     <h2>2 — Perfil social do/a responsável</h2>
     <div class="campo">
@@ -606,7 +594,6 @@
     </div>
   </div>
 
-  <!-- Seção 3 — Socioeconômica -->
   <div class="card">
     <h2>3 — Situação socioeconômica</h2>
     <div class="campo">
@@ -681,7 +668,6 @@
     </div>
   </div>
 
-  <!-- Seção 4 — Composição familiar -->
   <div class="card">
     <h2>4 — Composição familiar e domiciliar</h2>
     <div class="duas-col">
@@ -737,7 +723,6 @@
     </div>
   </div>
 
-  <!-- Seção 5 — Condições da moradia -->
   <div class="card">
     <h2>5 — Condições da moradia</h2>
     <div class="campo">
@@ -770,7 +755,6 @@
     </div>
   </div>
 
-  <!-- Seção 8 — Acesso a serviços -->
   <div class="card">
     <h2>8 — Acesso a serviços públicos</h2>
     <div class="campo">
@@ -854,7 +838,6 @@
     </div>
   </div>
 
-  <!-- Observações -->
   <div class="card">
     <h2>12 — Observações qualitativas</h2>
     <div class="campo">
@@ -862,7 +845,6 @@
     </div>
   </div>
 
-  <!-- Fechamento -->
   <div class="card">
     <h2>13 — Fechamento da visita</h2>
     <div class="campo">
@@ -883,48 +865,18 @@
   <div id="msg-vis" class="msg" style="display:none"></div>
 </div>
 
+<!-- ============================================================ -->
+<!-- JAVASCRIPT                                                    -->
+<!-- ============================================================ -->
 <script>
 var URL_SCRIPT = 'https://script.google.com/macros/s/AKfycbzx7rrwybDqsdZ8lFTVpVsy0gm3uvFSzf_qXlzL4Y0KDuEjM6kRukYnnvxnZZDR_aef/exec';
 
+// ===== Seção 2 — grade de problemas =====
 var PROBLEMAS = [
   { id: 'rachaduras',   label: 'Rachaduras' },
   { id: 'eletrica',     label: 'Instalações elétricas expostas' },
   { id: 'infiltracao',  label: 'Infiltrações, umidade e mofo' },
   { id: 'piso',         label: 'Falta de revestimento no piso' },
   { id: 'paredes',      label: 'Paredes sem revestimento' },
-  { id: 'vergalhoes',   label: 'Estrutura com vergalhões expostos' },
-  { id: 'telhado',      label: 'Telhado ou laje com goteira' },
-  { id: 'calor',        label: 'Calor excessivo dentro da casa' },
-  { id: 'luminosidade', label: 'Falta de luminosidade natural' },
-  { id: 'espaco',       label: 'Falta de espaço para toda a família' }
-];
-
-var OPCOES_AVALIACAO = [
-  { val: 'Não existe',                        label: 'Não existe' },
-  { val: 'Existe, mas incomoda pouco',        label: 'Incomoda pouco' },
-  { val: 'Existe e incomoda muito',           label: 'Incomoda muito' },
-  { val: 'Existe e representa risco grave',   label: 'Risco grave' }
-];
-
-(function() {
-  var tbody = document.getElementById('grade-problemas');
-  PROBLEMAS.forEach(function(prob) {
-    var tr = document.createElement('tr');
-    var tdLabel = document.createElement('td');
-    tdLabel.textContent = prob.label;
-    tr.appendChild(tdLabel);
-    OPCOES_AVALIACAO.forEach(function(op) {
-      var td = document.createElement('td');
-      td.innerHTML = '<label><input type="radio" name="grade-' + prob.id + '" value="' + op.val + '"></label>';
-      tr.appendChild(td);
-    });
-    tbody.appendChild(tr);
-  });
-})();
-
-function trocarAba(qual) {
-  document.getElementById('painel-pre').classList.toggle('ativo', qual === 'pre');
-  document.getElementById('painel-vis').classList.toggle('ativo', qual === 'vis');
-  document.querySelectorAll('.aba-btn').forEach(function(b, i) {
-    b.classList.toggle('ativa', (qual === 
+  { id: 'vergalhoes',   label: 'Estrut
 
