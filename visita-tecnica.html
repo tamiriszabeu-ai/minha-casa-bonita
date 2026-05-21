@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Minha Casa + Bonita – Visita Técnica</title>
+  <title>Minha Casa + Bonita – Ficha Técnica (Visita)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <style>
@@ -16,10 +16,33 @@
       background: #00695c;
       color: #fff;
       padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
     }
     header h1 {
       margin: 0;
       font-size: 20px;
+    }
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      gap: 16px;
+      font-size: 14px;
+    }
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      border-bottom: 2px solid transparent;
+      padding-bottom: 2px;
+    }
+    nav a:hover {
+      border-bottom-color: #fff;
     }
     main {
       max-width: 900px;
@@ -113,19 +136,26 @@
 </head>
 <body>
   <header>
-    <h1>Minha Casa + Bonita – Ficha Técnica (Visita Técnica e Socioeconômica)</h1>
+    <h1>Minha Casa + Bonita – Ficha Técnica</h1>
+    <nav>
+      <ul>
+        <li><a href="/">Pré-cadastro</a></li>
+        <li><a href="/visita-social.html">Ficha Social</a></li>
+        <li><a href="/visita-tecnica.html">Visita Técnica</a></li>
+      </ul>
+    </nav>
   </header>
 
   <main>
     <form id="formVisitaTecnica">
       <div class="lgpd-box">
         <p>
-          Esta visita integra o Programa Minha Casa + Bonita, no território do Risca Faca / Reis da Faca – Maricá.
-          Serão coletadas informações técnicas e habitacionais para avaliação, laudo e planejamento de melhorias.
+          A visita integra o Programa Minha Casa + Bonita, no território do Risca Faca / Reis da Faca – Maricá.
+          Serão coletadas informações técnicas e habitacionais para elaboração de laudos, planejamento e execução de melhorias.
         </p>
         <p>
-          Os dados serão tratados conforme a Lei Geral de Proteção de Dados (Lei nº 13.709/2018), com uso restrito à equipe técnica
-          e órgãos responsáveis pelo Programa.
+          Os dados serão tratados conforme a Lei Geral de Proteção de Dados (Lei nº 13.709/2018), com uso restrito à equipe técnica,
+          Prefeitura e parceiros responsáveis pelo Programa.
         </p>
         <div class="campo">
           <label>Declaração de ciência (LGPD_Ciente)</label>
@@ -133,10 +163,6 @@
             <label class="opcao">
               <input type="radio" name="LGPD_Ciente" value="Sim" required>
               <span>Declaro que fui informado(a) sobre a finalidade da coleta e do tratamento dos meus dados pessoais e dos registros técnicos do imóvel.</span>
-            </label>
-            <label class="opcao">
-              <input type="radio" name="LGPD_Ciente" value="Nao">
-              <span>Não concorda / não informou</span>
             </label>
           </div>
         </div>
@@ -204,45 +230,13 @@
       <div class="campo">
         <label>Total de cômodos</label>
         <div class="opcoes">
-          <div>
-            <label>Quartos</label>
-            <input type="number" name="Num_Quartos" min="0">
-          </div>
-          <div>
-            <label>Banheiros</label>
-            <input type="number" name="Num_Banheiros" min="0">
-          </div>
-          <div>
-            <label>Cozinhas</label>
-            <input type="number" name="Num_Cozinhas" min="0">
-          </div>
-          <div>
-            <label>Quintal (Sim/Não)</label>
-            <select name="Quintal">
-              <option value="">Selecione...</option>
-              <option value="Sim">Sim</option>
-              <option value="Nao">Não</option>
-            </select>
-          </div>
-          <div>
-            <label>Área de serviço (Sim/Não)</label>
-            <select name="Area_Servico">
-              <option value="">Selecione...</option>
-              <option value="Sim">Sim</option>
-              <option value="Nao">Não</option>
-            </select>
-          </div>
+          <label>Quartos: <input type="number" name="Comodos_Quartos" min="0" style="width:70px"></label>
+          <label>Banheiros: <input type="number" name="Comodos_Banheiros" min="0" style="width:70px"></label>
+          <label>Cozinhas: <input type="number" name="Comodos_Cozinhas" min="0" style="width:70px"></label>
+          <label>Quintal: <input type="number" name="Comodos_Quintal" min="0" style="width:70px"></label>
+          <label>Área de serviço: <input type="number" name="Comodos_Area_Servico" min="0" style="width:70px"></label>
+          <label>Outro: <input type="text" name="Comodos_Outro" style="width:150px"></label>
         </div>
-      </div>
-
-      <div class="campo">
-        <label for="Total_Comodos">Total de cômodos (número)</label>
-        <input type="number" id="Total_Comodos" name="Total_Comodos" min="0">
-      </div>
-
-      <div class="campo">
-        <label for="Outro_Comodo">Outro cômodo (descrever)</label>
-        <input type="text" id="Outro_Comodo" name="Outro_Comodo">
       </div>
 
       <div class="campo">
@@ -255,29 +249,21 @@
       </div>
 
       <div class="campo">
-        <label>Existem mais de 3 pessoas no mesmo quarto? (Mais3Pessoas_Quarto)</label>
+        <label>Mais de 3 pessoas no mesmo quarto? (Mais_3_Pessoas_Quarto)</label>
         <div class="opcoes">
-          <label class="opcao"><input type="radio" name="Mais3Pessoas_Quarto" value="Sim"> Sim</label>
-          <label class="opcao"><input type="radio" name="Mais3Pessoas_Quarto" value="Nao"> Não</label>
+          <label class="opcao"><input type="radio" name="Mais_3_Pessoas_Quarto" value="Sim"> Sim</label>
+          <label class="opcao"><input type="radio" name="Mais_3_Pessoas_Quarto" value="Nao"> Não</label>
+          <label class="opcao">Quantidade: <input type="number" name="Mais_3_Pessoas_Qtd" min="0" style="width:70px"></label>
         </div>
       </div>
 
       <div class="campo">
-        <label for="Qtde_Pessoas_Quarto">Quantidade de pessoas no quarto</label>
-        <input type="number" id="Qtde_Pessoas_Quarto" name="Qtde_Pessoas_Quarto" min="0">
-      </div>
-
-      <div class="campo">
-        <label>Algum outro cômodo é utilizado como dormitório? (Outro_Comodo_Dormitorio)</label>
+        <label>Outro cômodo usado como dormitório? (Outro_Comodo_Dormitorio)</label>
         <div class="opcoes">
           <label class="opcao"><input type="radio" name="Outro_Comodo_Dormitorio" value="Sim"> Sim</label>
           <label class="opcao"><input type="radio" name="Outro_Comodo_Dormitorio" value="Nao"> Não</label>
+          <label class="opcao">Qual: <input type="text" name="Outro_Comodo_Qual" style="width:200px"></label>
         </div>
-      </div>
-
-      <div class="campo">
-        <label for="Qual_Comodo_Dormitorio">Qual cômodo é usado como dormitório?</label>
-        <input type="text" id="Qual_Comodo_Dormitorio" name="Qual_Comodo_Dormitorio">
       </div>
 
       <h2>2. Infraestrutura básica</h2>
@@ -295,8 +281,8 @@
         <select name="Frequencia_Agua">
           <option value="">Selecione...</option>
           <option value="Diaria">Diária</option>
-          <option value="2a3x_semana">2 até 3 vezes/semana</option>
-          <option value="1x_semana">1 vez/semana</option>
+          <option value="2_3_vezes_semana">2 até 3 vezes/semana</option>
+          <option value="1_vez_semana">1 vez/semana</option>
           <option value="Rara">Rara</option>
           <option value="Nao_possui">Não possui</option>
         </select>
@@ -335,22 +321,22 @@
         <select name="Frequencia_Lixo">
           <option value="">Selecione...</option>
           <option value="Diaria">Diária</option>
-          <option value="2a3x_semana">2 a 3 vezes/semana</option>
-          <option value="1x_semana">1 vez/semana</option>
+          <option value="2_3_vezes_semana">2 a 3 vezes/semana</option>
+          <option value="1_vez_semana">1 vez/semana</option>
           <option value="Rara">Rara</option>
           <option value="Nao_sabe">Não sabe</option>
         </select>
       </div>
 
       <div class="campo">
-        <label>Local da coleta de lixo (Local_Coleta_Lixo)</label>
-        <select name="Local_Coleta_Lixo">
+        <label>Local da coleta de lixo (Local_Lixo)</label>
+        <select name="Local_Lixo">
           <option value="">Selecione...</option>
-          <option value="Porta_da_residencia">Porta da residência</option>
-          <option value="Mesma_quadra_proprio">Na mesma quadra em local próprio</option>
-          <option value="Mesma_quadra_improprio">Na mesma quadra em local impróprio</option>
-          <option value="Mais_uma_quadra_proprio">Mais de uma quadra em local próprio</option>
-          <option value="Mais_uma_quadra_improprio">Mais de uma quadra em local impróprio</option>
+          <option value="Porta_residencia">Porta da residência</option>
+          <option value="Mesma_quadra_proprio">Mesma quadra em local próprio</option>
+          <option value="Mesma_quadra_improprio">Mesma quadra em local impróprio</option>
+          <option value="Mais_1_quadra_proprio">Mais de uma quadra em local próprio</option>
+          <option value="Mais_1_quadra_improprio">Mais de uma quadra em local impróprio</option>
         </select>
       </div>
 
@@ -452,19 +438,18 @@
 
       <div class="campo">
         <label>Acessibilidade (Acessibilidade_Itens)</label>
-        <textarea name="Acessibilidade_Itens" placeholder="Ex.: Escada, porta estreita, piso escorregadio, sem barras de apoio, desnível, etc."></textarea>
+        <textarea name="Acessibilidade_Itens" placeholder="Ex.: escada, porta estreita, piso escorregadio, sem barra de apoio, desnível, banheiro inadequado, terraço sem guarda-corpo, etc."></textarea>
       </div>
 
       <h2>4. Diagnóstico técnico do banheiro</h2>
 
       <div class="campo">
         <label>A casa possui banheiro? (Banheiro_Tem)</label>
-        <select name="Banheiro_Tem">
-          <option value="">Selecione...</option>
-          <option value="Sim_interno">Sim interno</option>
-          <option value="Sim_externo">Sim externo</option>
-          <option value="Nao_possui">Não possui</option>
-        </select>
+        <div class="opcoes">
+          <label class="opcao"><input type="radio" name="Banheiro_Tem" value="Sim_interno"> Sim interno</label>
+          <label class="opcao"><input type="radio" name="Banheiro_Tem" value="Sim_externo"> Sim externo</label>
+          <label class="opcao"><input type="radio" name="Banheiro_Tem" value="Nao_possui"> Não possui</label>
+        </div>
       </div>
 
       <div class="campo">
@@ -484,7 +469,7 @@
 
       <div class="campo">
         <label>Itens existentes (Banheiro_Itens)</label>
-        <textarea name="Banheiro_Itens" placeholder="Ex.: vaso sanitário, pia, chuveiro, porta, janela, ralo, revestimentos etc."></textarea>
+        <textarea name="Banheiro_Itens" placeholder="Ex.: vaso sanitário, pia, chuveiro, porta, janela, ralo, iluminação, revestimentos etc."></textarea>
       </div>
 
       <div class="campo">
@@ -611,7 +596,7 @@
       </div>
 
       <div class="botoes">
-        <button type="submit">Salvar visita técnica</button>
+        <button type="submit">Salvar ficha técnica</button>
         <button type="button" onclick="document.getElementById('formVisitaTecnica').reset()">Limpar</button>
       </div>
 
@@ -631,31 +616,23 @@
       msg.className = 'mensagem';
 
       const formData = new FormData(form);
-      const payload = { acao: 'salvar-visita-tecnica' }; // bate com o doPost/salvarVisitaTecnica
+      const payload = { acao: 'salvar-visita-tecnica' };
 
       for (const [chave, valor] of formData.entries()) {
         payload[chave] = valor;
       }
 
       try {
-        const resposta = await fetch(URL_APP_SCRIPT, {
+        await fetch(URL_APP_SCRIPT, {
           method: 'POST',
+          mode: 'no-cors',
           headers: {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify(payload)
         });
 
-        if (!resposta.ok) {
-          throw new Error('HTTP ' + resposta.status);
-        }
-
-        const dados = await resposta.json();
-        if (!dados.ok) {
-          throw new Error(dados.erro || 'Erro no Apps Script');
-        }
-
-        msg.textContent = 'Visita técnica salva com sucesso.';
+        msg.textContent = 'Ficha técnica salva com sucesso. Confira na aba VisitaTecnica da planilha.';
         msg.className = 'mensagem sucesso';
         form.reset();
       } catch (erro) {
