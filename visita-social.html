@@ -562,52 +562,44 @@
       <div id="mensagem" class="mensagem"></div>
     </form>
   </main>
+<script>
+  const URL_APP_SCRIPT = 'https://script.google.com/macros/s/AKfycbxtJMn956LGP3V4Jsu6wAQhNiKXUDQjMxMpzUcP3HvI32ZVX_a60k2_YdNuFTqEHQnr/exec';
 
-  <script>
-    const URL_APP_SCRIPT = 'https://script.google.com/macros/s/AKfycbxtJMn956LGP3V4Jsu6wAQhNiKXUDQjMxMpzUcP3HvI32ZVX_a60k2_YdNuFTqEHQnr/exec';
+  const formSocial = document.getElementById('formVisitaSocial');
+  const msgSocial = document.getElementById('mensagem');
 
-    const form = document.getElementById('formVisitaSocial');
-    const msg = document.getElementById('mensagem');
+  formSocial.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    msgSocial.textContent = 'Enviando...';
+    msgSocial.className = 'mensagem';
 
-    form.addEventListener('submit', async (event) => {
-      event.preventDefault();
-      msg.textContent = 'Enviando...';
-      msg.className = 'mensagem';
+    const formData = new FormData(formSocial);
+    const payload = { acao: 'salvar-visita-social' }; // TEM que ser exatamente isso
 
-      const formData = new FormData(form);
-      const payload = { acao: 'salvar-visita-social' }; // bate com o doPost
+    for (const [chave, valor] of formData.entries()) {
+      payload[chave] = valor;
+    }
 
-      for (const [chave, valor] of formData.entries()) {
-        payload[chave] = valor;
-      }
+    try {
+      await fetch(URL_APP_SCRIPT, {
+        method: 'POST',
+        mode: 'no-cors',           // igual pré-cadastro e técnica
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      });
 
-      try {
-        const resposta = await fetch(URL_APP_SCRIPT, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(payload)
-        });
-
-        if (!resposta.ok) {
-          throw new Error('HTTP ' + resposta.status);
-        }
-
-        const dados = await resposta.json();
-        if (!dados.ok) {
-          throw new Error(dados.erro || 'Erro no Apps Script');
-        }
-
-        msg.textContent = 'Ficha social salva com sucesso.';
-        msg.className = 'mensagem sucesso';
-        form.reset();
-      } catch (erro) {
-        console.error(erro);
-        msg.textContent = 'Erro ao enviar: ' + erro.message;
-        msg.className = 'mensagem erro';
-      }
-    });
-  </script>
+      msgSocial.textContent = 'Ficha social salva com sucesso. Confira na aba VisitaSocial da planilha.';
+      msgSocial.className = 'mensagem sucesso';
+      formSocial.reset();
+    } catch (erro) {
+      console.error(erro);
+      msgSocial.textContent = 'Erro ao enviar: ' + erro.message;
+      msgSocial.className = 'mensagem erro';
+    }
+  });
+</script>
+ 
 </body>
 </html>
