@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Minha Casa + Bonita – Ficha Social</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #00695c;
+      color: #fff;
+      padding: 16px 24px;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 20px;
+    }
+    main {
+      max-width: 900px;
+      margin: 24px auto;
+      background: #fff;
+      padding: 24px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    h2 {
+      margin-top: 24px;
+      font-size: 18px;
+      color: #333;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 4px;
+    }
+    .lgpd-box {
+      background: #e8f5e9;
+      border-left: 4px solid #2e7d32;
+      padding: 12px 16px;
+      margin-bottom: 16px;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+    .campo {
+      margin-bottom: 12px;
+    }
+    .campo label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .campo input[type="text"],
+    .campo input[type="number"],
+    .campo input[type="date"],
+    .campo textarea,
+    .campo select {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+    .campo textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+    .opcoes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 16px;
+      font-size: 14px;
+    }
+    .opcao {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .botoes {
+      margin-top: 24px;
+      display: flex;
+      gap: 12px;
+    }
+    button {
+      padding: 10px 18px;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    button[type="submit"] {
+      background: #00695c;
+      color: #fff;
+    }
+    button[type="button"] {
+      background: #e0e0e0;
+      color: #333;
+    }
+    .mensagem {
+      margin-top: 16px;
+      font-size: 14px;
+    }
+    .mensagem.sucesso {
+      color: #2e7d32;
+    }
+    .mensagem.erro {
+      color: #c62828;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Minha Casa + Bonita – Ficha Social (Visita Técnica e Socioeconômica)</h1>
+  </header>
+
+  <main>
+    <form id="formVisitaSocial">
+      <div class="lgpd-box">
+        <p>
+          Esta visita integra o Programa Minha Casa + Bonita, no território do Risca Faca – Maricá.
+          Serão coletadas informações pessoais, familiares, socioeconômicas e habitacionais para avaliação técnica e social.
+        </p>
+        <p>
+          Os dados serão tratados conforme a Lei Geral de Proteção de Dados (Lei nº 13.709/2018), com uso restrito à equipe técnica
+          e órgãos responsáveis pelo Programa.
+        </p>
+        <div class="campo">
+          <label>Declaração de ciência (LGPD_Ciente)</label>
+          <div class="opcoes">
+            <label class="opcao">
+              <input type="radio" name="LGPD_Ciente" value="Sim" required>
+              <span>Declaro que fui informado(a) sobre a finalidade da coleta e do tratamento dos meus dados pessoais e dos registros fotográficos técnicos do imóvel.</span>
+            </label>
+            <label class="opcao">
+              <input type="radio" name="LGPD_Ciente" value="Nao">
+              <span>Não concorda / não informou</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <h2>Controle da visita</h2>
+
+      <div class="campo">
+        <label for="Situacao_Visita">Situação da visita</label>
+        <select id="Situacao_Visita" name="Situacao_Visita" required>
+          <option value="">Selecione...</option>
+          <option value="Realizada">Realizada</option>
+          <option value="Morador_ausente">Morador/a ausente</option>
+          <option value="Recusou_participacao">Recusou participação</option>
+          <option value="Endereco_nao_localizado">Endereço não localizado</option>
+          <option value="Retornar_depois">Retornar depois</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label for="Territorio">Território</label>
+        <select id="Territorio" name="Territorio">
+          <option value="Risca Faca">Risca Faca</option>
+          <option value="Reis da Faca">Reis da Faca</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label for="ID_Domicilio">ID do domicílio</label>
+        <input type="text" id="ID_Domicilio" name="ID_Domicilio" placeholder="Ex.: DOM-001">
+      </div>
+
+      <div class="campo">
+        <label for="Data_Visita">Data da visita</label>
+        <input type="date" id="Data_Visita" name="Data_Visita">
+      </div>
+
+      <div class="campo">
+        <label for="Entrevistador_Nome">Nome da/o entrevistadora/or</label>
+        <input type="text" id="Entrevistador_Nome" name="Entrevistador_Nome">
+      </div>
+
+      <h2>1. Identificação da/o responsável familiar</h2>
+
+      <div class="campo">
+        <label for="Nome_Completo">Nome completo</label>
+        <input type="text" id="Nome_Completo" name="Nome_Completo" required>
+      </div>
+
+      <div class="campo">
+        <label for="Nome_Social">Nome social, se houver</label>
+        <input type="text" id="Nome_Social" name="Nome_Social">
+      </div>
+
+      <div class="campo">
+        <label for="CPF">CPF</label>
+        <input type="text" id="CPF" name="CPF" placeholder="Ex.: 123.456.789-00">
+      </div>
+
+      <h2>2. Perfil social do responsável familiar</h2>
+
+      <div class="campo">
+        <label>Identidade de gênero do responsável familiar (Identidade_Genero)</label>
+        <select name="Identidade_Genero">
+          <option value="">Selecione...</option>
+          <option value="Mulher_cis">Mulher cis</option>
+          <option value="Homem_cis">Homem cis</option>
+          <option value="Mulher_trans">Mulher trans</option>
+          <option value="Homem_trans">Homem trans</option>
+          <option value="Nao_binaria">Não binária</option>
+          <option value="Outra">Outra</option>
+          <option value="Prefere_nao_responder">Prefere não responder</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label>Raça/cor responsável familiar (Raca_Cor)</label>
+        <select name="Raca_Cor">
+          <option value="">Selecione...</option>
+          <option value="Branca">Branca</option>
+          <option value="Preta">Preta</option>
+          <option value="Parda">Parda</option>
+          <option value="Amarela">Amarela</option>
+          <option value="Indigena">Indígena</option>
+          <option value="Prefere_nao_responder">Prefere não responder</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label>Escolaridade responsável familiar (Escolaridade)</label>
+        <select name="Escolaridade">
+          <option value="">Selecione...</option>
+          <option value="Sem_escolarizacao">Sem escolarização</option>
+          <option value="Fund_incompleto">Fund. incompleto</option>
+          <option value="Fund_completo">Fund. completo</option>
+          <option value="Medio_incompleto">Médio incompleto</option>
+          <option value="Medio_completo">Médio completo</option>
+          <option value="Superior_incompleto">Superior incompleto</option>
+          <option value="Superior_completo">Superior completo</option>
+          <option value="Pos_graduacao">Pós-graduação</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label>Ocupação do responsável familiar (Ocupacao)</label>
+        <select name="Ocupacao">
+          <option value="">Selecione...</option>
+          <option value="Estudante">Estudante</option>
+          <option value="Formal">Formal</option>
+          <option value="Informal">Informal</option>
+          <option value="Autonoma_o">Autônoma/o</option>
+          <option value="Desempregada_o">Desempregada/o</option>
+          <option value="Aposentada_o">Aposentada/o</option>
+          <option value="Cuidados_domesticos">Cuidados domésticos</option>
+        </select>
+      </div>
+
+      <h2>3. Situação socioeconômica da família</h2>
+
+      <div class="campo">
+        <label>A família realiza alguma atividade remunerada em casa? (Atividade_Remunerada_Em_Casa)</label>
+        <div class="opcoes">
+          <label class="opcao"><input type="radio" name="Atividade_Remunerada_Em_Casa" value="Sim"> Sim</label>
+          <label class="opcao"><input type="radio" name="Atividade_Remunerada_Em_Casa" value="Nao"> Não</label>
+        </div>
+      </div>
+
+      <div class="campo">
+        <label>Tipo de atividade remunerada em casa (Atividade_Remunerada_Tipo)</label>
+        <select name="Atividade_Remunerada_Tipo">
+          <option value="">Selecione...</option>
+          <option value="Comercio">Comércio</option>
+          <option value="Alimentacao">Alimentação</option>
+          <option value="Beleza">Beleza</option>
+          <option value="Costura">Costura</option>
+          <option value="Artesanato">Artesanato</option>
+          <option value="Outro">Outro</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label for="Atividade_Remunerada_Tipo_Outro">Qual outra atividade?</label>
+        <input type="text" id="Atividade_Remunerada_Tipo_Outro" name="Atividade_Remunerada_Tipo_Outro">
+      </div>
+
+      <div class="campo">
+        <label>Possui Cadastro Único? (Possui_CadUnico)</label>
+        <select name="Possui_CadUnico">
+          <option value="">Selecione...</option>
+          <option value="Sim">Sim</option>
+          <option value="Nao">Não</option>
+          <option value="Nao_sabe">Não sabe</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label>Recebem algum benefício? (Beneficios)</label>
+        <select name="Beneficios">
+          <option value="">Selecione...</option>
+          <option value="Bolsa_Familia">Bolsa Família</option>
+          <option value="BPC">BPC</option>
+          <option value="Mumbuca">Mumbuca</option>
+          <option value="Aposentadoria">Aposentadoria</option>
+          <option value="Pensao">Pensão</option>
+          <option value="Nao_recebe">Não recebe</option>
+          <option value="Outro">Outro</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label for="Beneficio_Outro">Qual outro benefício?</label>
+        <input type="text" id="Beneficio_Outro" name="Beneficio_Outro">
+      </div>
+
+      <div class="campo">
+        <label>Renda familiar total mensal (Renda_Familiar_Total)</label>
+        <select name="Renda_Familiar_Total">
+          <option value="">Selecione...</option>
+          <option value="Sem_renda">Sem renda</option>
+          <option value="0_a_1_SM">de 0 a 1 SM</option>
+          <option value="1_a_3_SM">de 1 a 3 SM</option>
+          <option value="3_a_5_SM">de 3 a 5 SM</option>
+          <option value="Acima_5_SM">acima de 5 SM</option>
+          <option value="Prefere_nao_responder">Prefere não responder</option>
+        </select>
+      </div>
+
+      <h2>4. Composição familiar e domiciliar</h2>
+
+      <div class="campo">
+        <label for="Total_Pessoas_Moradia">Total de pessoas na moradia</label>
+        <input type="number" id="Total_Pessoas_Moradia" name="Total_Pessoas_Moradia" min="0">
+      </div>
+
+      <div class="campo">
+        <label for="Total_Nucleos_Familiares">Total de núcleos familiares na moradia</label>
+        <input type="number" id="Total_Nucleos_Familiares" name="Total_Nucleos_Familiares" min="0">
+      </div>
+
+      <div class="campo">
+        <label for="Criancas_0a6">Crianças de 0 a 6 anos</label>
+        <input type="number" id="Criancas_0a6" name="Criancas_0a6" min="0">
+      </div>
+
+      <div class="campo">
+        <label for="Criancas_7a11">Crianças de 7 a 11 anos</label>
+        <input type="number" id="Criancas_7a11" name="Criancas_7a11" min="0">
+      </div>
+
+      <div class="campo">
+        <label for="Adolescentes_12a17">Adolescentes de 12 a 17 anos</label>
+        <input type="number" id="Adolescentes_12a17" name="Adolescentes_12a17" min="0">
+      </div>
+
+      <div class="campo">
+        <label for="Jovens_18a29">Jovens de 18 a 29 anos</label>
+        <input type="number" id="Jovens_18a29" name="Jovens_18a29" min="0">
+      </div>
+
+      <div class="campo">
+        <label for="Adultos_30a59">Adultos de 30 a 59 anos</label>
+        <input type="number" id="Adultos_30a59" name="Adultos_30a59" min="0">
+      </div>
+
+      <div class="campo">
+        <label for="Idosos_60mais">Idosos com 60 anos ou mais</label>
+        <input type="number" id="Idosos_60mais" name="Idosos_60mais" min="0">
+      </div>
+
+      <div class="campo">
+        <label for="Pessoas_Deficiencia_Qtde">Pessoas com deficiência?</label>
+        <input type="number" id="Pessoas_Deficiencia_Qtde" name="Pessoas_Deficiencia_Qtde" min="0">
+      </div>
+
+      <div class="campo">
+        <label>Tipo de deficiência (Tipo_Deficiencia)</label>
+        <select name="Tipo_Deficiencia">
+          <option value="">Selecione...</option>
+          <option value="Fisica">Física</option>
+          <option value="Auditiva">Auditiva</option>
+          <option value="Visual">Visual</option>
+          <option value="Intelectual">Intelectual</option>
+          <option value="Psicossocial">Psicossocial</option>
+          <option value="Multipla">Múltipla</option>
+          <option value="Outra">Outra</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label for="Tipo_Deficiencia_Outra">Qual outra deficiência?</label>
+        <input type="text" id="Tipo_Deficiencia_Outra" name="Tipo_Deficiencia_Outra">
+      </div>
+
+      <div class="campo">
+        <label for="Pessoas_Acamadas_ou_Mobilidade_Reduzida">Pessoas acamadas ou com mobilidade reduzida?</label>
+        <input type="number" id="Pessoas_Acamadas_ou_Mobilidade_Reduzida" name="Pessoas_Acamadas_ou_Mobilidade_Reduzida" min="0">
+      </div>
+
+      <div class="campo">
+        <label for="Pessoa_Questao_Saude_Qtde">Pessoa com alguma questão de saúde/doença recorrente?</label>
+        <input type="number" id="Pessoa_Questao_Saude_Qtde" name="Pessoa_Questao_Saude_Qtde" min="0">
+      </div>
+
+      <div class="campo">
+        <label>Qual o tipo? (Pessoa_Questao_Saude_Tipo)</label>
+        <select name="Pessoa_Questao_Saude_Tipo">
+          <option value="">Selecione...</option>
+          <option value="Problemas_respiratorios">Problemas respiratórios</option>
+          <option value="Problemas_gastrointestinais">Problemas gastrointestinais</option>
+          <option value="Doencas_de_pele">Doenças de pele</option>
+          <option value="Dengue_zika_chikungunya">Dengue, zika, chikungunya</option>
+          <option value="Leptospirose">Leptospirose</option>
+          <option value="Depressao_e_Ansiedade">Depressão e Ansiedade</option>
+          <option value="Outra">Outra</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label for="Pessoa_Questao_Saude_Tipo_Outra">Qual outra questão de saúde?</label>
+        <input type="text" id="Pessoa_Questao_Saude_Tipo_Outra" name="Pessoa_Questao_Saude_Tipo_Outra">
+      </div>
+
+      <div class="campo">
+        <label for="Gestantes_Qtde">Pessoas gestantes?</label>
+        <input type="number" id="Gestantes_Qtde" name="Gestantes_Qtde" min="0">
+      </div>
+
+      <div class="campo">
+        <label for="Criancas_Adolescentes_Fora_Escola_Qtde">Crianças/adolescentes em idade escolar fora da escola?</label>
+        <input type="number" id="Criancas_Adolescentes_Fora_Escola_Qtde" name="Criancas_Adolescentes_Fora_Escola_Qtde" min="0">
+      </div>
+
+      <div class="campo">
+        <label for="Pessoas_Busca_Emprego_Capacitacao_Qtde">Pessoas em busca de emprego ou capacitação?</label>
+        <input type="number" id="Pessoas_Busca_Emprego_Capacitacao_Qtde" name="Pessoas_Busca_Emprego_Capacitacao_Qtde" min="0">
+      </div>
+
+      <h2>5. Condições da moradia</h2>
+
+      <div class="campo">
+        <label>Tipo de ocupação (Tipo_Ocupacao)</label>
+        <select name="Tipo_Ocupacao">
+          <option value="">Selecione...</option>
+          <option value="Propria">Própria</option>
+          <option value="Cedida">Cedida</option>
+          <option value="Alugada">Alugada</option>
+          <option value="Ocupada">Ocupada</option>
+          <option value="Heranca_familiar">Herança familiar</option>
+          <option value="Outra">Outra</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label for="Tipo_Ocupacao_Outra">Qual outra ocupação?</label>
+        <input type="text" id="Tipo_Ocupacao_Outra" name="Tipo_Ocupacao_Outra">
+      </div>
+
+      <div class="campo">
+        <label>Possui documento da moradia? (Possui_Documento_Moradia)</label>
+        <select name="Possui_Documento_Moradia">
+          <option value="">Selecione...</option>
+          <option value="Sim">Sim</option>
+          <option value="Nao">Não</option>
+          <option value="Nao_sabe">Não sabe</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label>Tipo de documento (Tipo_Documento)</label>
+        <select name="Tipo_Documento">
+          <option value="">Selecione...</option>
+          <option value="Escritura">Escritura</option>
+          <option value="Contrato">Contrato</option>
+          <option value="Recibo">Recibo</option>
+          <option value="Outro">Outro</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label for="Tipo_Documento_Outro">Qual outro documento?</label>
+        <input type="text" id="Tipo_Documento_Outro" name="Tipo_Documento_Outro">
+      </div>
+
+      <h2>6. Acesso a serviços públicos</h2>
+
+      <div class="campo">
+        <label for="Servico_Saude_Referencia">Serviço de saúde de referência (UBS/serviço)</label>
+        <input type="text" id="Servico_Saude_Referencia" name="Servico_Saude_Referencia">
+      </div>
+
+      <div class="campo">
+        <label>Acesso à saúde (Acesso_Saude)</label>
+        <select name="Acesso_Saude">
+          <option value="">Selecione...</option>
+          <option value="Acessa">Acessa</option>
+          <option value="Nao_acessa">Não acessa</option>
+          <option value="Com_dificuldade">Com dificuldade</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label for="Acesso_Saude_Dificuldade_Qual">Qual a dificuldade?</label>
+        <input type="text" id="Acesso_Saude_Dificuldade_Qual" name="Acesso_Saude_Dificuldade_Qual">
+      </div>
+
+      <div class="campo">
+        <label>Crianças/adolescentes na escola (Criancas_Adolescentes_Escola)</label>
+        <select name="Criancas_Adolescentes_Escola">
+          <option value="">Selecione...</option>
+          <option value="Todas_os_frequentam">Todas/os frequentam</option>
+          <option value="Algumas_ns_frequentam">Algumas/ns frequentam</option>
+          <option value="Nenhuma_o_frequenta">Nenhuma/o frequenta</option>
+          <option value="Nao_se_aplica">Não se aplica</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label>Acesso à creche (Acesso_Creche)</label>
+        <select name="Acesso_Creche">
+          <option value="">Selecione...</option>
+          <option value="Sim">Sim</option>
+          <option value="Nao">Não</option>
+          <option value="Nao_se_aplica">Não se aplica</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label>Há demanda por creche? (Demanda_Creche)</label>
+        <select name="Demanda_Creche">
+          <option value="">Selecione...</option>
+          <option value="Sim">Sim</option>
+          <option value="Nao">Não</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label>Acesso ao CRAS/CREAS/Política de Assistência Social (Acesso_Assistencia_Social)</label>
+        <select name="Acesso_Assistencia_Social">
+          <option value="">Selecione...</option>
+          <option value="Sim">Sim</option>
+          <option value="Nao">Não</option>
+          <option value="Nao_sabe">Não sabe</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label for="Acesso_Assistencia_Social_Tipo">Qual?</label>
+        <input type="text" id="Acesso_Assistencia_Social_Tipo" name="Acesso_Assistencia_Social_Tipo">
+      </div>
+
+      <h2>7. Observações qualitativas</h2>
+
+      <div class="campo">
+        <label for="Obs_Qualitativas">Observações qualitativas</label>
+        <textarea id="Obs_Qualitativas" name="Obs_Qualitativas"></textarea>
+      </div>
+
+      <div class="botoes">
+        <button type="submit">Salvar ficha social</button>
+        <button type="button" onclick="document.getElementById('formVisitaSocial').reset()">Limpar</button>
+      </div>
+
+      <div id="mensagem" class="mensagem"></div>
+    </form>
+  </main>
+
+  <script>
+    const URL_APP_SCRIPT = 'https://script.google.com/macros/s/AKfycbxtJMn956LGP3V4Jsu6wAQhNiKXUDQjMxMpzUcP3HvI32ZVX_a60k2_YdNuFTqEHQnr/exec';
+
+    const form = document.getElementById('formVisitaSocial');
+    const msg = document.getElementById('mensagem');
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      msg.textContent = 'Enviando...';
+      msg.className = 'mensagem';
+
+      const formData = new FormData(form);
+      const payload = { acao: 'salvar-visita-social' }; // bate com o doPost
+
+      for (const [chave, valor] of formData.entries()) {
+        payload[chave] = valor;
+      }
+
+      try {
+        const resposta = await fetch(URL_APP_SCRIPT, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (!resposta.ok) {
+          throw new Error('HTTP ' + resposta.status);
+        }
+
+        const dados = await resposta.json();
+        if (!dados.ok) {
+          throw new Error(dados.erro || 'Erro no Apps Script');
+        }
+
+        msg.textContent = 'Ficha social salva com sucesso.';
+        msg.className = 'mensagem sucesso';
+        form.reset();
+      } catch (erro) {
+        console.error(erro);
+        msg.textContent = 'Erro ao enviar: ' + erro.message;
+        msg.className = 'mensagem erro';
+      }
+    });
+  </script>
+</body>
+</html>
