@@ -16,11 +16,35 @@
       background: #00695c;
       color: #fff;
       padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
     }
     header h1 {
       margin: 0;
       font-size: 20px;
     }
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      gap: 16px;
+      font-size: 14px;
+    }
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      border-bottom: 2px solid transparent;
+      padding-bottom: 2px;
+    }
+    nav a:hover {
+      border-bottom-color: #fff;
+    }
+
     main {
       max-width: 800px;
       margin: 24px auto;
@@ -112,11 +136,19 @@
 <body>
 
 <header>
-  <h1>Minha Casa + Bonita – Ficha de Pré‑cadastro</h1>
+  <h1>Minha Casa + Bonita</h1>
+  <nav>
+    <ul>
+      <li><a href="/">Pré-cadastro</a></li>
+      <li><a href="/visita-social.html">Ficha Social</a></li>
+      <li><a href="/visita-tecnica.html">Visita Técnica</a></li>
+      <!-- futuramente: <li><a href="/dashboard.html">Dashboard</a></li> -->
+    </ul>
+  </nav>
 </header>
 
 <main>
-  <h2>Formulário de Pré‑cadastro</h2>
+  <h2>Ficha de Pré‑cadastro</h2>
 
   <div class="lgpd-box">
     <p>
@@ -270,16 +302,14 @@
     try {
       const resposta = await fetch(URL_APP_SCRIPT, {
         method: 'POST',
-        mode: 'no-cors', // para evitar erro de CORS no GitHub Pages
+        mode: 'no-cors', // você já está usando assim
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(payload)
       });
 
-      // Como estamos usando no-cors, não dá pra ler o JSON de volta.
-      // Então assumimos que deu tudo certo se não houve erro de rede.
-      msg.textContent = 'Pré‑cadastro enviado com sucesso. Confira na aba PreCadastro da planilha.';
+      msg.textContent = 'Pré‑cadastro enviado com sucesso. Confira na aba PreCadastros da planilha.';
       msg.className = 'mensagem sucesso';
       form.reset();
     } catch (erro) {
