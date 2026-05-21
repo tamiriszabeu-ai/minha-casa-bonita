@@ -271,9 +271,9 @@
           <option value="Estudante">Estudante</option>
           <option value="Formal">Formal</option>
           <option value="Informal">Informal</option>
-          <option value="Autonoma_o">Autônoma/o</option>
-          <option value="Desempregada_o">Desempregada/o</option>
-          <option value="Aposentada_o">Aposentada/o</option>
+          <option value="Autonoma">Autônoma/o</option>
+          <option value="Desempregada">Desempregada/o</option>
+          <option value="Aposentada">Aposentada/o</option>
           <option value="Cuidados_domesticos">Cuidados domésticos</option>
         </select>
       </div>
@@ -291,17 +291,17 @@
       <div class="campo">
         <label>Tipo de atividade remunerada em casa (Atividade_Remunerada_Tipo)</label>
         <div class="opcoes">
-          <label class="opcao"><input type="checkbox" name="Atividade_Remunerada_Tipo" value="Comercio"> Comércio</label>
-          <label class="opcao"><input type="checkbox" name="Atividade_Remunerada_Tipo" value="Alimentacao"> Alimentação</label>
-          <label class="opcao"><input type="checkbox" name="Atividade_Remunerada_Tipo" value="Beleza"> Beleza</label>
-          <label class="opcao"><input type="checkbox" name="Atividade_Remunerada_Tipo" value="Costura"> Costura</label>
-          <label class="opcao"><input type="checkbox" name="Atividade_Remunerada_Tipo" value="Artesanato"> Artesanato</label>
-          <label class="opcao"><input type="checkbox" name="Atividade_Remunerada_Tipo_Outro" value="Outro"> Outro</label>
+          <label class="opcao"><input type="radio" name="Atividade_Remunerada_Tipo" value="Comercio"> Comércio</label>
+          <label class="opcao"><input type="radio" name="Atividade_Remunerada_Tipo" value="Alimentacao"> Alimentação</label>
+          <label class="opcao"><input type="radio" name="Atividade_Remunerada_Tipo" value="Beleza"> Beleza</label>
+          <label class="opcao"><input type="radio" name="Atividade_Remunerada_Tipo" value="Costura"> Costura</label>
+          <label class="opcao"><input type="radio" name="Atividade_Remunerada_Tipo" value="Artesanato"> Artesanato</label>
+          <label class="opcao"><input type="radio" name="Atividade_Remunerada_Tipo_Outro" value="Outro"> Outro</label>
         </div>
       </div>
 
       <div class="campo">
-        <label for="Atividade_Remunerada_Tipo_Outro_Descr">Se outra, qual? (Atividade_Remunerada_Tipo_Outro)</label>
+        <label for="Atividade_Remunerada_Tipo_Outro_Descr">Se outro, qual? (Atividade_Remunerada_Tipo_Outro)</label>
         <input type="text" id="Atividade_Remunerada_Tipo_Outro_Descr" name="Atividade_Remunerada_Tipo_Outro">
       </div>
 
@@ -322,13 +322,14 @@
           <label class="opcao"><input type="checkbox" name="Beneficios" value="Mumbuca"> Mumbuca</label>
           <label class="opcao"><input type="checkbox" name="Beneficios" value="Aposentadoria"> Aposentadoria</label>
           <label class="opcao"><input type="checkbox" name="Beneficios" value="Pensao"> Pensão</label>
+          <label class="opcao"><input type="checkbox" name="Beneficios" value="Nao_recebe"> Não recebe</label>
           <label class="opcao"><input type="checkbox" name="Beneficios_Outro" value="Outro"> Outro</label>
         </div>
       </div>
 
       <div class="campo">
-        <label for="Beneficios_Outro_Descr">Se outro, qual? (Beneficios_Outro)</label>
-        <input type="text" id="Beneficios_Outro_Descr" name="Beneficios_Outro">
+        <label for="Beneficio_Outro_Descr">Se outro, qual? (Beneficio_Outro)</label>
+        <input type="text" id="Beneficio_Outro_Descr" name="Beneficio_Outro">
       </div>
 
       <div class="campo">
@@ -357,83 +358,83 @@
       </div>
 
       <div class="campo">
-        <label for="Criancas_0_a_6_anos">Crianças de 0 a 6 anos</label>
-        <input type="number" id="Criancas_0_a_6_anos" name="Criancas_0_a_6_anos" min="0">
+        <label for="Criancas_0_6_Anos">Crianças de 0 a 6 anos</label>
+        <input type="number" id="Criancas_0_6_Anos" name="Criancas_0_6_Anos" min="0">
       </div>
 
       <div class="campo">
-        <label for="Criancas_7_a_11_anos">Crianças de 7 a 11 anos</label>
-        <input type="number" id="Criancas_7_a_11_anos" name="Criancas_7_a_11_anos" min="0">
+        <label for="Criancas_7_11_Anos">Crianças de 7 a 11 anos</label>
+        <input type="number" id="Criancas_7_11_Anos" name="Criancas_7_11_Anos" min="0">
       </div>
 
       <div class="campo">
-        <label for="Adolescentes_12_a_17_anos">Adolescentes de 12 a 17 anos</label>
-        <input type="number" id="Adolescentes_12_a_17_anos" name="Adolescentes_12_a_17_anos" min="0">
+        <label for="Adolescentes_12_17_Anos">Adolescentes de 12 a 17 anos</label>
+        <input type="number" id="Adolescentes_12_17_Anos" name="Adolescentes_12_17_Anos" min="0">
       </div>
 
       <div class="campo">
-        <label for="Jovens_18_a_29_anos">Jovens de 18 a 29 anos</label>
-        <input type="number" id="Jovens_18_a_29_anos" name="Jovens_18_a_29_anos" min="0">
+        <label for="Jovens_18_29_Anos">Jovens de 18 a 29 anos</label>
+        <input type="number" id="Jovens_18_29_Anos" name="Jovens_18_29_Anos" min="0">
       </div>
 
       <div class="campo">
-        <label for="Adultos_30_a_59_anos">Adultos de 30 a 59 anos</label>
-        <input type="number" id="Adultos_30_a_59_anos" name="Adultos_30_a_59_anos" min="0">
+        <label for="Adultos_30_59_Anos">Adultos de 30 a 59 anos</label>
+        <input type="number" id="Adultos_30_59_Anos" name="Adultos_30_59_Anos" min="0">
       </div>
 
       <div class="campo">
-        <label for="Idosos_60mais">Idosos com 60 anos ou mais</label>
-        <input type="number" id="Idosos_60mais" name="Idosos_60mais" min="0">
+        <label for="Idosos_60_Mais">Idosos com 60 anos ou mais</label>
+        <input type="number" id="Idosos_60_Mais" name="Idosos_60_Mais" min="0">
       </div>
 
       <div class="campo">
-        <label for="Pessoas_Deficiencia_Qtde">Pessoas com deficiência? (quantidade)</label>
-        <input type="number" id="Pessoas_Deficiencia_Qtde" name="Pessoas_Deficiencia_Qtde" min="0">
+        <label for="Pessoas_Com_Deficiencia">Pessoas com deficiência?</label>
+        <input type="number" id="Pessoas_Com_Deficiencia" name="Pessoas_Com_Deficiencia" min="0">
       </div>
 
       <div class="campo">
         <label>Tipo de deficiência (Tipo_Deficiencia)</label>
         <div class="opcoes">
-          <label class="opcao"><input type="checkbox" name="Tipo_Deficiencia" value="Fisica"> Física</label>
-          <label class="opcao"><input type="checkbox" name="Tipo_Deficiencia" value="Auditiva"> Auditiva</label>
-          <label class="opcao"><input type="checkbox" name="Tipo_Deficiencia" value="Visual"> Visual</label>
-          <label class="opcao"><input type="checkbox" name="Tipo_Deficiencia" value="Intelectual"> Intelectual</label>
-          <label class="opcao"><input type="checkbox" name="Tipo_Deficiencia" value="Psicossocial"> Psicossocial</label>
-          <label class="opcao"><input type="checkbox" name="Tipo_Deficiencia" value="Multipla"> Múltipla</label>
-          <label class="opcao"><input type="checkbox" name="Tipo_Deficiencia_Outra" value="Outra"> Outra</label>
+          <label class="opcao"><input type="radio" name="Tipo_Deficiencia" value="Fisica"> Física</label>
+          <label class="opcao"><input type="radio" name="Tipo_Deficiencia" value="Auditiva"> Auditiva</label>
+          <label class="opcao"><input type="radio" name="Tipo_Deficiencia" value="Visual"> Visual</label>
+          <label class="opcao"><input type="radio" name="Tipo_Deficiencia" value="Intelectual"> Intelectual</label>
+          <label class="opcao"><input type="radio" name="Tipo_Deficiencia" value="Psicossocial"> Psicossocial</label>
+          <label class="opcao"><input type="radio" name="Tipo_Deficiencia" value="Multipla"> Múltipla</label>
+          <label class="opcao"><input type="radio" name="Tipo_Deficiencia_Outra" value="Outra"> Outra</label>
         </div>
       </div>
 
       <div class="campo">
-        <label for="Tipo_Deficiencia_Outra_Descr">Se outra, qual?</label>
+        <label for="Tipo_Deficiencia_Outra_Descr">Se outra, qual? (Tipo_Deficiencia_Outra)</label>
         <input type="text" id="Tipo_Deficiencia_Outra_Descr" name="Tipo_Deficiencia_Outra">
       </div>
 
       <div class="campo">
-        <label for="Pessoas_Acamadas_ou_Mobilidade_Reduzida">Pessoas acamadas ou com mobilidade reduzida? (quantidade)</label>
-        <input type="number" id="Pessoas_Acamadas_ou_Mobilidade_Reduzida" name="Pessoas_Acamadas_ou_Mobilidade_Reduzida" min="0">
+        <label for="Pessoas_Acamadas_Mobilidade_Reduzida">Pessoas acamadas ou com mobilidade reduzida?</label>
+        <input type="number" id="Pessoas_Acamadas_Mobilidade_Reduzida" name="Pessoas_Acamadas_Mobilidade_Reduzida" min="0">
       </div>
 
       <div class="campo">
-        <label for="Pessoa_Questao_Saude_Qtde">Pessoa com alguma questão de saúde/doença recorrente? (quantidade)</label>
-        <input type="number" id="Pessoa_Questao_Saude_Qtde" name="Pessoa_Questao_Saude_Qtde" min="0">
+        <label for="Pessoa_Questao_Saude">Pessoa com alguma questão de saúde/doença recorrente?</label>
+        <input type="number" id="Pessoa_Questao_Saude" name="Pessoa_Questao_Saude" min="0">
       </div>
 
       <div class="campo">
-        <label>Tipo de questão de saúde (Pessoa_Questao_Saude_Tipo)</label>
+        <label>Qual o tipo? (Pessoa_Questao_Saude_Tipo)</label>
         <div class="opcoes">
-          <label class="opcao"><input type="checkbox" name="Pessoa_Questao_Saude_Tipo" value="Respiratorios"> Problemas respiratórios</label>
-          <label class="opcao"><input type="checkbox" name="Pessoa_Questao_Saude_Tipo" value="Gastrointestinais"> Problemas gastrointestinais</label>
-          <label class="opcao"><input type="checkbox" name="Pessoa_Questao_Saude_Tipo" value="Pele"> Doenças de pele</label>
+          <label class="opcao"><input type="checkbox" name="Pessoa_Questao_Saude_Tipo" value="Problemas_respiratorios"> Problemas respiratórios</label>
+          <label class="opcao"><input type="checkbox" name="Pessoa_Questao_Saude_Tipo" value="Problemas_gastrointestinais"> Problemas gastrointestinais</label>
+          <label class="opcao"><input type="checkbox" name="Pessoa_Questao_Saude_Tipo" value="Doencas_de_pele"> Doenças de pele</label>
           <label class="opcao"><input type="checkbox" name="Pessoa_Questao_Saude_Tipo" value="Dengue_zika_chikungunya"> Dengue, zika, chikungunya</label>
           <label class="opcao"><input type="checkbox" name="Pessoa_Questao_Saude_Tipo" value="Leptospirose"> Leptospirose</label>
-          <label class="opcao"><input type="checkbox" name="Pessoa_Questao_Saude_Tipo" value="Depressao_ansiedade"> Depressão e Ansiedade</label>
+          <label class="opcao"><input type="checkbox" name="Pessoa_Questao_Saude_Tipo" value="Depressao_e_Ansiedade"> Depressão e Ansiedade</label>
           <label class="opcao"><input type="checkbox" name="Pessoa_Questao_Saude_Tipo_Outra" value="Outra"> Outra</label>
         </div>
       </div>
 
       <div class="campo">
-        <label for="Pessoa_Questao_Saude_Tipo_Outra_Descr">Se outra, qual?</label>
+        <label for="Pessoa_Questao_Saude_Tipo_Outra_Descr">Se outra, qual? (Pessoa_Questao_Saude_Tipo_Outra)</label>
         <input type="text" id="Pessoa_Questao_Saude_Tipo_Outra_Descr" name="Pessoa_Questao_Saude_Tipo_Outra">
       </div>
 
@@ -597,7 +598,7 @@
       msgSocial.className = 'mensagem';
 
       const formData = new FormData(formSocial);
-      const payload = { acao: 'salvar-visita-social' };
+      const payload = { acao: 'salvar-visita-social' }; // Ação correta para visita social
 
       for (const [chave, valor] of formData.entries()) {
         payload[chave] = valor;
