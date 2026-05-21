@@ -1,634 +1,669 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Minha Casa + Bonita — Visita Domiciliar</title>
-<style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: Arial, sans-serif; font-size: 14px; background: #f0f4f8; color: #222; }
+  <meta charset="UTF-8">
+  <title>Minha Casa + Bonita – Visita Técnica</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  header { background: #1a5276; color: #fff; padding: 18px 24px; text-align: center; }
-  header h1 { font-size: 20px; }
-  header p  { font-size: 13px; margin-top: 4px; opacity: .85; }
-
-  .container { max-width: 760px; margin: 20px auto 40px; padding: 0 16px; }
-
-  .card {
-    background: #fff; border-radius: 8px; padding: 18px 20px;
-    margin-bottom: 16px; box-shadow: 0 1px 4px rgba(0,0,0,.08);
-  }
-  .card h2 {
-    font-size: 14px; color: #1a5276; margin-bottom: 14px;
-    padding-bottom: 6px; border-bottom: 2px solid #d5e8f5;
-  }
-
-  .aviso-lgpd {
-    background: #eaf4fb; border-left: 4px solid #1a5276;
-    padding: 12px 14px; font-size: 12px; line-height: 1.6;
-    border-radius: 4px; margin-bottom: 12px;
-  }
-
-  .campo { margin-bottom: 12px; }
-  .campo label { display: block; font-weight: bold; margin-bottom: 4px; font-size: 13px; }
-  .campo input[type=text],
-  .campo input[type=date],
-  .campo input[type=tel],
-  .campo textarea {
-    width: 100%; padding: 8px 10px; border: 1px solid #ccc;
-    border-radius: 5px; font-size: 13px;
-  }
-  .campo textarea { min-height: 80px; resize: vertical; }
-
-  .opcoes { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
-  .opcoes label {
-    font-weight: normal; display: flex; align-items: center;
-    gap: 4px; font-size: 13px; cursor: pointer;
-  }
-
-  .duas-col { display: flex; gap: 12px; }
-  .duas-col .campo { flex: 1; }
-
-  .tres-col { display: flex; gap: 12px; }
-  .tres-col .campo { flex: 1; }
-
-  .btn-enviar {
-    width: 100%; padding: 14px; background: #1a5276; color: #fff;
-    border: none; border-radius: 6px; font-size: 15px;
-    font-weight: bold; cursor: pointer; margin-top: 8px;
-  }
-  .btn-enviar:hover { background: #154360; }
-  .btn-enviar:disabled { background: #aaa; cursor: not-allowed; }
-
-  .msg { padding: 12px; border-radius: 6px; margin-top: 12px; font-size: 13px; text-align: center; }
-  .msg.ok  { background: #d4efdf; color: #1e8449; }
-  .msg.err { background: #fadbd8; color: #c0392b; }
-
-  @media(max-width:520px) {
-    .duas-col, .tres-col { flex-direction: column; }
-  }
-</style>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #00695c;
+      color: #fff;
+      padding: 16px 24px;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 20px;
+    }
+    main {
+      max-width: 900px;
+      margin: 24px auto;
+      background: #fff;
+      padding: 24px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    h2 {
+      margin-top: 24px;
+      font-size: 18px;
+      color: #333;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 4px;
+    }
+    .lgpd-box {
+      background: #e8f5e9;
+      border-left: 4px solid #2e7d32;
+      padding: 12px 16px;
+      margin-bottom: 16px;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+    .campo {
+      margin-bottom: 12px;
+    }
+    .campo label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .campo input[type="text"],
+    .campo input[type="number"],
+    .campo input[type="date"],
+    .campo textarea,
+    .campo select {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+    .campo textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+    .opcoes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 16px;
+      font-size: 14px;
+    }
+    .opcao {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .botoes {
+      margin-top: 24px;
+      display: flex;
+      gap: 12px;
+    }
+    button {
+      padding: 10px 18px;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    button[type="submit"] {
+      background: #00695c;
+      color: #fff;
+    }
+    button[type="button"] {
+      background: #e0e0e0;
+      color: #333;
+    }
+    .mensagem {
+      margin-top: 16px;
+      font-size: 14px;
+    }
+    .mensagem.sucesso {
+      color: #2e7d32;
+    }
+    .mensagem.erro {
+      color: #c62828;
+    }
+  </style>
 </head>
 <body>
+  <header>
+    <h1>Minha Casa + Bonita – Ficha Técnica (Visita Técnica e Socioeconômica)</h1>
+  </header>
 
-<header>
-  <h1>Minha Casa + Bonita</h1>
-  <p>Visita Domiciliar — Equipe Técnica / Assistente Social</p>
-</header>
-
-<div class="container">
-
-  <!-- LGPD -->
-  <div class="card">
-    <div class="aviso-lgpd">
-      <strong>Termo de consentimento — LGPD</strong><br>
-      Os dados coletados nesta visita serão utilizados exclusivamente para fins do Programa Minha Casa + Bonita, conforme a Lei nº 13.709/2018. O acesso será restrito à equipe técnica e parceiros envolvidos.
-    </div>
-    <div class="campo">
-      <label style="font-weight:normal;">
-        <input type="checkbox" id="vis-lgpd">
-        A família está ciente e consente com o uso dos dados para os fins do programa.
-      </label>
-    </div>
-  </div>
-
-  <!-- 1. Identificação -->
-  <div class="card">
-    <h2>1 — Identificação da visita</h2>
-    <div class="campo">
-      <label>Nome completo do responsável *</label>
-      <input type="text" id="vis-nomeCompleto" placeholder="Nome completo">
-    </div>
-    <div class="campo">
-      <label>Nome social (se houver)</label>
-      <input type="text" id="vis-nomeSocial" placeholder="Nome social">
-    </div>
-    <div class="duas-col">
-      <div class="campo">
-        <label>CPF *</label>
-        <input type="text" id="vis-cpf" placeholder="000.000.000-00" maxlength="14">
-      </div>
-      <div class="campo">
-        <label>ID do domicílio</label>
-        <input type="text" id="vis-idDomicilio" placeholder="Código">
-      </div>
-    </div>
-    <div class="duas-col">
-      <div class="campo">
-        <label>Data da visita *</label>
-        <input type="date" id="vis-dataVisita">
-      </div>
-      <div class="campo">
-        <label>Nome da/o entrevistadora/or *</label>
-        <input type="text" id="vis-nomeEntrevistador" placeholder="Nome completo">
-      </div>
-    </div>
-    <div class="campo">
-      <label>Equipe responsável</label>
-      <div class="opcoes">
-        <label><input type="radio" name="vis-equipeResponsavel" value="Equipe 01"> Equipe 01</label>
-        <label><input type="radio" name="vis-equipeResponsavel" value="Equipe 02"> Equipe 02</label>
-        <label><input type="radio" name="vis-equipeResponsavel" value="Outra"> Outra</label>
-      </div>
-    </div>
-    <div class="campo">
-      <label>Situação da visita</label>
-      <div class="opcoes">
-        <label><input type="radio" name="vis-situacaoVisita" value="Realizada"> Realizada</label>
-        <label><input type="radio" name="vis-situacaoVisita" value="Reagendada"> Reagendada</label>
-        <label><input type="radio" name="vis-situacaoVisita" value="Recusada"> Recusada</label>
-        <label><input type="radio" name="vis-situacaoVisita" value="Ausente"> Ausente</label>
-      </div>
-    </div>
-  </div>
-
-  <!-- 2. Perfil social -->
-  <div class="card">
-    <h2>2 — Perfil social da/o responsável</h2>
-    <div class="campo">
-      <label>Identidade de gênero</label>
-      <div class="opcoes">
-        <label><input type="radio" name="vis-genero" value="Mulher cisgênero"> Mulher cisgênero</label>
-        <label><input type="radio" name="vis-genero" value="Homem cisgênero"> Homem cisgênero</label>
-        <label><input type="radio" name="vis-genero" value="Mulher transgênero"> Mulher transgênero</label>
-        <label><input type="radio" name="vis-genero" value="Homem transgênero"> Homem transgênero</label>
-        <label><input type="radio" name="vis-genero" value="Não-binário"> Não-binário</label>
-        <label><input type="radio" name="vis-genero" value="Prefere não responder"> Prefere não responder</label>
-      </div>
-    </div>
-    <div class="campo">
-      <label>Raça/cor</label>
-      <div class="opcoes">
-        <label><input type="radio" name="vis-racaCor" value="Preta"> Preta</label>
-        <label><input type="radio" name="vis-racaCor" value="Parda"> Parda</label>
-        <label><input type="radio" name="vis-racaCor" value="Branca"> Branca</label>
-        <label><input type="radio" name="vis-racaCor" value="Amarela"> Amarela</label>
-        <label><input type="radio" name="vis-racaCor" value="Indígena"> Indígena</label>
-        <label><input type="radio" name="vis-racaCor" value="Prefere não responder"> Prefere não responder</label>
-      </div>
-    </div>
-    <div class="campo">
-      <label>Escolaridade</label>
-      <div class="opcoes">
-        <label><input type="radio" name="vis-escolaridade" value="Sem escolaridade"> Sem escolaridade</label>
-        <label><input type="radio" name="vis-escolaridade" value="Fundamental incompleto"> Fundamental incompleto</label>
-        <label><input type="radio" name="vis-escolaridade" value="Fundamental completo"> Fundamental completo</label>
-        <label><input type="radio" name="vis-escolaridade" value="Médio incompleto"> Médio incompleto</label>
-        <label><input type="radio" name="vis-escolaridade" value="Médio completo"> Médio completo</label>
-        <label><input type="radio" name="vis-escolaridade" value="Superior incompleto"> Superior incompleto</label>
-        <label><input type="radio" name="vis-escolaridade" value="Superior completo"> Superior completo</label>
-      </div>
-    </div>
-    <div class="campo">
-      <label>Ocupação</label>
-      <div class="opcoes">
-        <label><input type="radio" name="vis-ocupacao" value="Empregada/o formal"> Empregada/o formal</label>
-        <label><input type="radio" name="vis-ocupacao" value="Empregada/o informal"> Empregada/o informal</label>
-        <label><input type="radio" name="vis-ocupacao" value="Autônoma/o"> Autônoma/o</label>
-        <label><input type="radio" name="vis-ocupacao" value="Desempregada/o"> Desempregada/o</label>
-        <label><input type="radio" name="vis-ocupacao" value="Aposentada/o"> Aposentada/o</label>
-        <label><input type="radio" name="vis-ocupacao" value="Do lar"> Do lar</label>
-        <label><input type="radio" name="vis-ocupacao" value="Estudante"> Estudante</label>
-      </div>
-    </div>
-  </div>
-
-  <!-- 3. Renda -->
-  <div class="card">
-    <h2>3 — Renda familiar</h2>
-    <div class="campo">
-      <label>Principal fonte de renda</label>
-      <div class="opcoes">
-        <label><input type="radio" name="vis-fonteRenda" value="Trabalho formal"> Trabalho formal</label>
-        <label><input type="radio" name="vis-fonteRenda" value="Trabalho informal"> Trabalho informal</label>
-        <label><input type="radio" name="vis-fonteRenda" value="Aposentadoria/Pensão"> Aposentadoria/Pensão</label>
-        <label><input type="radio" name="vis-fonteRenda" value="Bolsa Família/BPC"> Bolsa Família/BPC</label>
-        <label><input type="radio" name="vis-fonteRenda" value="Sem renda"> Sem renda</label>
-        <label><input type="radio" name="vis-fonteRenda" value="Outra"> Outra</label>
-      </div>
-    </div>
-    <div class="campo">
-      <label>Atividade remunerada em casa?</label>
-      <div class="opcoes">
-        <label><input type="radio" name="vis-atividadeCasa" value="Sim" onclick="mostrar('vis-tipoAtividade-div')"> Sim</label>
-        <label><input type="radio" name="vis-atividadeCasa" value="Não" onclick="esconder('vis-tipoAtividade-div')"> Não</label>
-      </div>
-    </div>
-    <div id="vis-tipoAtividade-div" class="campo" style="display:none">
-      <label>Tipo de atividade em casa</label>
-      <input type="text" id="vis-tipoAtividadeCasa" placeholder="Descreva a atividade">
-    </div>
-    <div class="campo">
-      <label>Possui Cadastro Único?</label>
-      <div class="opcoes">
-        <label><input type="radio" name="vis-cadUnico" value="Sim"> Sim</label>
-        <label><input type="radio" name="vis-cadUnico" value="Não"> Não</label>
-        <label><input type="radio" name="vis-cadUnico" value="Não sabe"> Não sabe</label>
-      </div>
-    </div>
-    <div class="campo">
-      <label>Benefícios recebidos</label>
-      <div class="opcoes">
-        <label><input type="checkbox" name="vis-beneficios" value="Bolsa Família"> Bolsa Família</label>
-        <label><input type="checkbox" name="vis-beneficios" value="BPC/LOAS"> BPC/LOAS</label>
-        <label><input type="checkbox" name="vis-beneficios" value="Aposentadoria"> Aposentadoria</label>
-        <label><input type="checkbox" name="vis-beneficios" value="Pensão"> Pensão</label>
-        <label><input type="checkbox" name="vis-beneficios" value="Mumunidade"> Mumunidade</label>
-        <label><input type="checkbox" name="vis-beneficios" value="Nenhum"> Nenhum</label>
-        <label><input type="checkbox" name="vis-beneficios" value="Outro"> Outro</label>
-      </div>
-    </div>
-    <div class="campo">
-      <label>Renda familiar total mensal</label>
-      <div class="opcoes">
-        <label><input type="radio" name="vis-rendaFamiliarTotal" value="Sem renda"> Sem renda</label>
-        <label><input type="radio" name="vis-rendaFamiliarTotal" value="Até R$ 250"> Até R$ 250</label>
-        <label><input type="radio" name="vis-rendaFamiliarTotal" value="De R$ 251 a R$ 500"> R$ 251 a 500</label>
-        <label><input type="radio" name="vis-rendaFamiliarTotal" value="De R$ 501 a R$ 1.000"> R$ 501 a 1.000</label>
-        <label><input type="radio" name="vis-rendaFamiliarTotal" value="De R$ 1.001 a R$ 2.000"> R$ 1.001 a 2.000</label>
-        <label><input type="radio" name="vis-rendaFamiliarTotal" value="Acima de R$ 2.000"> Acima de R$ 2.000</label>
-      </div>
-    </div>
-    <div class="campo">
-      <label>Principal responsável pela renda</label>
-      <div class="opcoes">
-        <label><input type="radio" name="vis-responsavelRenda" value="Responsável pela moradia"> Responsável pela moradia</label>
-        <label><input type="radio" name="vis-responsavelRenda" value="Cônjuge/Companheira/o"> Cônjuge/Companheira/o</label>
-        <label><input type="radio" name="vis-responsavelRenda" value="Outro familiar"> Outro familiar</label>
-      </div>
-    </div>
-  </div>
-
-  <!-- 4. Composição familiar -->
-  <div class="card">
-    <h2>4 — Composição familiar</h2>
-    <div class="duas-col">
-      <div class="campo">
-        <label>Total de pessoas na moradia</label>
-        <input type="text" id="vis-totalPessoas" placeholder="0">
-      </div>
-      <div class="campo">
-        <label>Total de núcleos familiares</label>
-        <input type="text" id="vis-totalNucleos" placeholder="0">
-      </div>
-    </div>
-    <div class="tres-col">
-      <div class="campo">
-        <label>Crianças 0 a 6 anos</label>
-        <input type="text" id="vis-qtdCriancas0a6" placeholder="0">
-      </div>
-      <div class="campo">
-        <label>Crianças 7 a 11 anos</label>
-        <input type="text" id="vis-qtdCriancas7a11" placeholder="0">
-      </div>
-      <div class="campo">
-        <label>Adolescentes 12 a 17</label>
-        <input type="text" id="vis-qtdAdol12a17" placeholder="0">
-      </div>
-    </div>
-    <div class="tres-col">
-      <div class="campo">
-        <label>Jovens 18 a 29 anos</label>
-        <input type="text" id="vis-qtdJovens18a29" placeholder="0">
-      </div>
-      <div class="campo">
-        <label>Adultos 30 a 59 anos</label>
-        <input type="text" id="vis-qtdAdultos30a59" placeholder="0">
-      </div>
-      <div class="campo">
-        <label>Idosos 60+ anos</label>
-        <input type="text" id="vis-qtdIdosos60mais" placeholder="0">
-      </div>
-    </div>
-    <div class="duas-col">
-      <div class="campo">
-        <label>Pessoas com deficiência</label>
-        <input type="text" id="vis-qtdPcD" placeholder="0">
-      </div>
-      <div class="campo">
-        <label>Acamados/mobilidade reduzida</label>
-        <input type="text" id="vis-qtdAcamados" placeholder="0">
-      </div>
-    </div>
-    <div class="campo">
-      <label>Tipo de deficiência</label>
-      <div class="opcoes">
-        <label><input type="checkbox" name="vis-tipoDeficiencia" value="Física"> Física</label>
-        <label><input type="checkbox" name="vis-tipoDeficiencia" value="Auditiva"> Auditiva</label>
-        <label><input type="checkbox" name="vis-tipoDeficiencia" value="Visual"> Visual</label>
-        <label><input type="checkbox" name="vis-tipoDeficiencia" value="Intelectual"> Intelectual</label>
-        <label><input type="checkbox" name="vis-tipoDeficiencia" value="Psicossocial"> Psicossocial</label>
-        <label><input type="checkbox" name="vis-tipoDeficiencia" value="Múltipla"> Múltipla</label>
-      </div>
-    </div>
-    <div class="campo">
-      <label>Há doença recorrente na família?</label>
-      <div class="opcoes">
-        <label><input type="radio" name="vis-haDoencaRecorrente" value="Sim" onclick="mostrar('vis-tipoDoenca-div')"> Sim</label>
-        <label><input type="radio" name="vis-haDoencaRecorrente" value="Não" onclick="esconder('vis-tipoDoenca-div')"> Não</label>
-      </div>
-    </div>
-    <div id="vis-tipoDoenca-div" class="campo" style="display:none">
-      <label>Tipo de doença recorrente</label>
-      <div class="opcoes">
-        <label><input type="checkbox" name="vis-tipoDoenca" value="Problemas respiratórios"> Respiratórios</label>
-        <label><input type="checkbox" name="vis-tipoDoenca" value="Problemas gastrointestinais"> Gastrointestinais</label>
-        <label><input type="checkbox" name="vis-tipoDoenca" value="Doenças de pele"> Doenças de pele</label>
-        <label><input type="checkbox" name="vis-tipoDoenca" value="Dengue/Zika/Chikungunya"> Dengue/Zika</label>
-        <label><input type="checkbox" name="vis-tipoDoenca" value="Leptospirose"> Leptospirose</label>
-        <label><input type="checkbox" name="vis-tipoDoenca" value="Depressão e Ansiedade"> Depressão/Ansiedade</label>
-        <label><input type="checkbox" name="vis-tipoDoenca" value="Outra"> Outra</label>
-      </div>
-    </div>
-    <div class="duas-col">
-      <div class="campo">
-        <label>Gestantes (qtd.)</label>
-        <input type="text" id="vis-qtdGestantes" placeholder="0">
-      </div>
-      <div class="campo">
-        <label>Crianças/adol. fora da escola (qtd.)</label>
-        <input type="text" id="vis-qtdForaEscola" placeholder="0">
-      </div>
-    </div>
-    <div class="campo">
-      <label>Em busca de emprego/capacitação (qtd.)</label>
-      <input type="text" id="vis-qtdBuscaEmprego" placeholder="0">
-    </div>
-  </div>
-
-  <!-- 5. Condições da moradia -->
-  <div class="card">
-    <h2>5 — Condições da moradia</h2>
-    <div class="campo">
-      <label>Tipo de ocupação</label>
-      <div class="opcoes">
-        <label><input type="radio" name="vis-tipoOcupacao" value="Própria"> Própria</label>
-        <label><input type="radio" name="vis-tipoOcupacao" value="Cedida"> Cedida</label>
-        <label><input type="radio" name="vis-tipoOcupacao" value="Alugada"> Alugada</label>
-        <label><input type="radio" name="vis-tipoOcupacao" value="Ocupada"> Ocupada</label>
-        <label><input type="radio" name="vis-tipoOcupacao" value="Herança familiar"> Herança familiar</label>
-        <label><input type="radio" name="vis-tipoOcupacao" value="Outra"> Outra</label>
-      </div>
-    </div>
-    <div class="campo">
-      <label>Possui documento da moradia?</label>
-      <div class="opcoes">
-        <label><input type="radio" name="vis-possuiDocumento" value="Sim"> Sim</label>
-        <label><input type="radio" name="vis-possuiDocumento" value="Não"> Não</label>
-        <label><input type="radio" name="vis-possuiDocumento" value="Não sabe"> Não sabe</label>
-      </div>
-    </div>
-    <div class="campo">
-      <label>Tipo de documento</label>
-      <div class="opcoes">
-        <label><input type="radio" name="vis-tipoDocumento" value="Escritura"> Escritura</label>
-        <label><input type="radio" name="vis-tipoDocumento" value="Contrato"> Contrato</label>
-        <label><input type="radio" name="vis-tipoDocumento" value="Recibo"> Recibo</label>
-        <label><input type="radio" name="vis-tipoDocumento" value="Outro"> Outro</label>
-      </div>
-    </div>
-  </div>
-
-  <!-- 6. Acesso a serviços -->
-  <div class="card">
-    <h2>6 — Acesso a serviços públicos</h2>
-    <div class="campo">
-      <label>Serviço de saúde de referência</label>
-      <input type="text" id="vis-servicoSaudeRef" placeholder="Nome da UBS ou serviço">
-    </div>
-    <div class="campo">
-      <label>Acesso à saúde</label>
-      <div class="opcoes">
-        <label><input type="radio" name="vis-acessoSaude" value="Regular"> Regular</label>
-        <label><input type="radio" name="vis-acessoSaude" value="Com dificuldade"> Com dificuldade</label>
-        <label><input type="radio" name="vis-acessoSaude" value="Não acessa"> Não acessa</label>
-      </div>
-    </div>
-    <div class="campo">
-      <label>Dificuldades no acesso à saúde</label>
-      <div class="opcoes">
-        <label><input type="checkbox" name="vis-dificuldadesSaude" value="Distância"> Distância</label>
-        <label><input type="checkbox" name="vis-dificuldadesSaude" value="Falta de vaga"> Falta de vaga</label>
-        <label><input type="checkbox" name="vis-dificuldadesSaude" value="Transporte"> Transporte</label>
-        <label><input type="checkbox" name="vis-dificuldadesSaude" value="Documentação"> Documentação</label>
-        <label><input type="checkbox" name="vis-dificuldadesSaude" value="Horário"> Horário</label>
-        <label><input type="checkbox" name="vis-dificuldadesSaude" value="Nenhuma"> Nenhuma</label>
-        <label><input type="checkbox" name="vis-dificuldadesSaude" value="Outra"> Outra</label>
-      </div>
-    </div>
-    <div class="campo">
-      <label>Situação escolar das crianças/adolescentes</label>
-      <div class="opcoes">
-        <label><input type="radio" name="vis-situacaoEscolar" value="Todas/os frequentam"> Todas/os frequentam</label>
-        <label><input type="radio" name="vis-situacaoEscolar" value="Algumas/ns frequentam"> Algumas/ns frequentam</label>
-        <label><input type="radio" name="vis-situacaoEscolar" value="Nenhuma/o frequenta"> Nenhuma/o frequenta</label>
-        <label><input type="radio" name="vis-situacaoEscolar" value="Não se aplica"> Não se aplica</label>
-      </div>
-    </div>
-    <div class="duas-col">
-      <div class="campo">
-        <label>Acesso à creche</label>
-        <div class="opcoes">
-          <label><input type="radio" name="vis-acessoCreche" value="Sim"> Sim</label>
-          <label><input type="radio" name="vis-acessoCreche" value="Não"> Não</label>
-          <label><input type="radio" name="vis-acessoCreche" value="Não se aplica"> N/A</label>
+  <main>
+    <form id="formVisitaTecnica">
+      <div class="lgpd-box">
+        <p>
+          Esta visita integra o Programa Minha Casa + Bonita, no território do Risca Faca / Reis da Faca – Maricá.
+          Serão coletadas informações técnicas e habitacionais para avaliação, laudo e planejamento de melhorias.
+        </p>
+        <p>
+          Os dados serão tratados conforme a Lei Geral de Proteção de Dados (Lei nº 13.709/2018), com uso restrito à equipe técnica
+          e órgãos responsáveis pelo Programa.
+        </p>
+        <div class="campo">
+          <label>Declaração de ciência (LGPD_Ciente)</label>
+          <div class="opcoes">
+            <label class="opcao">
+              <input type="radio" name="LGPD_Ciente" value="Sim" required>
+              <span>Declaro que fui informado(a) sobre a finalidade da coleta e do tratamento dos meus dados pessoais e dos registros técnicos do imóvel.</span>
+            </label>
+            <label class="opcao">
+              <input type="radio" name="LGPD_Ciente" value="Nao">
+              <span>Não concorda / não informou</span>
+            </label>
+          </div>
         </div>
       </div>
+
+      <h2>Informações gerais da visita</h2>
+
       <div class="campo">
-        <label>Há demanda por creche?</label>
+        <label for="Situacao_Visita">Situação da visita</label>
+        <select id="Situacao_Visita" name="Situacao_Visita" required>
+          <option value="">Selecione...</option>
+          <option value="Realizada">Realizada</option>
+          <option value="Morador_ausente">Morador/a ausente</option>
+          <option value="Recusou_participacao">Recusou participação</option>
+          <option value="Endereco_nao_localizado">Endereço não localizado</option>
+          <option value="Retornar_depois">Retornar depois</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label for="Territorio">Território</label>
+        <select id="Territorio" name="Territorio">
+          <option value="Risca Faca">Risca Faca</option>
+          <option value="Reis da Faca">Reis da Faca</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label for="ID_Domicilio">ID do domicílio</label>
+        <input type="text" id="ID_Domicilio" name="ID_Domicilio" placeholder="Ex.: DOM-001">
+      </div>
+
+      <div class="campo">
+        <label for="Data_Visita">Data da visita</label>
+        <input type="date" id="Data_Visita" name="Data_Visita">
+      </div>
+
+      <div class="campo">
+        <label for="Responsavel_Tecnico">Responsável técnico</label>
+        <input type="text" id="Responsavel_Tecnico" name="Responsavel_Tecnico">
+      </div>
+
+      <div class="campo">
+        <label for="Equipe_Tecnica">Equipe técnica</label>
+        <input type="text" id="Equipe_Tecnica" name="Equipe_Tecnica">
+      </div>
+
+      <h2>1. Condições da moradia</h2>
+
+      <div class="campo">
+        <label>Material predominante (Material_Predominante)</label>
         <div class="opcoes">
-          <label><input type="radio" name="vis-demandaCreche" value="Sim"> Sim</label>
-          <label><input type="radio" name="vis-demandaCreche" value="Não"> Não</label>
+          <label class="opcao"><input type="radio" name="Material_Predominante" value="Alvenaria"> Alvenaria</label>
+          <label class="opcao"><input type="radio" name="Material_Predominante" value="Madeira"> Madeira</label>
+          <label class="opcao"><input type="radio" name="Material_Predominante" value="Misto"> Misto</label>
+          <label class="opcao"><input type="radio" name="Material_Predominante" value="Material_improvisado"> Material improvisado</label>
         </div>
       </div>
-    </div>
-    <div class="duas-col">
+
       <div class="campo">
-        <label>Acesso ao CRAS</label>
+        <label for="Num_Pavimentos">Número de pavimentos</label>
+        <input type="number" id="Num_Pavimentos" name="Num_Pavimentos" min="0">
+      </div>
+
+      <div class="campo">
+        <label>Total de cômodos</label>
         <div class="opcoes">
-          <label><input type="radio" name="vis-acessoCRAS" value="Sim"> Sim</label>
-          <label><input type="radio" name="vis-acessoCRAS" value="Não"> Não</label>
-          <label><input type="radio" name="vis-acessoCRAS" value="Não sabe"> Não sabe</label>
+          <div>
+            <label>Quartos</label>
+            <input type="number" name="Num_Quartos" min="0">
+          </div>
+          <div>
+            <label>Banheiros</label>
+            <input type="number" name="Num_Banheiros" min="0">
+          </div>
+          <div>
+            <label>Cozinhas</label>
+            <input type="number" name="Num_Cozinhas" min="0">
+          </div>
+          <div>
+            <label>Quintal (Sim/Não)</label>
+            <select name="Quintal">
+              <option value="">Selecione...</option>
+              <option value="Sim">Sim</option>
+              <option value="Nao">Não</option>
+            </select>
+          </div>
+          <div>
+            <label>Área de serviço (Sim/Não)</label>
+            <select name="Area_Servico">
+              <option value="">Selecione...</option>
+              <option value="Sim">Sim</option>
+              <option value="Nao">Não</option>
+            </select>
+          </div>
         </div>
       </div>
+
       <div class="campo">
-        <label>Acesso ao CREAS</label>
+        <label for="Total_Comodos">Total de cômodos (número)</label>
+        <input type="number" id="Total_Comodos" name="Total_Comodos" min="0">
+      </div>
+
+      <div class="campo">
+        <label for="Outro_Comodo">Outro cômodo (descrever)</label>
+        <input type="text" id="Outro_Comodo" name="Outro_Comodo">
+      </div>
+
+      <div class="campo">
+        <label>Cobertura (Cobertura)</label>
         <div class="opcoes">
-          <label><input type="radio" name="vis-acessoCREAS" value="Sim"> Sim</label>
-          <label><input type="radio" name="vis-acessoCREAS" value="Não"> Não</label>
-          <label><input type="radio" name="vis-acessoCREAS" value="Não sabe"> Não sabe</label>
+          <label class="opcao"><input type="radio" name="Cobertura" value="Laje"> Laje</label>
+          <label class="opcao"><input type="radio" name="Cobertura" value="Telhado"> Telhado</label>
+          <label class="opcao"><input type="radio" name="Cobertura" value="Misto"> Misto</label>
         </div>
       </div>
-    </div>
-    <div class="campo">
-      <label>Participa de associação/coletivo?</label>
-      <div class="opcoes">
-        <label><input type="radio" name="vis-participaAssociacao" value="Sim" onclick="mostrar('vis-qualAssociacao-div')"> Sim</label>
-        <label><input type="radio" name="vis-participaAssociacao" value="Não" onclick="esconder('vis-qualAssociacao-div')"> Não</label>
+
+      <div class="campo">
+        <label>Existem mais de 3 pessoas no mesmo quarto? (Mais3Pessoas_Quarto)</label>
+        <div class="opcoes">
+          <label class="opcao"><input type="radio" name="Mais3Pessoas_Quarto" value="Sim"> Sim</label>
+          <label class="opcao"><input type="radio" name="Mais3Pessoas_Quarto" value="Nao"> Não</label>
+        </div>
       </div>
-    </div>
-    <div id="vis-qualAssociacao-div" class="campo" style="display:none">
-      <label>Qual associação/coletivo?</label>
-      <input type="text" id="vis-qualAssociacao" placeholder="Nome da associação ou coletivo">
-    </div>
-  </div>
 
-  <!-- 7. Observações -->
-  <div class="card">
-    <h2>7 — Observações qualitativas</h2>
-    <div class="campo">
-      <textarea id="vis-observacoesQualitativas" placeholder="Registre informações relevantes sobre a família e a situação habitacional."></textarea>
-    </div>
-  </div>
+      <div class="campo">
+        <label for="Qtde_Pessoas_Quarto">Quantidade de pessoas no quarto</label>
+        <input type="number" id="Qtde_Pessoas_Quarto" name="Qtde_Pessoas_Quarto" min="0">
+      </div>
 
-  <!-- 8. Fechamento -->
-  <div class="card">
-    <h2>8 — Fechamento da visita</h2>
-    <div class="campo">
-      <label>Nome do/a responsável familiar (fechamento)</label>
-      <input type="text" id="vis-nomeResponsavelFechamento" placeholder="Nome completo">
-    </div>
-    <div class="campo">
-      <label>Nome do/a entrevistador/a (fechamento)</label>
-      <input type="text" id="vis-nomeEntrevistadorFechamento" placeholder="Nome completo">
-    </div>
-    <div class="campo">
-      <label>Assinatura da equipe (registro)</label>
-      <input type="text" id="vis-assinaturaEquipe" placeholder="Nome ou matrícula para registro">
-    </div>
-    <div class="campo">
-      <label>Data de fechamento da visita</label>
-      <input type="date" id="vis-dataFechamento">
-    </div>
-  </div>
+      <div class="campo">
+        <label>Algum outro cômodo é usado como dormitório? (Outro_Comodo_Dormitorio)</label>
+        <div class="opcoes">
+          <label class="opcao"><input type="radio" name="Outro_Comodo_Dormitorio" value="Sim"> Sim</label>
+          <label class="opcao"><input type="radio" name="Outro_Comodo_Dormitorio" value="Nao"> Não</label>
+        </div>
+      </div>
 
-  <button class="btn-enviar" onclick="enviarVisita()">Enviar Visita Domiciliar</button>
-  <div id="msg-vis" class="msg" style="display:none"></div>
+      <div class="campo">
+        <label for="Qual_Comodo_Dormitorio">Qual cômodo?</label>
+        <input type="text" id="Qual_Comodo_Dormitorio" name="Qual_Comodo_Dormitorio">
+      </div>
 
-</div>
+      <h2>2. Infraestrutura básica</h2>
 
-<script>
-var URL_SCRIPT = 'https://script.google.com/macros/s/AKfycbzx7rrwybDqsdZ8lFTVpVsy0gm3uvFSzf_qXlzL4Y0KDuEjM6kRukYnnvxnZZDR_aef/exec';
+      <div class="campo">
+        <label>Água encanada (Agua_Encanada)</label>
+        <div class="opcoes">
+          <label class="opcao"><input type="radio" name="Agua_Encanada" value="Sim"> Sim</label>
+          <label class="opcao"><input type="radio" name="Agua_Encanada" value="Nao"> Não</label>
+        </div>
+      </div>
 
-function mostrar(id) { document.getElementById(id).style.display = 'block'; }
-function esconder(id) { document.getElementById(id).style.display = 'none'; }
+      <div class="campo">
+        <label>Frequência do abastecimento de água (Frequencia_Agua)</label>
+        <select name="Frequencia_Agua">
+          <option value="">Selecione...</option>
+          <option value="Diaria">Diária</option>
+          <option value="2a3_vezes_semana">2 a 3 vezes/semana</option>
+          <option value="1_vez_semana">1 vez/semana</option>
+          <option value="Rara">Rara</option>
+          <option value="Nao_possui">Não possui</option>
+        </select>
+      </div>
 
-function getVal(id) {
-  var el = document.getElementById(id);
-  return el ? el.value.trim() : '';
-}
+      <div class="campo">
+        <label>Caixa d’água (Caixa_Dagua)</label>
+        <div class="opcoes">
+          <label class="opcao"><input type="radio" name="Caixa_Dagua" value="Sim"> Sim</label>
+          <label class="opcao"><input type="radio" name="Caixa_Dagua" value="Nao"> Não</label>
+        </div>
+      </div>
 
-function getRadio(name) {
-  var el = document.querySelector('input[name="' + name + '"]:checked');
-  return el ? el.value : '';
-}
+      <div class="campo">
+        <label>Energia elétrica (Energia_Eletrica)</label>
+        <div class="opcoes">
+          <label class="opcao"><input type="radio" name="Energia_Eletrica" value="Sim"> Sim</label>
+          <label class="opcao"><input type="radio" name="Energia_Eletrica" value="Nao"> Não</label>
+        </div>
+      </div>
 
-function getCheckboxes(name) {
-  var els = document.querySelectorAll('input[name="' + name + '"]:checked');
-  return Array.from(els).map(function(e){ return e.value; }).join(', ');
-}
+      <div class="campo">
+        <label>Esgotamento sanitário (Esgotamento_Sanitario)</label>
+        <select name="Esgotamento_Sanitario">
+          <option value="">Selecione...</option>
+          <option value="Rede_publica">Rede pública</option>
+          <option value="Fossa">Fossa</option>
+          <option value="Ceo_aberto">Céu aberto</option>
+          <option value="Nao_sabe">Não sabe</option>
+          <option value="Nao_possui">Não possui</option>
+        </select>
+      </div>
 
-function mostrarMsg(id, tipo, texto) {
-  var el = document.getElementById(id);
-  el.className = 'msg ' + tipo;
-  el.textContent = texto;
-  el.style.display = 'block';
-}
+      <div class="campo">
+        <label>Frequência da coleta de lixo (Frequencia_Lixo)</label>
+        <select name="Frequencia_Lixo">
+          <option value="">Selecione...</option>
+          <option value="Diaria">Diária</option>
+          <option value="2a3_vezes_semana">2 a 3 vezes/semana</option>
+          <option value="1_vez_semana">1 vez/semana</option>
+          <option value="Rara">Rara</option>
+          <option value="Nao_sabe">Não sabe</option>
+        </select>
+      </div>
 
-function enviarVisita() {
-  var lgpd = document.getElementById('vis-lgpd').checked;
-  if (!lgpd) { alert('Por favor, confirme o consentimento LGPD antes de enviar.'); return; }
+      <div class="campo">
+        <label>Local da coleta de lixo (Local_Coleta_Lixo)</label>
+        <select name="Local_Coleta_Lixo">
+          <option value="">Selecione...</option>
+          <option value="Porta_residencia">Porta da residência</option>
+          <option value="Mesma_quadra_proprio">Mesma quadra em local próprio</option>
+          <option value="Mesma_quadra_improprio">Mesma quadra em local impróprio</option>
+          <option value="Mais_quadra_proprio">Mais de uma quadra em local próprio</option>
+          <option value="Mais_quadra_improprio">Mais de uma quadra em local impróprio</option>
+        </select>
+      </div>
 
-  var nome = getVal('vis-nomeCompleto');
-  var cpf  = getVal('vis-cpf');
-  var data = getVal('vis-dataVisita');
-  if (!nome || !cpf || !data) {
-    alert('Preencha pelo menos: Nome completo, CPF e Data da visita.');
-    return;
-  }
+      <h2>3. Condições físicas da casa</h2>
 
-  var btn = document.querySelector('.btn-enviar');
-  btn.disabled = true;
-  btn.textContent = 'Enviando...';
+      <div class="campo">
+        <label>Infiltração (Infiltracao)</label>
+        <select name="Infiltracao">
+          <option value="">Selecione...</option>
+          <option value="Nao">Não</option>
+          <option value="Leve">Leve</option>
+          <option value="Moderada">Moderada</option>
+          <option value="Grave">Grave</option>
+        </select>
+      </div>
 
-  var payload = {
-    lgpd:                     'Sim',
-    nomeCompleto:             getVal('vis-nomeCompleto'),
-    nomeSocial:               getVal('vis-nomeSocial'),
-    cpf:                      getVal('vis-cpf'),
-    idDomicilio:              getVal('vis-idDomicilio'),
-    dataVisita:               getVal('vis-dataVisita'),
-    nomeEntrevistador:        getVal('vis-nomeEntrevistador'),
-    equipeResponsavel:        getRadio('vis-equipeResponsavel'),
-    situacaoVisita:           getRadio('vis-situacaoVisita'),
-    genero:                   getRadio('vis-genero'),
-    racaCor:                  getRadio('vis-racaCor'),
-    escolaridade:             getRadio('vis-escolaridade'),
-    ocupacao:                 getRadio('vis-ocupacao'),
-    fonteRenda:               getRadio('vis-fonteRenda'),
-    atividadeCasa:            getRadio('vis-atividadeCasa'),
-    tipoAtividadeCasa:        getVal('vis-tipoAtividadeCasa'),
-    cadUnico:                 getRadio('vis-cadUnico'),
-    beneficios:               getCheckboxes('vis-beneficios'),
-    rendaFamiliarTotal:       getRadio('vis-rendaFamiliarTotal'),
-    responsavelRenda:         getRadio('vis-responsavelRenda'),
-    totalPessoas:             getVal('vis-totalPessoas'),
-    totalNucleos:             getVal('vis-totalNucleos'),
-    qtdCriancas0a6:           getVal('vis-qtdCriancas0a6'),
-    qtdCriancas7a11:          getVal('vis-qtdCriancas7a11'),
-    qtdAdol12a17:             getVal('vis-qtdAdol12a17'),
-    qtdJovens18a29:           getVal('vis-qtdJovens18a29'),
-    qtdAdultos30a59:          getVal('vis-qtdAdultos30a59'),
-    qtdIdosos60mais:          getVal('vis-qtdIdosos60mais'),
-    qtdPcD:                   getVal('vis-qtdPcD'),
-    tipoDeficiencia:          getCheckboxes('vis-tipoDeficiencia'),
-    qtdAcamados:              getVal('vis-qtdAcamados'),
-    haDoencaRecorrente:       getRadio('vis-haDoencaRecorrente'),
-    tipoDoenca:               getCheckboxes('vis-tipoDoenca'),
-    qtdGestantes:             getVal('vis-qtdGestantes'),
-    qtdForaEscola:            getVal('vis-qtdForaEscola'),
-    qtdBuscaEmprego:          getVal('vis-qtdBuscaEmprego'),
-    tipoOcupacao:             getRadio('vis-tipoOcupacao'),
-    possuiDocumento:          getRadio('vis-possuiDocumento'),
-    tipoDocumento:            getRadio('vis-tipoDocumento'),
-    servicoSaudeRef:          getVal('vis-servicoSaudeRef'),
-    acessoSaude:              getRadio('vis-acessoSaude'),
-    dificuldadesSaude:        getCheckboxes('vis-dificuldadesSaude'),
-    situacaoEscolar:          getRadio('vis-situacaoEscolar'),
-    acessoCreche:             getRadio('vis-acessoCreche'),
-    demandaCreche:            getRadio('vis-demandaCreche'),
-    acessoCRAS:               getRadio('vis-acessoCRAS'),
-    acessoCREAS:              getRadio('vis-acessoCREAS'),
-    participaAssociacao:      getRadio('vis-participaAssociacao'),
-    qualAssociacao:           getVal('vis-qualAssociacao'),
-    observacoesQualitativas:  getVal('vis-observacoesQualitativas'),
-    nomeResponsavelFechamento:  getVal('vis-nomeResponsavelFechamento'),
-    nomeEntrevistadorFechamento: getVal('vis-nomeEntrevistadorFechamento'),
-    assinaturaEquipe:         getVal('vis-assinaturaEquipe'),
-    dataFechamento:           getVal('vis-dataFechamento')
-  };
+      <div class="campo">
+        <label>Mofo ou umidade (Mofo_Umidade)</label>
+        <select name="Mofo_Umidade">
+          <option value="">Selecione...</option>
+          <option value="Nao">Não</option>
+          <option value="Leve">Leve</option>
+          <option value="Moderado">Moderado</option>
+          <option value="Grave">Grave</option>
+        </select>
+      </div>
 
-  var form = new FormData();
-  form.append('action', 'salvarVisita');
-  form.append('payload', JSON.stringify(payload));
+      <div class="campo">
+        <label>Rachaduras (Rachaduras)</label>
+        <select name="Rachaduras">
+          <option value="">Selecione...</option>
+          <option value="Nao">Não</option>
+          <option value="Leves">Leves</option>
+          <option value="Moderadas">Moderadas</option>
+          <option value="Graves">Graves</option>
+        </select>
+      </div>
 
-  fetch(URL_SCRIPT, { method: 'POST', body: form })
-    .then(function(r){ return r.json(); })
-    .then(function(res){
-      if (res.sucesso) {
-        mostrarMsg('msg-vis', 'ok', 'Visita registrada com sucesso! ID: ' + res.id);
-      } else {
-        mostrarMsg('msg-vis', 'err', 'Erro: ' + res.mensagem);
+      <div class="campo">
+        <label>Risco elétrico aparente (Risco_Eletrico)</label>
+        <select name="Risco_Eletrico">
+          <option value="">Selecione...</option>
+          <option value="Sim">Sim</option>
+          <option value="Nao">Não</option>
+          <option value="Nao_avaliado">Não avaliado</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label>Risco estrutural aparente (Risco_Estrutural)</label>
+        <select name="Risco_Estrutural">
+          <option value="">Selecione...</option>
+          <option value="Sim">Sim</option>
+          <option value="Nao">Não</option>
+          <option value="Nao_avaliado">Não avaliado</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label>Problema na cobertura (Problema_Cobertura)</label>
+        <select name="Problema_Cobertura">
+          <option value="">Selecione...</option>
+          <option value="Nao">Não</option>
+          <option value="Goteira_leve">Goteira leve</option>
+          <option value="Goteira_grave">Goteira grave</option>
+          <option value="Estrutura_comprometida">Estrutura comprometida</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label>Ventilação (Ventilacao)</label>
+        <select name="Ventilacao">
+          <option value="">Selecione...</option>
+          <option value="Adequada">Adequada</option>
+          <option value="Parcial">Parcial</option>
+          <option value="Inadequada">Inadequada</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label>Iluminação natural (Iluminacao)</label>
+        <select name="Iluminacao">
+          <option value="">Selecione...</option>
+          <option value="Adequada">Adequada</option>
+          <option value="Parcial">Parcial</option>
+          <option value="Inadequada">Inadequada</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label>Altura do pé direito (Altura_Pe_Direito)</label>
+        <select name="Altura_Pe_Direito">
+          <option value="">Selecione...</option>
+          <option value="Adequada">Adequada</option>
+          <option value="Parcial">Parcial</option>
+          <option value="Inadequada">Inadequada</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label>Acessibilidade (Acessibilidade_Itens)</label>
+        <textarea name="Acessibilidade_Itens" placeholder="Ex.: Escada, porta estreita, piso escorregadio, sem barras de apoio, desnível, etc."></textarea>
+      </div>
+
+      <h2>4. Diagnóstico técnico do banheiro</h2>
+
+      <div class="campo">
+        <label>A casa possui banheiro? (Banheiro_Tem)</label>
+        <select name="Banheiro_Tem">
+          <option value="">Selecione...</option>
+          <option value="Sim_interno">Sim interno</option>
+          <option value="Sim_externo">Sim externo</option>
+          <option value="Nao_possui">Não possui</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label for="Banheiro_Qtde">Quantidade de banheiros (Banheiro_Qtde)</label>
+        <input type="number" id="Banheiro_Qtde" name="Banheiro_Qtde" min="0">
+      </div>
+
+      <div class="campo">
+        <label>Uso do banheiro (Banheiro_Uso)</label>
+        <select name="Banheiro_Uso">
+          <option value="">Selecione...</option>
+          <option value="Exclusivo">Exclusivo da família</option>
+          <option value="Compartilhado">Compartilhado com outra família</option>
+          <option value="Nao_se_aplica">Não se aplica</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label>Itens existentes (Banheiro_Itens)</label>
+        <textarea name="Banheiro_Itens" placeholder="Ex.: vaso sanitário, pia, chuveiro, porta, janela, ralo, revestimentos etc."></textarea>
+      </div>
+
+      <div class="campo">
+        <label>Funcionamento do banheiro (Banheiro_Funcionamento)</label>
+        <select name="Banheiro_Funcionamento">
+          <option value="">Selecione...</option>
+          <option value="Pleno">Pleno funcionamento</option>
+          <option value="Parcial">Parcial</option>
+          <option value="Nao_funciona">Não funciona</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label>Problemas identificados (Banheiro_Problemas)</label>
+        <textarea name="Banheiro_Problemas" placeholder="Ex.: vazamento, infiltração, mofo, mau cheiro, falta de privacidade, risco elétrico, etc."></textarea>
+      </div>
+
+      <div class="campo">
+        <label>Acessível para idosos/PCD? (Banheiro_Acessivel)</label>
+        <select name="Banheiro_Acessivel">
+          <option value="">Selecione...</option>
+          <option value="Sim">Sim</option>
+          <option value="Parcialmente">Parcialmente</option>
+          <option value="Nao">Não</option>
+          <option value="Nao_se_aplica">Não se aplica</option>
+        </select>
+      </div>
+
+      <h2>5. Diagnóstico técnico da fachada</h2>
+
+      <div class="campo">
+        <label>Fachada visível para a rua? (Fachada_Visivel)</label>
+        <select name="Fachada_Visivel">
+          <option value="">Selecione...</option>
+          <option value="Visivel_com_muro">Fachada visível com muro</option>
+          <option value="Nao_visivel_com_muro">Fachada não visível com muro</option>
+          <option value="Sem_recuo">Fachada sem recuo</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label>Estado atual da fachada (Fachada_Estado)</label>
+        <select name="Fachada_Estado">
+          <option value="">Selecione...</option>
+          <option value="Bom">Bom</option>
+          <option value="Regular">Regular</option>
+          <option value="Ruim">Ruim</option>
+          <option value="Muito_ruim">Muito ruim</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label>Possui reboco? (Fachada_Reboco)</label>
+        <select name="Fachada_Reboco">
+          <option value="">Selecione...</option>
+          <option value="Sim">Sim</option>
+          <option value="Nao">Não</option>
+          <option value="Parcial">Parcial</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label>Possui pintura? (Fachada_Pintura)</label>
+        <select name="Fachada_Pintura">
+          <option value="">Selecione...</option>
+          <option value="Sim">Sim</option>
+          <option value="Nao">Não</option>
+          <option value="Parcial">Parcial</option>
+          <option value="Muito_deteriorada">Muito deteriorada</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label>Possui revestimento cerâmico? (Fachada_Revestimento)</label>
+        <select name="Fachada_Revestimento">
+          <option value="">Selecione...</option>
+          <option value="Sim">Sim</option>
+          <option value="Nao">Não</option>
+          <option value="Parcial">Parcial</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label>Rachaduras na fachada? (Fachada_Rachaduras)</label>
+        <select name="Fachada_Rachaduras">
+          <option value="">Selecione...</option>
+          <option value="Sim">Sim</option>
+          <option value="Nao">Não</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label>Infiltração aparente? (Fachada_Infiltracao)</label>
+        <select name="Fachada_Infiltracao">
+          <option value="">Selecione...</option>
+          <option value="Sim">Sim</option>
+          <option value="Nao">Não</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label>Portas/janelas danificadas na frente? (Fachada_PortaJanela_Danificada)</label>
+        <select name="Fachada_PortaJanela_Danificada">
+          <option value="">Selecione...</option>
+          <option value="Sim">Sim</option>
+          <option value="Nao">Não</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label>Necessita reparo em muro/entrada? (Fachada_Precisa_Reparo_Muro)</label>
+        <select name="Fachada_Precisa_Reparo_Muro">
+          <option value="">Selecione...</option>
+          <option value="Sim">Sim</option>
+          <option value="Nao">Não</option>
+        </select>
+      </div>
+
+      <h2>6. Observações qualitativas</h2>
+
+      <div class="campo">
+        <label for="Obs_Qualitativas">Observações qualitativas</label>
+        <textarea id="Obs_Qualitativas" name="Obs_Qualitativas"></textarea>
+      </div>
+
+      <div class="botoes">
+        <button type="submit">Salvar visita técnica</button>
+        <button type="button" onclick="document.getElementById('formVisitaTecnica').reset()">Limpar</button>
+      </div>
+
+      <div id="mensagem" class="mensagem"></div>
+    </form>
+  </main>
+
+  <script>
+    const URL_APP_SCRIPT = 'https://script.google.com/macros/s/AKfycbxtJMn956LGP3V4Jsu6wAQhNiKXUDQjMxMpzUcP3HvI32ZVX_a60k2_YdNuFTqEHQnr/exec';
+
+    const form = document.getElementById('formVisitaTecnica');
+    const msg = document.getElementById('mensagem');
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      msg.textContent = 'Enviando...';
+      msg.className = 'mensagem';
+
+      const formData = new FormData(form);
+      const payload = { acao: 'salvar-visita-tecnica' }; // bate com o doPost
+
+      for (const [chave, valor] of formData.entries()) {
+        payload[chave] = valor;
       }
-    })
-    .catch(function(){
-      mostrarMsg('msg-vis', 'err', 'Falha na conexão. Tente novamente.');
-    })
-    .finally(function(){
-      btn.disabled = false;
-      btn.textContent = 'Enviar Visita Domiciliar';
+
+      try {
+        const resposta = await fetch(URL_APP_SCRIPT, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (!resposta.ok) {
+          throw new Error('HTTP ' + resposta.status);
+        }
+
+        const dados = await resposta.json();
+        if (!dados.ok) {
+          throw new Error(dados.erro || 'Erro no Apps Script');
+        }
+
+        msg.textContent = 'Visita técnica salva com sucesso.';
+        msg.className = 'mensagem sucesso';
+        form.reset();
+      } catch (erro) {
+        console.error(erro);
+        msg.textContent = 'Erro ao enviar: ' + erro.message;
+        msg.className = 'mensagem erro';
+      }
     });
-}
-</script>
+  </script>
 </body>
 </html>
