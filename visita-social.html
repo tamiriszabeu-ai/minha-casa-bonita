@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Minha Casa + Bonita – Ficha Social</title>
+  <title>Minha Casa + Bonita – Ficha Social (Visita)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <style>
@@ -16,10 +16,33 @@
       background: #00695c;
       color: #fff;
       padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
     }
     header h1 {
       margin: 0;
       font-size: 20px;
+    }
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      gap: 16px;
+      font-size: 14px;
+    }
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      border-bottom: 2px solid transparent;
+      padding-bottom: 2px;
+    }
+    nav a:hover {
+      border-bottom-color: #fff;
     }
     main {
       max-width: 900px;
@@ -113,36 +136,39 @@
 </head>
 <body>
   <header>
-    <h1>Minha Casa + Bonita – Ficha Social (Visita Técnica e Socioeconômica)</h1>
+    <h1>Minha Casa + Bonita – Ficha Social</h1>
+    <nav>
+      <ul>
+        <li><a href="/">Pré-cadastro</a></li>
+        <li><a href="/visita-social.html">Ficha Social</a></li>
+        <li><a href="/visita-tecnica.html">Visita Técnica</a></li>
+      </ul>
+    </nav>
   </header>
 
   <main>
     <form id="formVisitaSocial">
       <div class="lgpd-box">
         <p>
-          Esta visita integra o Programa Minha Casa + Bonita, no território do Risca Faca – Maricá.
-          Serão coletadas informações pessoais, familiares, socioeconômicas e habitacionais para avaliação técnica e social.
+          A visita domiciliar integra o Programa Minha Casa + Bonita, política pública de melhoria habitacional e assistência técnica de interesse social, realizada no território do Risca Faca.
+          Serão coletadas informações pessoais, familiares, socioeconômicas e habitacionais para avaliação técnica e social. Também poderão ser feitos registros fotográficos do imóvel, incluindo áreas que necessitam de melhorias, com o objetivo de elaborar laudos, planejar intervenções, executar melhorias e prestar contas do Programa.
         </p>
         <p>
-          Os dados serão tratados conforme a Lei Geral de Proteção de Dados (Lei nº 13.709/2018), com uso restrito à equipe técnica
-          e órgãos responsáveis pelo Programa.
+          Os dados pessoais e registros técnicos serão utilizados apenas para execução, acompanhamento e prestação de contas do Programa, conforme a Lei Geral de Proteção de Dados (Lei nº 13.709/2018). O acesso às informações será restrito à equipe técnica, Prefeitura e parceiros envolvidos, garantindo confidencialidade, segurança e uso adequado dos dados.
+        </p>
+        <p>
+          Informações sobre deficiência, saúde ou vulnerabilidade serão utilizadas apenas quando necessárias para avaliação e adequação do atendimento, com proteção e cuidado no tratamento dos dados necessários para avaliação técnica e social, priorização, adequação do atendimento e garantia de direitos.
         </p>
         <div class="campo">
           <label>Declaração de ciência (LGPD_Ciente)</label>
           <div class="opcoes">
             <label class="opcao">
               <input type="radio" name="LGPD_Ciente" value="Sim" required>
-              <span>Declaro que fui informado(a) sobre a finalidade da coleta e do tratamento dos meus dados pessoais e dos registros fotográficos técnicos do imóvel.</span>
-            </label>
-            <label class="opcao">
-              <input type="radio" name="LGPD_Ciente" value="Nao">
-              <span>Não concorda / não informou</span>
+              <span>Declaro que fui informado(a) sobre a finalidade da coleta e do tratamento dos meus dados pessoais e dos registros fotográficos técnicos do imóvel no âmbito do Programa Minha Casa + Bonita.</span>
             </label>
           </div>
         </div>
       </div>
-
-      <h2>Controle da visita</h2>
 
       <div class="campo">
         <label for="Situacao_Visita">Situação da visita</label>
@@ -164,22 +190,7 @@
         </select>
       </div>
 
-      <div class="campo">
-        <label for="ID_Domicilio">ID do domicílio</label>
-        <input type="text" id="ID_Domicilio" name="ID_Domicilio" placeholder="Ex.: DOM-001">
-      </div>
-
-      <div class="campo">
-        <label for="Data_Visita">Data da visita</label>
-        <input type="date" id="Data_Visita" name="Data_Visita">
-      </div>
-
-      <div class="campo">
-        <label for="Entrevistador_Nome">Nome da/o entrevistadora/or</label>
-        <input type="text" id="Entrevistador_Nome" name="Entrevistador_Nome">
-      </div>
-
-      <h2>1. Identificação da/o responsável familiar</h2>
+      <h2>1. Identificação da/o responsável familiar e controle da visita</h2>
 
       <div class="campo">
         <label for="Nome_Completo">Nome completo</label>
@@ -193,36 +204,49 @@
 
       <div class="campo">
         <label for="CPF">CPF</label>
-        <input type="text" id="CPF" name="CPF" placeholder="Ex.: 123.456.789-00">
+        <input type="text" id="CPF" name="CPF">
+      </div>
+
+      <div class="campo">
+        <label for="ID_Domicilio">ID do domicílio</label>
+        <input type="text" id="ID_Domicilio" name="ID_Domicilio">
+      </div>
+
+      <div class="campo">
+        <label for="Data_Visita">Data da visita</label>
+        <input type="date" id="Data_Visita" name="Data_Visita">
+      </div>
+
+      <div class="campo">
+        <label for="Entrevistador_Nome">Nome da/o entrevistadora/or</label>
+        <input type="text" id="Entrevistador_Nome" name="Entrevistador_Nome">
       </div>
 
       <h2>2. Perfil social do responsável familiar</h2>
 
       <div class="campo">
         <label>Identidade de gênero do responsável familiar (Identidade_Genero)</label>
-        <select name="Identidade_Genero">
-          <option value="">Selecione...</option>
-          <option value="Mulher_cis">Mulher cis</option>
-          <option value="Homem_cis">Homem cis</option>
-          <option value="Mulher_trans">Mulher trans</option>
-          <option value="Homem_trans">Homem trans</option>
-          <option value="Nao_binaria">Não binária</option>
-          <option value="Outra">Outra</option>
-          <option value="Prefere_nao_responder">Prefere não responder</option>
-        </select>
+        <div class="opcoes">
+          <label class="opcao"><input type="radio" name="Identidade_Genero" value="Mulher_cis"> Mulher cis</label>
+          <label class="opcao"><input type="radio" name="Identidade_Genero" value="Homem_cis"> Homem cis</label>
+          <label class="opcao"><input type="radio" name="Identidade_Genero" value="Mulher_trans"> Mulher trans</label>
+          <label class="opcao"><input type="radio" name="Identidade_Genero" value="Homem_trans"> Homem trans</label>
+          <label class="opcao"><input type="radio" name="Identidade_Genero" value="Nao_binaria"> Não binária</label>
+          <label class="opcao"><input type="radio" name="Identidade_Genero" value="Outra"> Outra</label>
+          <label class="opcao"><input type="radio" name="Identidade_Genero" value="Prefere_nao_responder"> Prefere não responder</label>
+        </div>
       </div>
 
       <div class="campo">
         <label>Raça/cor responsável familiar (Raca_Cor)</label>
-        <select name="Raca_Cor">
-          <option value="">Selecione...</option>
-          <option value="Branca">Branca</option>
-          <option value="Preta">Preta</option>
-          <option value="Parda">Parda</option>
-          <option value="Amarela">Amarela</option>
-          <option value="Indigena">Indígena</option>
-          <option value="Prefere_nao_responder">Prefere não responder</option>
-        </select>
+        <div class="opcoes">
+          <label class="opcao"><input type="radio" name="Raca_Cor" value="Branca"> Branca</label>
+          <label class="opcao"><input type="radio" name="Raca_Cor" value="Preta"> Preta</label>
+          <label class="opcao"><input type="radio" name="Raca_Cor" value="Parda"> Parda</label>
+          <label class="opcao"><input type="radio" name="Raca_Cor" value="Amarela"> Amarela</label>
+          <label class="opcao"><input type="radio" name="Raca_Cor" value="Indigena"> Indígena</label>
+          <label class="opcao"><input type="radio" name="Raca_Cor" value="Prefere_nao_responder"> Prefere não responder</label>
+        </div>
       </div>
 
       <div class="campo">
@@ -266,49 +290,45 @@
 
       <div class="campo">
         <label>Tipo de atividade remunerada em casa (Atividade_Remunerada_Tipo)</label>
-        <select name="Atividade_Remunerada_Tipo">
-          <option value="">Selecione...</option>
-          <option value="Comercio">Comércio</option>
-          <option value="Alimentacao">Alimentação</option>
-          <option value="Beleza">Beleza</option>
-          <option value="Costura">Costura</option>
-          <option value="Artesanato">Artesanato</option>
-          <option value="Outro">Outro</option>
-        </select>
+        <div class="opcoes">
+          <label class="opcao"><input type="checkbox" name="Atividade_Remunerada_Tipo" value="Comercio"> Comércio</label>
+          <label class="opcao"><input type="checkbox" name="Atividade_Remunerada_Tipo" value="Alimentacao"> Alimentação</label>
+          <label class="opcao"><input type="checkbox" name="Atividade_Remunerada_Tipo" value="Beleza"> Beleza</label>
+          <label class="opcao"><input type="checkbox" name="Atividade_Remunerada_Tipo" value="Costura"> Costura</label>
+          <label class="opcao"><input type="checkbox" name="Atividade_Remunerada_Tipo" value="Artesanato"> Artesanato</label>
+          <label class="opcao"><input type="checkbox" name="Atividade_Remunerada_Tipo_Outro" value="Outro"> Outro</label>
+        </div>
       </div>
 
       <div class="campo">
-        <label for="Atividade_Remunerada_Tipo_Outro">Qual outra atividade?</label>
-        <input type="text" id="Atividade_Remunerada_Tipo_Outro" name="Atividade_Remunerada_Tipo_Outro">
+        <label for="Atividade_Remunerada_Tipo_Outro_Descr">Se outra, qual? (Atividade_Remunerada_Tipo_Outro)</label>
+        <input type="text" id="Atividade_Remunerada_Tipo_Outro_Descr" name="Atividade_Remunerada_Tipo_Outro">
       </div>
 
       <div class="campo">
         <label>Possui Cadastro Único? (Possui_CadUnico)</label>
-        <select name="Possui_CadUnico">
-          <option value="">Selecione...</option>
-          <option value="Sim">Sim</option>
-          <option value="Nao">Não</option>
-          <option value="Nao_sabe">Não sabe</option>
-        </select>
+        <div class="opcoes">
+          <label class="opcao"><input type="radio" name="Possui_CadUnico" value="Sim"> Sim</label>
+          <label class="opcao"><input type="radio" name="Possui_CadUnico" value="Nao"> Não</label>
+          <label class="opcao"><input type="radio" name="Possui_CadUnico" value="Nao_sabe"> Não sabe</label>
+        </div>
       </div>
 
       <div class="campo">
         <label>Recebem algum benefício? (Beneficios)</label>
-        <select name="Beneficios">
-          <option value="">Selecione...</option>
-          <option value="Bolsa_Familia">Bolsa Família</option>
-          <option value="BPC">BPC</option>
-          <option value="Mumbuca">Mumbuca</option>
-          <option value="Aposentadoria">Aposentadoria</option>
-          <option value="Pensao">Pensão</option>
-          <option value="Nao_recebe">Não recebe</option>
-          <option value="Outro">Outro</option>
-        </select>
+        <div class="opcoes">
+          <label class="opcao"><input type="checkbox" name="Beneficios" value="Bolsa_Familia"> Bolsa Família</label>
+          <label class="opcao"><input type="checkbox" name="Beneficios" value="BPC"> BPC</label>
+          <label class="opcao"><input type="checkbox" name="Beneficios" value="Mumbuca"> Mumbuca</label>
+          <label class="opcao"><input type="checkbox" name="Beneficios" value="Aposentadoria"> Aposentadoria</label>
+          <label class="opcao"><input type="checkbox" name="Beneficios" value="Pensao"> Pensão</label>
+          <label class="opcao"><input type="checkbox" name="Beneficios_Outro" value="Outro"> Outro</label>
+        </div>
       </div>
 
       <div class="campo">
-        <label for="Beneficio_Outro">Qual outro benefício?</label>
-        <input type="text" id="Beneficio_Outro" name="Beneficio_Outro">
+        <label for="Beneficios_Outro_Descr">Se outro, qual? (Beneficios_Outro)</label>
+        <input type="text" id="Beneficios_Outro_Descr" name="Beneficios_Outro">
       </div>
 
       <div class="campo">
@@ -337,28 +357,28 @@
       </div>
 
       <div class="campo">
-        <label for="Criancas_0a6">Crianças de 0 a 6 anos</label>
-        <input type="number" id="Criancas_0a6" name="Criancas_0a6" min="0">
+        <label for="Criancas_0_a_6_anos">Crianças de 0 a 6 anos</label>
+        <input type="number" id="Criancas_0_a_6_anos" name="Criancas_0_a_6_anos" min="0">
       </div>
 
       <div class="campo">
-        <label for="Criancas_7a11">Crianças de 7 a 11 anos</label>
-        <input type="number" id="Criancas_7a11" name="Criancas_7a11" min="0">
+        <label for="Criancas_7_a_11_anos">Crianças de 7 a 11 anos</label>
+        <input type="number" id="Criancas_7_a_11_anos" name="Criancas_7_a_11_anos" min="0">
       </div>
 
       <div class="campo">
-        <label for="Adolescentes_12a17">Adolescentes de 12 a 17 anos</label>
-        <input type="number" id="Adolescentes_12a17" name="Adolescentes_12a17" min="0">
+        <label for="Adolescentes_12_a_17_anos">Adolescentes de 12 a 17 anos</label>
+        <input type="number" id="Adolescentes_12_a_17_anos" name="Adolescentes_12_a_17_anos" min="0">
       </div>
 
       <div class="campo">
-        <label for="Jovens_18a29">Jovens de 18 a 29 anos</label>
-        <input type="number" id="Jovens_18a29" name="Jovens_18a29" min="0">
+        <label for="Jovens_18_a_29_anos">Jovens de 18 a 29 anos</label>
+        <input type="number" id="Jovens_18_a_29_anos" name="Jovens_18_a_29_anos" min="0">
       </div>
 
       <div class="campo">
-        <label for="Adultos_30a59">Adultos de 30 a 59 anos</label>
-        <input type="number" id="Adultos_30a59" name="Adultos_30a59" min="0">
+        <label for="Adultos_30_a_59_anos">Adultos de 30 a 59 anos</label>
+        <input type="number" id="Adultos_30_a_59_anos" name="Adultos_30_a_59_anos" min="0">
       </div>
 
       <div class="campo">
@@ -367,70 +387,68 @@
       </div>
 
       <div class="campo">
-        <label for="Pessoas_Deficiencia_Qtde">Pessoas com deficiência?</label>
+        <label for="Pessoas_Deficiencia_Qtde">Pessoas com deficiência? (quantidade)</label>
         <input type="number" id="Pessoas_Deficiencia_Qtde" name="Pessoas_Deficiencia_Qtde" min="0">
       </div>
 
       <div class="campo">
         <label>Tipo de deficiência (Tipo_Deficiencia)</label>
-        <select name="Tipo_Deficiencia">
-          <option value="">Selecione...</option>
-          <option value="Fisica">Física</option>
-          <option value="Auditiva">Auditiva</option>
-          <option value="Visual">Visual</option>
-          <option value="Intelectual">Intelectual</option>
-          <option value="Psicossocial">Psicossocial</option>
-          <option value="Multipla">Múltipla</option>
-          <option value="Outra">Outra</option>
-        </select>
+        <div class="opcoes">
+          <label class="opcao"><input type="checkbox" name="Tipo_Deficiencia" value="Fisica"> Física</label>
+          <label class="opcao"><input type="checkbox" name="Tipo_Deficiencia" value="Auditiva"> Auditiva</label>
+          <label class="opcao"><input type="checkbox" name="Tipo_Deficiencia" value="Visual"> Visual</label>
+          <label class="opcao"><input type="checkbox" name="Tipo_Deficiencia" value="Intelectual"> Intelectual</label>
+          <label class="opcao"><input type="checkbox" name="Tipo_Deficiencia" value="Psicossocial"> Psicossocial</label>
+          <label class="opcao"><input type="checkbox" name="Tipo_Deficiencia" value="Multipla"> Múltipla</label>
+          <label class="opcao"><input type="checkbox" name="Tipo_Deficiencia_Outra" value="Outra"> Outra</label>
+        </div>
       </div>
 
       <div class="campo">
-        <label for="Tipo_Deficiencia_Outra">Qual outra deficiência?</label>
-        <input type="text" id="Tipo_Deficiencia_Outra" name="Tipo_Deficiencia_Outra">
+        <label for="Tipo_Deficiencia_Outra_Descr">Se outra, qual?</label>
+        <input type="text" id="Tipo_Deficiencia_Outra_Descr" name="Tipo_Deficiencia_Outra">
       </div>
 
       <div class="campo">
-        <label for="Pessoas_Acamadas_ou_Mobilidade_Reduzida">Pessoas acamadas ou com mobilidade reduzida?</label>
+        <label for="Pessoas_Acamadas_ou_Mobilidade_Reduzida">Pessoas acamadas ou com mobilidade reduzida? (quantidade)</label>
         <input type="number" id="Pessoas_Acamadas_ou_Mobilidade_Reduzida" name="Pessoas_Acamadas_ou_Mobilidade_Reduzida" min="0">
       </div>
 
       <div class="campo">
-        <label for="Pessoa_Questao_Saude_Qtde">Pessoa com alguma questão de saúde/doença recorrente?</label>
+        <label for="Pessoa_Questao_Saude_Qtde">Pessoa com alguma questão de saúde/doença recorrente? (quantidade)</label>
         <input type="number" id="Pessoa_Questao_Saude_Qtde" name="Pessoa_Questao_Saude_Qtde" min="0">
       </div>
 
       <div class="campo">
-        <label>Qual o tipo? (Pessoa_Questao_Saude_Tipo)</label>
-        <select name="Pessoa_Questao_Saude_Tipo">
-          <option value="">Selecione...</option>
-          <option value="Problemas_respiratorios">Problemas respiratórios</option>
-          <option value="Problemas_gastrointestinais">Problemas gastrointestinais</option>
-          <option value="Doencas_de_pele">Doenças de pele</option>
-          <option value="Dengue_zika_chikungunya">Dengue, zika, chikungunya</option>
-          <option value="Leptospirose">Leptospirose</option>
-          <option value="Depressao_e_Ansiedade">Depressão e Ansiedade</option>
-          <option value="Outra">Outra</option>
-        </select>
+        <label>Tipo de questão de saúde (Pessoa_Questao_Saude_Tipo)</label>
+        <div class="opcoes">
+          <label class="opcao"><input type="checkbox" name="Pessoa_Questao_Saude_Tipo" value="Respiratorios"> Problemas respiratórios</label>
+          <label class="opcao"><input type="checkbox" name="Pessoa_Questao_Saude_Tipo" value="Gastrointestinais"> Problemas gastrointestinais</label>
+          <label class="opcao"><input type="checkbox" name="Pessoa_Questao_Saude_Tipo" value="Pele"> Doenças de pele</label>
+          <label class="opcao"><input type="checkbox" name="Pessoa_Questao_Saude_Tipo" value="Dengue_zika_chikungunya"> Dengue, zika, chikungunya</label>
+          <label class="opcao"><input type="checkbox" name="Pessoa_Questao_Saude_Tipo" value="Leptospirose"> Leptospirose</label>
+          <label class="opcao"><input type="checkbox" name="Pessoa_Questao_Saude_Tipo" value="Depressao_ansiedade"> Depressão e Ansiedade</label>
+          <label class="opcao"><input type="checkbox" name="Pessoa_Questao_Saude_Tipo_Outra" value="Outra"> Outra</label>
+        </div>
       </div>
 
       <div class="campo">
-        <label for="Pessoa_Questao_Saude_Tipo_Outra">Qual outra questão de saúde?</label>
-        <input type="text" id="Pessoa_Questao_Saude_Tipo_Outra" name="Pessoa_Questao_Saude_Tipo_Outra">
+        <label for="Pessoa_Questao_Saude_Tipo_Outra_Descr">Se outra, qual?</label>
+        <input type="text" id="Pessoa_Questao_Saude_Tipo_Outra_Descr" name="Pessoa_Questao_Saude_Tipo_Outra">
       </div>
 
       <div class="campo">
-        <label for="Gestantes_Qtde">Pessoas gestantes?</label>
+        <label for="Gestantes_Qtde">Pessoas gestantes? (quantidade)</label>
         <input type="number" id="Gestantes_Qtde" name="Gestantes_Qtde" min="0">
       </div>
 
       <div class="campo">
-        <label for="Criancas_Adolescentes_Fora_Escola_Qtde">Crianças/adolescentes em idade escolar fora da escola?</label>
+        <label for="Criancas_Adolescentes_Fora_Escola_Qtde">Crianças/adolescentes em idade escolar fora da escola? (quantidade)</label>
         <input type="number" id="Criancas_Adolescentes_Fora_Escola_Qtde" name="Criancas_Adolescentes_Fora_Escola_Qtde" min="0">
       </div>
 
       <div class="campo">
-        <label for="Pessoas_Busca_Emprego_Capacitacao_Qtde">Pessoas em busca de emprego ou capacitação?</label>
+        <label for="Pessoas_Busca_Emprego_Capacitacao_Qtde">Pessoas em busca de emprego ou capacitação? (quantidade)</label>
         <input type="number" id="Pessoas_Busca_Emprego_Capacitacao_Qtde" name="Pessoas_Busca_Emprego_Capacitacao_Qtde" min="0">
       </div>
 
@@ -438,67 +456,63 @@
 
       <div class="campo">
         <label>Tipo de ocupação (Tipo_Ocupacao)</label>
-        <select name="Tipo_Ocupacao">
-          <option value="">Selecione...</option>
-          <option value="Propria">Própria</option>
-          <option value="Cedida">Cedida</option>
-          <option value="Alugada">Alugada</option>
-          <option value="Ocupada">Ocupada</option>
-          <option value="Heranca_familiar">Herança familiar</option>
-          <option value="Outra">Outra</option>
-        </select>
+        <div class="opcoes">
+          <label class="opcao"><input type="radio" name="Tipo_Ocupacao" value="Propria"> Própria</label>
+          <label class="opcao"><input type="radio" name="Tipo_Ocupacao" value="Cedida"> Cedida</label>
+          <label class="opcao"><input type="radio" name="Tipo_Ocupacao" value="Alugada"> Alugada</label>
+          <label class="opcao"><input type="radio" name="Tipo_Ocupacao" value="Ocupada"> Ocupada</label>
+          <label class="opcao"><input type="radio" name="Tipo_Ocupacao" value="Heranca_familiar"> Herança familiar</label>
+          <label class="opcao"><input type="radio" name="Tipo_Ocupacao" value="Outra"> Outra</label>
+        </div>
       </div>
 
       <div class="campo">
-        <label for="Tipo_Ocupacao_Outra">Qual outra ocupação?</label>
-        <input type="text" id="Tipo_Ocupacao_Outra" name="Tipo_Ocupacao_Outra">
+        <label for="Tipo_Ocupacao_Outra_Descr">Se outra, qual? (Tipo_Ocupacao_Outra)</label>
+        <input type="text" id="Tipo_Ocupacao_Outra_Descr" name="Tipo_Ocupacao_Outra">
       </div>
 
       <div class="campo">
         <label>Possui documento da moradia? (Possui_Documento_Moradia)</label>
-        <select name="Possui_Documento_Moradia">
-          <option value="">Selecione...</option>
-          <option value="Sim">Sim</option>
-          <option value="Nao">Não</option>
-          <option value="Nao_sabe">Não sabe</option>
-        </select>
+        <div class="opcoes">
+          <label class="opcao"><input type="radio" name="Possui_Documento_Moradia" value="Sim"> Sim</label>
+          <label class="opcao"><input type="radio" name="Possui_Documento_Moradia" value="Nao"> Não</label>
+          <label class="opcao"><input type="radio" name="Possui_Documento_Moradia" value="Nao_sabe"> Não sabe</label>
+        </div>
       </div>
 
       <div class="campo">
         <label>Tipo de documento (Tipo_Documento)</label>
-        <select name="Tipo_Documento">
-          <option value="">Selecione...</option>
-          <option value="Escritura">Escritura</option>
-          <option value="Contrato">Contrato</option>
-          <option value="Recibo">Recibo</option>
-          <option value="Outro">Outro</option>
-        </select>
+        <div class="opcoes">
+          <label class="opcao"><input type="radio" name="Tipo_Documento" value="Escritura"> Escritura</label>
+          <label class="opcao"><input type="radio" name="Tipo_Documento" value="Contrato"> Contrato</label>
+          <label class="opcao"><input type="radio" name="Tipo_Documento" value="Recibo"> Recibo</label>
+          <label class="opcao"><input type="radio" name="Tipo_Documento_Outro" value="Outro"> Outro</label>
+        </div>
       </div>
 
       <div class="campo">
-        <label for="Tipo_Documento_Outro">Qual outro documento?</label>
-        <input type="text" id="Tipo_Documento_Outro" name="Tipo_Documento_Outro">
+        <label for="Tipo_Documento_Outro_Descr">Se outro, qual? (Tipo_Documento_Outro)</label>
+        <input type="text" id="Tipo_Documento_Outro_Descr" name="Tipo_Documento_Outro">
       </div>
 
       <h2>6. Acesso a serviços públicos</h2>
 
       <div class="campo">
-        <label for="Servico_Saude_Referencia">Serviço de saúde de referência (UBS/serviço)</label>
+        <label for="Servico_Saude_Referencia">Serviço de saúde de referência</label>
         <input type="text" id="Servico_Saude_Referencia" name="Servico_Saude_Referencia">
       </div>
 
       <div class="campo">
         <label>Acesso à saúde (Acesso_Saude)</label>
-        <select name="Acesso_Saude">
-          <option value="">Selecione...</option>
-          <option value="Acessa">Acessa</option>
-          <option value="Nao_acessa">Não acessa</option>
-          <option value="Com_dificuldade">Com dificuldade</option>
-        </select>
+        <div class="opcoes">
+          <label class="opcao"><input type="radio" name="Acesso_Saude" value="Acessa"> Acessa</label>
+          <label class="opcao"><input type="radio" name="Acesso_Saude" value="Nao_acessa"> Não acessa</label>
+          <label class="opcao"><input type="radio" name="Acesso_Saude" value="Com_dificuldade"> Com dificuldade</label>
+        </div>
       </div>
 
       <div class="campo">
-        <label for="Acesso_Saude_Dificuldade_Qual">Qual a dificuldade?</label>
+        <label for="Acesso_Saude_Dificuldade_Qual">Se com dificuldade, qual?</label>
         <input type="text" id="Acesso_Saude_Dificuldade_Qual" name="Acesso_Saude_Dificuldade_Qual">
       </div>
 
@@ -506,9 +520,9 @@
         <label>Crianças/adolescentes na escola (Criancas_Adolescentes_Escola)</label>
         <select name="Criancas_Adolescentes_Escola">
           <option value="">Selecione...</option>
-          <option value="Todas_os_frequentam">Todas/os frequentam</option>
-          <option value="Algumas_ns_frequentam">Algumas/ns frequentam</option>
-          <option value="Nenhuma_o_frequenta">Nenhuma/o frequenta</option>
+          <option value="Todas_frequentam">Todas/os frequentam</option>
+          <option value="Algumas_frequentam">Algumas/ns frequentam</option>
+          <option value="Nenhuma_frequenta">Nenhuma/o frequenta</option>
           <option value="Nao_se_aplica">Não se aplica</option>
         </select>
       </div>
@@ -533,17 +547,25 @@
       </div>
 
       <div class="campo">
-        <label>Acesso ao CRAS/CREAS/Política de Assistência Social (Acesso_Assistencia_Social)</label>
-        <select name="Acesso_Assistencia_Social">
-          <option value="">Selecione...</option>
-          <option value="Sim">Sim</option>
-          <option value="Nao">Não</option>
-          <option value="Nao_sabe">Não sabe</option>
-        </select>
+        <label>Acesso ao CRAS/CREAS/Assistência Social (Acesso_Assistencia_Social)</label>
+        <div class="opcoes">
+          <label class="opcao">
+            <input type="radio" name="Acesso_Assistencia_Social" value="Sim">
+            Sim
+          </label>
+          <label class="opcao">
+            <input type="radio" name="Acesso_Assistencia_Social" value="Nao">
+            Não
+          </label>
+          <label class="opcao">
+            <input type="radio" name="Acesso_Assistencia_Social" value="Nao_sabe">
+            Não sabe
+          </label>
+        </div>
       </div>
 
       <div class="campo">
-        <label for="Acesso_Assistencia_Social_Tipo">Qual?</label>
+        <label for="Acesso_Assistencia_Social_Tipo">Se sim, qual? (Acesso_Assistencia_Social_Tipo)</label>
         <input type="text" id="Acesso_Assistencia_Social_Tipo" name="Acesso_Assistencia_Social_Tipo">
       </div>
 
@@ -562,44 +584,44 @@
       <div id="mensagem" class="mensagem"></div>
     </form>
   </main>
-<script>
-  const URL_APP_SCRIPT = 'https://script.google.com/macros/s/AKfycbxtJMn956LGP3V4Jsu6wAQhNiKXUDQjMxMpzUcP3HvI32ZVX_a60k2_YdNuFTqEHQnr/exec';
 
-  const formSocial = document.getElementById('formVisitaSocial');
-  const msgSocial = document.getElementById('mensagem');
+  <script>
+    const URL_APP_SCRIPT = 'https://script.google.com/macros/s/AKfycbxtJMn956LGP3V4Jsu6wAQhNiKXUDQjMxMpzUcP3HvI32ZVX_a60k2_YdNuFTqEHQnr/exec';
 
-  formSocial.addEventListener('submit', async (event) => {
-    event.preventDefault();
-    msgSocial.textContent = 'Enviando...';
-    msgSocial.className = 'mensagem';
+    const formSocial = document.getElementById('formVisitaSocial');
+    const msgSocial = document.getElementById('mensagem');
 
-    const formData = new FormData(formSocial);
-    const payload = { acao: 'salvar-visita-social' }; // TEM que ser exatamente isso
+    formSocial.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      msgSocial.textContent = 'Enviando...';
+      msgSocial.className = 'mensagem';
 
-    for (const [chave, valor] of formData.entries()) {
-      payload[chave] = valor;
-    }
+      const formData = new FormData(formSocial);
+      const payload = { acao: 'salvar-visita-social' };
 
-    try {
-      await fetch(URL_APP_SCRIPT, {
-        method: 'POST',
-        mode: 'no-cors',           // igual pré-cadastro e técnica
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(payload)
-      });
+      for (const [chave, valor] of formData.entries()) {
+        payload[chave] = valor;
+      }
 
-      msgSocial.textContent = 'Ficha social salva com sucesso. Confira na aba VisitaSocial da planilha.';
-      msgSocial.className = 'mensagem sucesso';
-      formSocial.reset();
-    } catch (erro) {
-      console.error(erro);
-      msgSocial.textContent = 'Erro ao enviar: ' + erro.message;
-      msgSocial.className = 'mensagem erro';
-    }
-  });
-</script>
- 
+      try {
+        await fetch(URL_APP_SCRIPT, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        msgSocial.textContent = 'Ficha social salva com sucesso. Confira na aba VisitaSocial da planilha.';
+        msgSocial.className = 'mensagem sucesso';
+        formSocial.reset();
+      } catch (erro) {
+        console.error(erro);
+        msgSocial.textContent = 'Erro ao enviar: ' + erro.message;
+        msgSocial.className = 'mensagem erro';
+      }
+    });
+  </script>
 </body>
 </html>
