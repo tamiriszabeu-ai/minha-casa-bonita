@@ -148,7 +148,7 @@
 </header>
 
 <main>
-  <h2>Ficha de Pré‑cadastro</h2>
+  <h2 id="form-title">Formulário de Pré‑cadastro</h2>
 
   <div class="lgpd-box">
     <p>
@@ -164,12 +164,7 @@
       <label>Declaração de ciência (LGPD)</label>
       <div class="opcoes">
         <label class="opcao">
-          <input type="radio" name="LGPD_Ciente" value="Sim" required>
-          <span>Declaro que fui informado(a) sobre a coleta e tratamento dos meus dados.</span>
-        </label>
-        <label class="opcao">
-          <input type="radio" name="LGPD_Ciente" value="Nao">
-          <span>Não concorda / não foi possível obter ciência formal.</span>
+          <input type="radio" name="LGPD_Ciente" value="Sim" required> Declaro que fui informado(a) sobre a finalidade da coleta e do tratamento dos meus dados pessoais e dos registros fotográficos técnicos do imóvel no âmbito do Programa Minha Casa + Bonita.
         </label>
       </div>
     </div>
@@ -181,60 +176,49 @@
     </div>
 
     <div class="campo">
-      <label for="Data_Nascimento">Data de nascimento</label>
-      <input type="date" id="Data_Nascimento" name="Data_Nascimento" required>
+      <label for="Nome_Social">Nome social, se houver</label>
+      <input type="text" id="Nome_Social" name="Nome_Social">
     </div>
 
     <div class="campo">
       <label for="CPF">CPF</label>
-      <input type="text" id="CPF" name="CPF" placeholder="000.000.000-00" required>
+      <input type="text" id="CPF" name="CPF" pattern="\d{3}\.?\d{3}\.?\d{3}-?\d{2}" placeholder="000.000.000-00" required>
     </div>
 
     <div class="campo">
-      <label for="Endereco">Endereço</label>
-      <input type="text" id="Endereco" name="Endereco" required>
+      <label for="ID_Domicilio">ID do domicílio</label>
+      <input type="text" id="ID_Domicilio" name="ID_Domicilio" placeholder="Ex.: DOM-001">
+    </div>
+
+    <div class="campo">
+      <label for="Data_Nascimento">Data de nascimento</label>
+      <input type="date" id="Data_Nascimento" name="Data_Nascimento">
     </div>
 
     <div class="campo">
       <label for="Telefone">Telefone</label>
-      <input type="tel" id="Telefone" name="Telefone" placeholder="(21) 00000‑0000" required>
-      <div class="opcoes" style="margin-top:6px;">
-        <span>WhatsApp:</span>
-        <label class="opcao">
-          <input type="radio" name="WhatsApp_Sim_Nao" value="Sim" required> Sim
-        </label>
-        <label class="opcao">
-          <input type="radio" name="WhatsApp_Sim_Nao" value="Nao"> Não
-        </label>
-      </div>
+      <input type="tel" id="Telefone" name="Telefone" pattern="|$\d{2}$|\s*\d{4,5}-?\d{4}" placeholder="(00) 90000-0000">
     </div>
 
     <div class="campo">
-      <label>Possui renda familiar de até 3 salários mínimos?</label>
-      <div class="opcoes">
-        <label class="opcao">
-          <input type="radio" name="Renda_Familiar_Ate_3_Salarios_Minimos" value="Sim" required> Sim
-        </label>
-        <label class="opcao">
-          <input type="radio" name="Renda_Familiar_Ate_3_Salarios_Minimos" value="Nao"> Não
-        </label>
-      </div>
+      <label for="Email">E-mail</label>
+      <input type="email" id="Email" name="Email">
+    </div>
+
+    <!-- Endereço -->
+    <div class="campo">
+      <label for="Endereco_Completo">Endereço completo</label>
+      <input type="text" id="Endereco_Completo" name="Endereco_Completo" placeholder="Rua, número, complemento, bairro" required>
     </div>
 
     <div class="campo">
-      <label>Reside no município de Maricá há mais de 3 anos?</label>
-      <div class="opcoes">
-        <label class="opcao">
-          <input type="radio" name="Reside_Marica_Mais_3_Anos" value="Sim" required> Sim
-        </label>
-        <label class="opcao">
-          <input type="radio" name="Reside_Marica_Mais_3_Anos" value="Nao"> Não
-        </label>
-      </div>
+      <label for="CEP">CEP</label>
+      <input type="text" id="CEP" name="CEP" pattern="\d{5}-?\d{3}" placeholder="00000-000">
     </div>
 
+    <!-- Informações da moradia -->
     <div class="campo">
-      <label>Proprietário(a) do imóvel?</label>
+      <label>É proprietário(a) do imóvel?</label>
       <div class="opcoes">
         <label class="opcao">
           <input type="radio" name="Proprietario_Imovel" value="Sim" required> Sim
@@ -302,7 +286,7 @@
     try {
       const resposta = await fetch(URL_APP_SCRIPT, {
         method: 'POST',
-        mode: 'no-cors', // você já está usando assim
+        mode: 'no-cors',
         headers: {
           'Content-Type': 'application/json'
         },
