@@ -213,5 +213,136 @@
         <label>Renda familiar total mensal de até 3 salários mínimos?</label>
         <div class="opcoes">
           <label class="opcao"><input type="radio" name="Renda_Familiar_Ate_3_Salarios_Minimos" value="Sim"> Sim</label>
-          <label class="opcao"><input type
+          <label class="opcao"><input type="radio" name="Renda_Familiar_Ate_3_Salarios_Minimos" value="Nao"> Não</label>
+        </div>
+      </div>
 
+      <div class="campo">
+        <label>Possui outro imóvel?</label>
+        <div class="opcoes">
+          <label class="opcao"><input type="radio" name="Possui_Outro_Imovel" value="Sim"> Sim</label>
+          <label class="opcao"><input type="radio" name="Possui_Outro_Imovel" value="Nao"> Não</label>
+        </div>
+      </div>
+
+      <div class="campo">
+        <label>Já foi beneficiado por outro programa habitacional?</label>
+        <div class="opcoes">
+          <label class="opcao"><input type="radio" name="Beneficiado_Outro_Programa" value="Sim"> Sim</label>
+          <label class="opcao"><input type="radio" name="Beneficiado_Outro_Programa" value="Nao"> Não</label>
+        </div>
+      </div>
+
+      <div class="campo">
+        <label>É proprietário de imóvel?</label>
+        <div class="opcoes">
+          <label class="opcao"><input type="radio" name="Proprietario_Imovel" value="Sim"> Sim</label>
+          <label class="opcao"><input type="radio" name="Proprietario_Imovel" value="Nao"> Não</label>
+        </div>
+      </div>
+
+      <div class="campo">
+        <label>Possui terreno próprio?</label>
+        <div class="opcoes">
+          <label class="opcao"><input type="radio" name="Terreno_Proprio" value="Sim"> Sim</label>
+          <label class="opcao"><input type="radio" name="Terreno_Proprio" value="Nao"> Não</label>
+        </div>
+      </div>
+
+      <div class="campo">
+        <label>Reside em área de risco?</label>
+        <div class="opcoes">
+          <label class="opcao"><input type="radio" name="Reside_Area_Risco" value="Sim"> Sim</label>
+          <label class="opcao"><input type="radio" name="Reside_Area_Risco" value="Nao"> Não</label>
+        </div>
+      </div>
+
+      <div class="campo">
+        <label>Possui pessoa com deficiência na família?</label>
+        <div class="opcoes">
+          <label class="opcao"><input type="radio" name="Pessoa_Com_Deficiencia_Familia" value="Sim"> Sim</label>
+          <label class="opcao"><input type="radio" name="Pessoa_Com_Deficiencia_Familia" value="Nao"> Não</label>
+        </div>
+      </div>
+
+      <div class="campo">
+        <label>Possui idoso na família?</label>
+        <div class="opcoes">
+          <label class="opcao"><input type="radio" name="Idoso_Familia" value="Sim"> Sim</label>
+          <label class="opcao"><input type="radio" name="Idoso_Familia" value="Nao"> Não</label>
+        </div>
+      </div>
+
+      <div class="campo">
+        <label>Possui criança ou adolescente na família?</label>
+        <div class="opcoes">
+          <label class="opcao"><input type="radio" name="Crianca_Adolescente_Familia" value="Sim"> Sim</label>
+          <label class="opcao"><input type="radio" name="Crianca_Adolescente_Familia" value="Nao"> Não</label>
+        </div>
+      </div>
+
+      <div class="campo">
+        <label>É mulher chefe de família?</label>
+        <div class="opcoes">
+          <label class="opcao"><input type="radio" name="Mulher_Chefe_Familia" value="Sim"> Sim</label>
+          <label class="opcao"><input type="radio" name="Mulher_Chefe_Familia" value="Nao"> Não</label>
+        </div>
+      </div>
+
+      <div class="campo">
+        <label>É família em situação de vulnerabilidade social?</label>
+        <div class="opcoes">
+          <label class="opcao"><input type="radio" name="Vulnerabilidade_Social" value="Sim"> Sim</label>
+          <label class="opcao"><input type="radio" name="Vulnerabilidade_Social" value="Nao"> Não</label>
+        </div>
+      </div>
+
+      <div class="botoes">
+        <button type="submit">Enviar Pré-cadastro</button>
+        <button type="button" onclick="document.getElementById('formPreCadastro').reset()">Limpar</button>
+      </div>
+
+      <div id="mensagem" class="mensagem"></div>
+    </form>
+  </main>
+
+  <script>
+    const URL_APP_SCRIPT = 'https://script.google.com/macros/s/AKfycby92RZqV1RAyRrtSzPshevptdJy0vU6uzJOWdhY5fkJ5-V1ZRh6kzbf7onfCpbALCAO/exec';
+
+    const formPreCadastro = document.getElementById('formPreCadastro');
+    const msgPreCadastro = document.getElementById('mensagem');
+
+    formPreCadastro.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      msgPreCadastro.textContent = 'Enviando...';
+      msgPreCadastro.className = 'mensagem';
+
+      const formData = new FormData(formPreCadastro);
+      const payload = { acao: 'salvar-pre-cadastro' }; // Ação para o pré-cadastro
+
+      for (const [chave, valor] of formData.entries()) {
+        payload[chave] = valor;
+      }
+
+      try {
+        await fetch(URL_APP_SCRIPT, {
+          method: 'POST',
+          mode: 'no-cors', // Necessário para evitar erros de CORS em Apps Script
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        msgPreCadastro.textContent = 'Pré-cadastro enviado com sucesso. Aguarde o contato da equipe.';
+        msgPreCadastro.className = 'mensagem sucesso';
+        formPreCadastro.reset();
+      } catch (erro) {
+        console.error(erro);
+        msgPreCadastro.textContent = 'Erro ao enviar o pré-cadastro: ' + erro.message;
+        msgPreCadastro.className = 'mensagem erro';
+      }
+    });
+  </script>
+</body>
+</html>
