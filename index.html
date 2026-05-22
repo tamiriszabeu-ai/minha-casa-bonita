@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>Minha Casa + Bonita – Pré-cadastro</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <style>
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -15,13 +16,36 @@
       background: #00695c;
       color: #fff;
       padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
     }
     header h1 {
       margin: 0;
       font-size: 20px;
     }
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      gap: 16px;
+      font-size: 14px;
+    }
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      border-bottom: 2px solid transparent;
+      padding-bottom: 2px;
+    }
+    nav a:hover {
+      border-bottom-color: #fff;
+    }
     main {
-      max-width: 800px;
+      max-width: 900px;
       margin: 24px auto;
       background: #fff;
       padding: 24px;
@@ -29,9 +53,11 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     }
     h2 {
-      margin-top: 0;
+      margin-top: 24px;
       font-size: 18px;
       color: #333;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 4px;
     }
     .lgpd-box {
       background: #e8f5e9;
@@ -42,7 +68,7 @@
       line-height: 1.4;
     }
     .campo {
-      margin-bottom: 16px;
+      margin-bottom: 12px;
     }
     .campo label {
       display: block;
@@ -50,10 +76,10 @@
       margin-bottom: 4px;
     }
     .campo input[type="text"],
-    .campo input[type="date"],
-    .campo input[type="tel"],
     .campo input[type="number"],
-    .campo textarea {
+    .campo input[type="date"],
+    .campo textarea,
+    .campo select {
       width: 100%;
       padding: 8px 10px;
       border-radius: 4px;
@@ -68,7 +94,7 @@
     .opcoes {
       display: flex;
       flex-wrap: wrap;
-      gap: 12px;
+      gap: 10px 16px;
       font-size: 14px;
     }
     .opcao {
@@ -109,185 +135,214 @@
   </style>
 </head>
 <body>
+  <header>
+    <h1>Minha Casa + Bonita</h1>
+    <nav>
+      <ul>
+        <li><a href="/">Pré-cadastro</a></li>
+        <li><a href="/visita-social.html">Ficha Social</a></li>
+        <li><a href="/visita-tecnica.html">Visita Técnica</a></li>
+      </ul>
+    </nav>
+  </header>
 
-<header>
-  <h1>Minha Casa + Bonita – Ficha de Pré‑cadastro</h1>
-</header>
-
-<main>
-  <h2>Formulário de Pré‑cadastro</h2>
-
-  <div class="lgpd-box">
-    <p>
-      Durante a visita, serão coletadas informações pessoais, familiares, socioeconômicas e habitacionais
-      para avaliação técnica e social no âmbito do Programa Minha Casa + Bonita, conforme a Lei Geral de
-      Proteção de Dados (Lei nº 13.709/2018).
-    </p>
-  </div>
-
-  <form id="formPreCadastro">
-    <!-- LGPD -->
-    <div class="campo">
-      <label>Declaração de ciência (LGPD)</label>
-      <div class="opcoes">
-        <label class="opcao">
-          <input type="radio" name="LGPD_Ciente" value="Sim" required>
-          <span>Declaro que fui informado(a) sobre a coleta e tratamento dos meus dados.</span>
-        </label>
-        <label class="opcao">
-          <input type="radio" name="LGPD_Ciente" value="Nao">
-          <span>Não concorda / não foi possível obter ciência formal.</span>
-        </label>
+  <main>
+    <form id="formPreCadastro">
+      <div class="lgpd-box">
+        <p>
+          A presente visita domiciliar integra o Programa Minha Casa + Bonita, política pública de melhoria habitacional e assistência técnica de interesse social, realizada no território do Risca Faca.
+        </p>
+        <p>
+          Durante a visita, serão coletadas informações pessoais, familiares, socioeconômicas e habitacionais para avaliação técnica e social. Também poderão ser feitos registros fotográficos do imóvel, incluindo áreas que necessitam de melhorias, com o objetivo de elaborar laudos, planejar intervenções, executar melhorias e prestar contas do Programa.
+        </p>
+        <p>
+          Os dados pessoais e registros técnicos serão utilizados apenas para execução, acompanhamento e prestação de contas do Programa, conforme a Lei Geral de Proteção de Dados (Lei nº 13.709/2018). O acesso às informações será restrito à equipe técnica, Prefeitura e parceiros envolvidos, garantindo confidencialidade, segurança e uso adequado dos dados.
+        </p>
+        <p>
+          Informações sobre deficiência, saúde ou vulnerabilidade serão utilizadas apenas quando necessárias para avaliação e adequação do atendimento, com proteção e cuidado no tratamento dos dados necessários para avaliação técnica e social, priorização, adequação do atendimento e garantia de direitos.
+        </p>
+        <div class="campo">
+          <label>Declaração de ciência (LGPD_Ciente)</label>
+          <div class="opcoes">
+            <label class="opcao">
+              <input type="radio" name="LGPD_Ciente" value="Sim" required>
+              <span>Declaro que fui informado(a) sobre a finalidade da coleta e do tratamento dos meus dados pessoais e dos registros fotográficos técnicos do imóvel no âmbito do Programa Minha Casa + Bonita.</span>
+            </label>
+          </div>
+        </div>
       </div>
-    </div>
 
-    <!-- Identificação da/o responsável -->
-    <div class="campo">
-      <label for="Nome_Completo">Nome completo</label>
-      <input type="text" id="Nome_Completo" name="Nome_Completo" required>
-    </div>
+      <h2>1. Identificação da/o responsável familiar</h2>
 
-    <div class="campo">
-      <label for="Data_Nascimento">Data de nascimento</label>
-      <input type="date" id="Data_Nascimento" name="Data_Nascimento" required>
-    </div>
-
-    <div class="campo">
-      <label for="CPF">CPF</label>
-      <input type="text" id="CPF" name="CPF" placeholder="000.000.000-00" required>
-    </div>
-
-    <div class="campo">
-      <label for="Endereco">Endereço</label>
-      <input type="text" id="Endereco" name="Endereco" required>
-    </div>
-
-    <div class="campo">
-      <label for="Telefone">Telefone</label>
-      <input type="tel" id="Telefone" name="Telefone" placeholder="(21) 00000‑0000" required>
-      <div class="opcoes" style="margin-top:6px;">
-        <span>WhatsApp:</span>
-        <label class="opcao">
-          <input type="radio" name="WhatsApp_Sim_Nao" value="Sim" required> Sim
-        </label>
-        <label class="opcao">
-          <input type="radio" name="WhatsApp_Sim_Nao" value="Nao"> Não
-        </label>
+      <div class="campo">
+        <label for="Nome_Completo">Nome completo</label>
+        <input type="text" id="Nome_Completo" name="Nome_Completo" required>
       </div>
-    </div>
 
-    <div class="campo">
-      <label>Possui renda familiar de até 3 salários mínimos?</label>
-      <div class="opcoes">
-        <label class="opcao">
-          <input type="radio" name="Renda_Familiar_Ate_3_Salarios_Minimos" value="Sim" required> Sim
-        </label>
-        <label class="opcao">
-          <input type="radio" name="Renda_Familiar_Ate_3_Salarios_Minimos" value="Nao"> Não
-        </label>
+      <div class="campo">
+        <label for="Data_Nascimento">Data de nascimento</label>
+        <input type="date" id="Data_Nascimento" name="Data_Nascimento">
       </div>
-    </div>
 
-    <div class="campo">
-      <label>Reside no município de Maricá há mais de 3 anos?</label>
-      <div class="opcoes">
-        <label class="opcao">
-          <input type="radio" name="Reside_Marica_Mais_3_Anos" value="Sim" required> Sim
-        </label>
-        <label class="opcao">
-          <input type="radio" name="Reside_Marica_Mais_3_Anos" value="Nao"> Não
-        </label>
+      <div class="campo">
+        <label for="CPF">CPF</label>
+        <input type="text" id="CPF" name="CPF">
       </div>
-    </div>
 
-    <div class="campo">
-      <label>Proprietário(a) do imóvel?</label>
-      <div class="opcoes">
-        <label class="opcao">
-          <input type="radio" name="Proprietario_Imovel" value="Sim" required> Sim
-        </label>
-        <label class="opcao">
-          <input type="radio" name="Proprietario_Imovel" value="Nao"> Não
-        </label>
+      <div class="campo">
+        <label for="Endereco">Endereço completo</label>
+        <input type="text" id="Endereco" name="Endereco">
       </div>
-    </div>
 
-    <div class="campo">
-      <label>Atualmente reside no imóvel?</label>
-      <div class="opcoes">
-        <label class="opcao">
-          <input type="radio" name="Reside_Imovel_Atualmente" value="Sim" required> Sim
-        </label>
-        <label class="opcao">
-          <input type="radio" name="Reside_Imovel_Atualmente" value="Nao"> Não
-        </label>
+      <div class="campo">
+        <label for="Telefone">Telefone</label>
+        <input type="text" id="Telefone" name="Telefone">
       </div>
-    </div>
 
-    <div class="campo">
-      <label for="Data_Agendamento_Visita">Data do agendamento da visita</label>
-      <input type="date" id="Data_Agendamento_Visita" name="Data_Agendamento_Visita">
-    </div>
+      <div class="campo">
+        <label>Possui WhatsApp?</label>
+        <div class="opcoes">
+          <label class="opcao"><input type="radio" name="WhatsApp_Sim_Nao" value="Sim"> Sim</label>
+          <label class="opcao"><input type="radio" name="WhatsApp_Sim_Nao" value="Nao"> Não</label>
+        </div>
+      </div>
 
-    <div class="campo">
-      <label for="Horario_Agendamento_Visita">Horário do agendamento</label>
-      <input type="time" id="Horario_Agendamento_Visita" name="Horario_Agendamento_Visita">
-    </div>
+      <h2>2. Critérios de elegibilidade</h2>
 
-    <div class="campo">
-      <label for="Observacoes">Observações</label>
-      <textarea id="Observacoes" name="Observacoes"></textarea>
-    </div>
+      <div class="campo">
+        <label>Renda familiar total mensal de até 3 salários mínimos?</label>
+        <div class="opcoes">
+          <label class="opcao"><input type="radio" name="Renda_Familiar_Ate_3_Salarios_Minimos" value="Sim"> Sim</label>
+          <label class="opcao"><input type="radio" name="Renda_Familiar_Ate_3_Salarios_Minimos" value="Nao"> Não</label>
+        </div>
+      </div>
 
-    <div class="botoes">
-      <button type="submit">Enviar pré‑cadastro</button>
-      <button type="button" onclick="document.getElementById('formPreCadastro').reset()">Limpar</button>
-    </div>
+      <div class="campo">
+        <label>Possui outro imóvel?</label>
+        <div class="opcoes">
+          <label class="opcao"><input type="radio" name="Possui_Outro_Imovel" value="Sim"> Sim</label>
+          <label class="opcao"><input type="radio" name="Possui_Outro_Imovel" value="Nao"> Não</label>
+        </div>
+      </div>
 
-    <div id="mensagem" class="mensagem"></div>
-  </form>
-</main>
+      <div class="campo">
+        <label>Já foi beneficiado por outro programa habitacional?</label>
+        <div class="opcoes">
+          <label class="opcao"><input type="radio" name="Beneficiado_Outro_Programa" value="Sim"> Sim</label>
+          <label class="opcao"><input type="radio" name="Beneficiado_Outro_Programa" value="Nao"> Não</label>
+        </div>
+      </div>
 
-<script>
-  const URL_APP_SCRIPT = 'https://script.google.com/macros/s/AKfycbxtJMn956LGP3V4Jsu6wAQhNiKXUDQjMxMpzUcP3HvI32ZVX_a60k2_YdNuFTqEHQnr/exec';
+      <div class="campo">
+        <label>É proprietário de imóvel?</label>
+        <div class="opcoes">
+          <label class="opcao"><input type="radio" name="Proprietario_Imovel" value="Sim"> Sim</label>
+          <label class="opcao"><input type="radio" name="Proprietario_Imovel" value="Nao"> Não</label>
+        </div>
+      </div>
 
-  const form = document.getElementById('formPreCadastro');
-  const msg = document.getElementById('mensagem');
+      <div class="campo">
+        <label>Possui terreno próprio?</label>
+        <div class="opcoes">
+          <label class="opcao"><input type="radio" name="Terreno_Proprio" value="Sim"> Sim</label>
+          <label class="opcao"><input type="radio" name="Terreno_Proprio" value="Nao"> Não</label>
+        </div>
+      </div>
 
-  form.addEventListener('submit', async (event) => {
-    event.preventDefault();
-    msg.textContent = 'Enviando...';
-    msg.className = 'mensagem';
+      <div class="campo">
+        <label>Reside em área de risco?</label>
+        <div class="opcoes">
+          <label class="opcao"><input type="radio" name="Reside_Area_Risco" value="Sim"> Sim</label>
+          <label class="opcao"><input type="radio" name="Reside_Area_Risco" value="Nao"> Não</label>
+        </div>
+      </div>
 
-    const formData = new FormData(form);
-    const payload = { acao: 'salvar-pre-cadastro' };
+      <div class="campo">
+        <label>Possui pessoa com deficiência na família?</label>
+        <div class="opcoes">
+          <label class="opcao"><input type="radio" name="Pessoa_Com_Deficiencia_Familia" value="Sim"> Sim</label>
+          <label class="opcao"><input type="radio" name="Pessoa_Com_Deficiencia_Familia" value="Nao"> Não</label>
+        </div>
+      </div>
 
-    for (const [chave, valor] of formData.entries()) {
-      payload[chave] = valor;
-    }
+      <div class="campo">
+        <label>Possui idoso na família?</label>
+        <div class="opcoes">
+          <label class="opcao"><input type="radio" name="Idoso_Familia" value="Sim"> Sim</label>
+          <label class="opcao"><input type="radio" name="Idoso_Familia" value="Nao"> Não</label>
+        </div>
+      </div>
 
-    try {
-      const resposta = await fetch(URL_APP_SCRIPT, {
-        method: 'POST',
-        mode: 'no-cors', // para evitar erro de CORS no GitHub Pages
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(payload)
-      });
+      <div class="campo">
+        <label>Possui criança ou adolescente na família?</label>
+        <div class="opcoes">
+          <label class="opcao"><input type="radio" name="Crianca_Adolescente_Familia" value="Sim"> Sim</label>
+          <label class="opcao"><input type="radio" name="Crianca_Adolescente_Familia" value="Nao"> Não</label>
+        </div>
+      </div>
 
-      // Como estamos usando no-cors, não dá pra ler o JSON de volta.
-      // Então assumimos que deu tudo certo se não houve erro de rede.
-      msg.textContent = 'Pré‑cadastro enviado com sucesso. Confira na aba PreCadastro da planilha.';
-      msg.className = 'mensagem sucesso';
-      form.reset();
-    } catch (erro) {
-      console.error(erro);
-      msg.textContent = 'Erro ao enviar. Verifique sua conexão ou tente novamente mais tarde.';
-      msg.className = 'mensagem erro';
-    }
-  });
-</script>
+      <div class="campo">
+        <label>É mulher chefe de família?</label>
+        <div class="opcoes">
+          <label class="opcao"><input type="radio" name="Mulher_Chefe_Familia" value="Sim"> Sim</label>
+          <label class="opcao"><input type="radio" name="Mulher_Chefe_Familia" value="Nao"> Não</label>
+        </div>
+      </div>
 
+      <div class="campo">
+        <label>É família em situação de vulnerabilidade social?</label>
+        <div class="opcoes">
+          <label class="opcao"><input type="radio" name="Vulnerabilidade_Social" value="Sim"> Sim</label>
+          <label class="opcao"><input type="radio" name="Vulnerabilidade_Social" value="Nao"> Não</label>
+        </div>
+      </div>
+
+      <div class="botoes">
+        <button type="submit">Enviar Pré-cadastro</button>
+        <button type="button" onclick="document.getElementById('formPreCadastro').reset()">Limpar</button>
+      </div>
+
+      <div id="mensagem" class="mensagem"></div>
+    </form>
+  </main>
+
+  <script>
+    const URL_APP_SCRIPT = 'https://script.google.com/macros/s/AKfycby92RZqV1RAyRrtSzPshevptdJy0vU6uzJOWdhY5fkJ5-V1ZRh6kzbf7onfCpbALCAO/exec';
+
+    const formPreCadastro = document.getElementById('formPreCadastro');
+    const msgPreCadastro = document.getElementById('mensagem');
+
+    formPreCadastro.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      msgPreCadastro.textContent = 'Enviando...';
+      msgPreCadastro.className = 'mensagem';
+
+      const formData = new FormData(formPreCadastro);
+      const payload = { acao: 'salvar-pre-cadastro' }; // Ação para o pré-cadastro
+
+      for (const [chave, valor] of formData.entries()) {
+        payload[chave] = valor;
+      }
+
+      try {
+        await fetch(URL_APP_SCRIPT, {
+          method: 'POST',
+          mode: 'no-cors', // Necessário para evitar erros de CORS em Apps Script
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        msgPreCadastro.textContent = 'Pré-cadastro enviado com sucesso. Aguarde o contato da equipe.';
+        msgPreCadastro.className = 'mensagem sucesso';
+        formPreCadastro.reset();
+      } catch (erro) {
+        console.error(erro);
+        msgPreCadastro.textContent = 'Erro ao enviar o pré-cadastro: ' + erro.message;
+        msgPreCadastro.className = 'mensagem erro';
+      }
+    });
+  </script>
 </body>
 </html>
