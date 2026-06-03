@@ -184,29 +184,35 @@
 
       <div class="campo">
         <label for="Territorio">Território</label>
-        <select id="Territorio" name="Territorio">
+        <select id="Territorio" name="Territorio" required>
           <option value="Risca Faca">Risca Faca</option>
         </select>
       </div>
 
       <div class="campo">
         <label for="ID_Domicilio">ID do domicílio</label>
-        <input type="text" id="ID_Domicilio" name="ID_Domicilio" placeholder="Ex.: DOM-001">
+        <input type="text" id="ID_Domicilio" name="ID_Domicilio" placeholder="Ex.: DOM-001" required>
+      </div>
+
+      <!-- NOVO CAMPO: Nome do Proprietário -->
+      <div class="campo">
+        <label for="Nome_Proprietario">Nome do Proprietário</label>
+        <input type="text" id="Nome_Proprietario" name="Nome_Proprietario" required>
       </div>
 
       <div class="campo">
         <label for="Data_Visita">Data da visita</label>
-        <input type="date" id="Data_Visita" name="Data_Visita">
+        <input type="date" id="Data_Visita" name="Data_Visita" required>
       </div>
 
       <div class="campo">
         <label for="Responsavel_Tecnico">Responsável técnico</label>
-        <input type="text" id="Responsavel_Tecnico" name="Responsavel_Tecnico">
+        <input type="text" id="Responsavel_Tecnico" name="Responsavel_Tecnico" required>
       </div>
 
       <div class="campo">
         <label for="Equipe_Tecnica">Equipe técnica</label>
-        <input type="text" id="Equipe_Tecnica" name="Equipe_Tecnica">
+        <input type="text" id="Equipe_Tecnica" name="Equipe_Tecnica" required>
       </div>
 
       <h2>1. Condições da moradia</h2>
@@ -214,7 +220,7 @@
       <div class="campo">
         <label>Material predominante (Material_Predominante)</label>
         <div class="opcoes">
-          <label class="opcao"><input type="radio" name="Material_Predominante" value="Alvenaria"> Alvenaria</label>
+          <label class="opcao"><input type="radio" name="Material_Predominante" value="Alvenaria" required> Alvenaria</label>
           <label class="opcao"><input type="radio" name="Material_Predominante" value="Madeira"> Madeira</label>
           <label class="opcao"><input type="radio" name="Material_Predominante" value="Misto"> Misto</label>
           <label class="opcao"><input type="radio" name="Material_Predominante" value="Material_improvisado"> Material improvisado</label>
@@ -222,26 +228,26 @@
       </div>
 
       <div class="campo">
-        <label for="Num_Pavimentos">Número de pavimentos</label>
-        <input type="number" id="Num_Pavimentos" name="Num_Pavimentos" min="0">
+        <label for="Numero_Pavimentos">Número de pavimentos</label>
+        <input type="number" id="Numero_Pavimentos" name="Numero_Pavimentos" min="0" required>
       </div>
 
       <div class="campo">
         <label>Total de cômodos</label>
         <div class="opcoes">
-          <label>Quartos: <input type="number" name="Comodos_Quartos" min="0" style="width:70px"></label>
-          <label>Banheiros: <input type="number" name="Comodos_Banheiros" min="0" style="width:70px"></label>
-          <label>Cozinhas: <input type="number" name="Comodos_Cozinhas" min="0" style="width:70px"></label>
-          <label>Quintal: <input type="number" name="Comodos_Quintal" min="0" style="width:70px"></label>
-          <label>Área de serviço: <input type="number" name="Comodos_Area_Servico" min="0" style="width:70px"></label>
-          <label>Outro: <input type="text" name="Comodos_Outro" style="width:150px"></label>
+          <label>Quartos: <input type="number" name="Quartos" min="0" style="width:70px" required></label>
+          <label>Banheiros: <input type="number" name="Banheiros" min="0" style="width:70px" required></label>
+          <label>Cozinhas: <input type="number" name="Cozinhas" min="0" style="width:70px" required></label>
+          <label>Quintal: <input type="number" name="Quintal" min="0" style="width:70px" required></label>
+          <label>Área de serviço: <input type="number" name="Area_Servico" min="0" style="width:70px" required></label>
+          <label>Outro: <input type="text" name="Outro_Comodo" style="width:150px"></label>
         </div>
       </div>
 
       <div class="campo">
         <label>Cobertura (Cobertura)</label>
         <div class="opcoes">
-          <label class="opcao"><input type="radio" name="Cobertura" value="Laje"> Laje</label>
+          <label class="opcao"><input type="radio" name="Cobertura" value="Laje" required> Laje</label>
           <label class="opcao"><input type="radio" name="Cobertura" value="Telhado"> Telhado</label>
           <label class="opcao"><input type="radio" name="Cobertura" value="Misto"> Misto</label>
         </div>
@@ -250,18 +256,18 @@
       <div class="campo">
         <label>Mais de 3 pessoas no mesmo quarto? (Mais_3_Pessoas_Quarto)</label>
         <div class="opcoes">
-          <label class="opcao"><input type="radio" name="Mais_3_Pessoas_Quarto" value="Sim"> Sim</label>
+          <label class="opcao"><input type="radio" name="Mais_3_Pessoas_Quarto" value="Sim" required> Sim</label>
           <label class="opcao"><input type="radio" name="Mais_3_Pessoas_Quarto" value="Nao"> Não</label>
-          <label class="opcao">Quantidade: <input type="number" name="Mais_3_Pessoas_Qtd" min="0" style="width:70px"></label>
+          <label class="opcao">Quantidade: <input type="number" name="Quantidade_Pessoas_Quarto" min="0" style="width:70px"></label>
         </div>
       </div>
 
       <div class="campo">
         <label>Outro cômodo usado como dormitório? (Outro_Comodo_Dormitorio)</label>
         <div class="opcoes">
-          <label class="opcao"><input type="radio" name="Outro_Comodo_Dormitorio" value="Sim"> Sim</label>
+          <label class="opcao"><input type="radio" name="Outro_Comodo_Dormitorio" value="Sim" required> Sim</label>
           <label class="opcao"><input type="radio" name="Outro_Comodo_Dormitorio" value="Nao"> Não</label>
-          <label class="opcao">Qual: <input type="text" name="Outro_Comodo_Qual" style="width:200px"></label>
+          <label class="opcao">Qual: <input type="text" name="Qual_Comodo_Dormitorio" style="width:200px"></label>
         </div>
       </div>
 
@@ -270,308 +276,77 @@
       <div class="campo">
         <label>Água encanada (Agua_Encanada)</label>
         <div class="opcoes">
-          <label class="opcao"><input type="radio" name="Agua_Encanada" value="Sim"> Sim</label>
+          <label class="opcao"><input type="radio" name="Agua_Encanada" value="Sim" required> Sim</label>
           <label class="opcao"><input type="radio" name="Agua_Encanada" value="Nao"> Não</label>
         </div>
       </div>
 
       <div class="campo">
         <label>Frequência do abastecimento de água (Frequencia_Agua)</label>
-        <select name="Frequencia_Agua">
+        <select name="Frequencia_Agua" required>
           <option value="">Selecione...</option>
           <option value="Diaria">Diária</option>
           <option value="2_3_vezes_semana">2 até 3 vezes/semana</option>
           <option value="1_vez_semana">1 vez/semana</option>
-          <option value="Rara">Rara</option>
+          <option value="Irregular">Irregular</option>
           <option value="Nao_possui">Não possui</option>
         </select>
       </div>
 
       <div class="campo">
-        <label>Caixa d’água (Caixa_Dagua)</label>
-        <div class="opcoes">
-          <label class="opcao"><input type="radio" name="Caixa_Dagua" value="Sim"> Sim</label>
-          <label class="opcao"><input type="radio" name="Caixa_Dagua" value="Nao"> Não</label>
-        </div>
+        <label>Caixa d'água (Caixa_Dagua)</label>
+        <select name="Caixa_Dagua" required>
+          <option value="">Selecione...</option>
+          <option value="Sim">Sim</option>
+          <option value="Nao">Não</option>
+        </select>
       </div>
 
       <div class="campo">
         <label>Energia elétrica (Energia_Eletrica)</label>
-        <div class="opcoes">
-          <label class="opcao"><input type="radio" name="Energia_Eletrica" value="Sim"> Sim</label>
-          <label class="opcao"><input type="radio" name="Energia_Eletrica" value="Nao"> Não</label>
-        </div>
+        <select name="Energia_Eletrica" required>
+          <option value="">Selecione...</option>
+          <option value="Sim">Sim</option>
+          <option value="Nao">Não</option>
+        </select>
       </div>
 
       <div class="campo">
         <label>Esgotamento sanitário (Esgotamento_Sanitario)</label>
-        <select name="Esgotamento_Sanitario">
+        <select name="Esgotamento_Sanitario" required>
           <option value="">Selecione...</option>
           <option value="Rede_publica">Rede pública</option>
-          <option value="Fossa">Fossa</option>
+          <option value="Fossa_septica">Fossa séptica</option>
+          <option value="Fossa_rudimentar">Fossa rudimentar</option>
           <option value="Ceu_aberto">Céu aberto</option>
-          <option value="Nao_sabe">Não sabe</option>
-          <option value="Nao_possui">Não possui</option>
         </select>
       </div>
 
       <div class="campo">
         <label>Frequência da coleta de lixo (Frequencia_Lixo)</label>
-        <select name="Frequencia_Lixo">
+        <select name="Frequencia_Lixo" required>
           <option value="">Selecione...</option>
           <option value="Diaria">Diária</option>
-          <option value="2_3_vezes_semana">2 a 3 vezes/semana</option>
+          <option value="2_3_vezes_semana">2 até 3 vezes/semana</option>
           <option value="1_vez_semana">1 vez/semana</option>
-          <option value="Rara">Rara</option>
-          <option value="Nao_sabe">Não sabe</option>
+          <option value="Irregular">Irregular</option>
+          <option value="Nao_possui">Não possui</option>
         </select>
       </div>
 
       <div class="campo">
-        <label>Local da coleta de lixo (Local_Lixo)</label>
-        <select name="Local_Lixo">
+        <label>Local de coleta de lixo (Local_Lixo)</label>
+        <select name="Local_Lixo" required>
           <option value="">Selecione...</option>
-          <option value="Porta_residencia">Porta da residência</option>
-          <option value="Mesma_quadra_proprio">Mesma quadra em local próprio</option>
-          <option value="Mesma_quadra_improprio">Mesma quadra em local impróprio</option>
-          <option value="Mais_1_quadra_proprio">Mais de uma quadra em local próprio</option>
-          <option value="Mais_1_quadra_improprio">Mais de uma quadra em local impróprio</option>
-        </select>
-      </div>
-
-      <h2>3. Condições físicas da casa</h2>
-
-      <div class="campo">
-        <label>Infiltração (Infiltracao)</label>
-        <select name="Infiltracao">
-          <option value="">Selecione...</option>
-          <option value="Nao">Não</option>
-          <option value="Leve">Leve</option>
-          <option value="Moderada">Moderada</option>
-          <option value="Grave">Grave</option>
-        </select>
-      </div>
-
-      <div class="campo">
-        <label>Mofo ou umidade (Mofo_Umidade)</label>
-        <select name="Mofo_Umidade">
-          <option value="">Selecione...</option>
-          <option value="Nao">Não</option>
-          <option value="Leve">Leve</option>
-          <option value="Moderado">Moderado</option>
-          <option value="Grave">Grave</option>
-        </select>
-      </div>
-
-      <div class="campo">
-        <label>Rachaduras (Rachaduras)</label>
-        <select name="Rachaduras">
-          <option value="">Selecione...</option>
-          <option value="Nao">Não</option>
-          <option value="Leves">Leves</option>
-          <option value="Moderadas">Moderadas</option>
-          <option value="Graves">Graves</option>
-        </select>
-      </div>
-
-      <div class="campo">
-        <label>Risco elétrico aparente (Risco_Eletrico)</label>
-        <select name="Risco_Eletrico">
-          <option value="">Selecione...</option>
-          <option value="Sim">Sim</option>
-          <option value="Nao">Não</option>
-          <option value="Nao_avaliado">Não avaliado</option>
-        </select>
-      </div>
-
-      <div class="campo">
-        <label>Risco estrutural aparente (Risco_Estrutural)</label>
-        <select name="Risco_Estrutural">
-          <option value="">Selecione...</option>
-          <option value="Sim">Sim</option>
-          <option value="Nao">Não</option>
-          <option value="Nao_avaliado">Não avaliado</option>
-        </select>
-      </div>
-
-      <div class="campo">
-        <label>Problema na cobertura (Problema_Cobertura)</label>
-        <select name="Problema_Cobertura">
-          <option value="">Selecione...</option>
-          <option value="Nao">Não</option>
-          <option value="Goteira_leve">Goteira leve</option>
-          <option value="Goteira_grave">Goteira grave</option>
-          <option value="Estrutura_comprometida">Estrutura comprometida</option>
-        </select>
-      </div>
-
-      <div class="campo">
-        <label>Ventilação (Ventilacao)</label>
-        <select name="Ventilacao">
-          <option value="">Selecione...</option>
-          <option value="Adequada">Adequada</option>
-          <option value="Parcial">Parcial</option>
-          <option value="Inadequada">Inadequada</option>
-        </select>
-      </div>
-
-      <div class="campo">
-        <label>Iluminação natural (Iluminacao)</label>
-        <select name="Iluminacao">
-          <option value="">Selecione...</option>
-          <option value="Adequada">Adequada</option>
-          <option value="Parcial">Parcial</option>
-          <option value="Inadequada">Inadequada</option>
-        </select>
-      </div>
-
-      <div class="campo">
-        <label>Altura do pé direito (Altura_Pe_Direito)</label>
-        <select name="Altura_Pe_Direito">
-          <option value="">Selecione...</option>
-          <option value="Adequada">Adequada</option>
-          <option value="Parcial">Parcial</option>
-          <option value="Inadequada">Inadequada</option>
-        </select>
-      </div>
-
-      <div class="campo">
-        <label>Acessibilidade (Acessibilidade_Itens)</label>
-        <textarea name="Acessibilidade_Itens" placeholder="Ex.: escada, porta estreita, piso escorregadio, sem barra de apoio, desnível, banheiro inadequado, terraço sem guarda-corpo, etc."></textarea>
-      </div>
-
-      <h2>4. Diagnóstico técnico do banheiro</h2>
-
-      <div class="campo">
-        <label>A casa possui banheiro? (Banheiro_Tem)</label>
-        <div class="opcoes">
-          <label class="opcao"><input type="radio" name="Banheiro_Tem" value="Sim_interno"> Sim interno</label>
-          <label class="opcao"><input type="radio" name="Banheiro_Tem" value="Sim_externo"> Sim externo</label>
-          <label class="opcao"><input type="radio" name="Banheiro_Tem" value="Nao_possui"> Não possui</label>
-        </div>
-      </div>
-
-      <div class="campo">
-        <label for="Banheiro_Qtde">Quantidade de banheiros (Banheiro_Qtde)</label>
-        <input type="number" id="Banheiro_Qtde" name="Banheiro_Qtde" min="0">
-      </div>
-
-      <div class="campo">
-        <label>Uso do banheiro (Banheiro_Uso)</label>
-        <select name="Banheiro_Uso">
-          <option value="">Selecione...</option>
-          <option value="Exclusivo">Exclusivo da família</option>
-          <option value="Compartilhado">Compartilhado com outra família</option>
-          <option value="Nao_se_aplica">Não se aplica</option>
-        </select>
-      </div>
-
-      <div class="campo">
-        <label>Itens existentes (Banheiro_Itens)</label>
-        <textarea name="Banheiro_Itens" placeholder="Ex.: vaso sanitário, pia, chuveiro, porta, janela, ralo, iluminação, revestimentos etc."></textarea>
-      </div>
-
-      <div class="campo">
-        <label>Funcionamento do banheiro (Banheiro_Funcionamento)</label>
-        <select name="Banheiro_Funcionamento">
-          <option value="">Selecione...</option>
-          <option value="Pleno">Pleno funcionamento</option>
-          <option value="Parcial">Parcial</option>
-          <option value="Nao_funciona">Não funciona</option>
-        </select>
-      </div>
-
-      <div class="campo">
-        <label>Problemas identificados (Banheiro_Problemas)</label>
-        <textarea name="Banheiro_Problemas" placeholder="Ex.: vazamento, infiltração, mofo, mau cheiro, falta de privacidade, risco elétrico, etc."></textarea>
-      </div>
-
-      <div class="campo">
-        <label>Acessível para idosos/PCD? (Banheiro_Acessivel)</label>
-        <select name="Banheiro_Acessivel">
-          <option value="">Selecione...</option>
-          <option value="Sim">Sim</option>
-          <option value="Parcialmente">Parcialmente</option>
-          <option value="Nao">Não</option>
-          <option value="Nao_se_aplica">Não se aplica</option>
-        </select>
-      </div>
-
-      <h2>5. Diagnóstico técnico da fachada</h2>
-
-      <div class="campo">
-        <label>Fachada visível para a rua? (Fachada_Visivel)</label>
-        <select name="Fachada_Visivel">
-          <option value="">Selecione...</option>
-          <option value="Visivel_com_muro">Fachada visível com muro</option>
-          <option value="Nao_visivel_com_muro">Fachada não visível com muro</option>
-          <option value="Sem_recuo">Fachada sem recuo</option>
-        </select>
-      </div>
-
-      <div class="campo">
-        <label>Estado atual da fachada (Fachada_Estado)</label>
-        <select name="Fachada_Estado">
-          <option value="">Selecione...</option>
-          <option value="Bom">Bom</option>
-          <option value="Regular">Regular</option>
-          <option value="Ruim">Ruim</option>
-          <option value="Muito_ruim">Muito ruim</option>
-        </select>
-      </div>
-
-      <div class="campo">
-        <label>Possui reboco? (Fachada_Reboco)</label>
-        <select name="Fachada_Reboco">
-          <option value="">Selecione...</option>
-          <option value="Sim">Sim</option>
-          <option value="Nao">Não</option>
-          <option value="Parcial">Parcial</option>
-        </select>
-      </div>
-
-      <div class="campo">
-        <label>Possui pintura? (Fachada_Pintura)</label>
-        <select name="Fachada_Pintura">
-          <option value="">Selecione...</option>
-          <option value="Sim">Sim</option>
-          <option value="Nao">Não</option>
-          <option value="Parcial">Parcial</option>
-          <option value="Muito_deteriorada">Muito deteriorada</option>
-        </select>
-      </div>
-
-      <div class="campo">
-        <label>Possui revestimento cerâmico? (Fachada_Revestimento)</label>
-        <select name="Fachada_Revestimento">
-          <option value="">Selecione...</option>
-          <option value="Sim">Sim</option>
-          <option value="Nao">Não</option>
-          <option value="Parcial">Parcial</option>
-        </select>
-      </div>
-
-      <div class="campo">
-        <label>Rachaduras na fachada? (Fachada_Rachaduras)</label>
-        <select name="Fachada_Rachaduras">
-          <option value="">Selecione...</option>
-          <option value="Sim">Sim</option>
-          <option value="Nao">Não</option>
-        </select>
-      </div>
-
-      <div class="campo">
-        <label>Infiltração aparente? (Fachada_Infiltracao)</label>
-        <select name="Fachada_Infiltracao">
-          <option value="">Selecione...</option>
-          <option value="Sim">Sim</option>
+          <option value="Rua">Rua</option>
+          <option value="Terreno_bald..
           <option value="Nao">Não</option>
         </select>
       </div>
 
       <div class="campo">
         <label>Portas/janelas danificadas na frente? (Fachada_PortaJanela_Danificada)</label>
-        <select name="Fachada_PortaJanela_Danificada">
+        <select name="Fachada_PortaJanela_Danificada" required>
           <option value="">Selecione...</option>
           <option value="Sim">Sim</option>
           <option value="Nao">Não</option>
@@ -580,7 +355,7 @@
 
       <div class="campo">
         <label>Necessita reparo em muro/entrada? (Fachada_Precisa_Reparo_Muro)</label>
-        <select name="Fachada_Precisa_Reparo_Muro">
+        <select name="Fachada_Precisa_Reparo_Muro" required>
           <option value="">Selecione...</option>
           <option value="Sim">Sim</option>
           <option value="Nao">Não</option>
@@ -590,8 +365,8 @@
       <h2>6. Observações qualitativas</h2>
 
       <div class="campo">
-        <label for="Obs_Qualitativas">Observações qualitativas</label>
-        <textarea id="Obs_Qualitativas" name="Obs_Qualitativas"></textarea>
+        <label for="Observacoes_Qualitativas">Observações qualitativas</label>
+        <textarea id="Observacoes_Qualitativas" name="Observacoes_Qualitativas"></textarea>
       </div>
 
       <div class="botoes">
