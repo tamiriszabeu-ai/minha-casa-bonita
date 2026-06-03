@@ -194,7 +194,6 @@
         <input type="text" id="ID_Domicilio" name="ID_Domicilio" placeholder="Ex.: DOM-001" required>
       </div>
 
-      <!-- NOVO CAMPO: Nome do Proprietário -->
       <div class="campo">
         <label for="Nome_Proprietario">Nome do Proprietário</label>
         <input type="text" id="Nome_Proprietario" name="Nome_Proprietario" required>
@@ -233,7 +232,7 @@
       </div>
 
       <div class="campo">
-        <label>Total de cômodos</label>
+        <label>Cômodos</label>
         <div class="opcoes">
           <label>Quartos: <input type="number" name="Quartos" min="0" style="width:70px" required></label>
           <label>Banheiros: <input type="number" name="Banheiros" min="0" style="width:70px" required></label>
@@ -258,17 +257,25 @@
         <div class="opcoes">
           <label class="opcao"><input type="radio" name="Mais_3_Pessoas_Quarto" value="Sim" required> Sim</label>
           <label class="opcao"><input type="radio" name="Mais_3_Pessoas_Quarto" value="Nao"> Não</label>
-          <label class="opcao">Quantidade: <input type="number" name="Quantidade_Pessoas_Quarto" min="0" style="width:70px"></label>
         </div>
       </div>
 
       <div class="campo">
-        <label>Outro cômodo usado como dormitório? (Outro_Comodo_Dormitorio)</label>
+        <label for="Quantidade_Pessoas_Quarto">Quantidade de pessoas por quarto</label>
+        <input type="number" id="Quantidade_Pessoas_Quarto" name="Quantidade_Pessoas_Quarto" min="0" required>
+      </div>
+
+      <div class="campo">
+        <label>Outro cômodo utilizado como dormitório? (Outro_Comodo_Dormitorio)</label>
         <div class="opcoes">
           <label class="opcao"><input type="radio" name="Outro_Comodo_Dormitorio" value="Sim" required> Sim</label>
           <label class="opcao"><input type="radio" name="Outro_Comodo_Dormitorio" value="Nao"> Não</label>
-          <label class="opcao">Qual: <input type="text" name="Qual_Comodo_Dormitorio" style="width:200px"></label>
         </div>
+      </div>
+
+      <div class="campo">
+        <label for="Qual_Comodo_Dormitorio">Qual cômodo?</label>
+        <input type="text" id="Qual_Comodo_Dormitorio" name="Qual_Comodo_Dormitorio" style="width:200px">
       </div>
 
       <h2>2. Infraestrutura básica</h2>
